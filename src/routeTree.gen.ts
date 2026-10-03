@@ -10,33 +10,219 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as BookIdRouteImport } from './routes/book.$id'
+import { Route as LibraryAudioRouteImport } from './routes/library.audio'
+import { Route as LibraryBooksRouteImport } from './routes/library.books'
+import { Route as LibraryEbooksRouteImport } from './routes/library.ebooks'
+import { Route as LibraryGalleryRouteImport } from './routes/library.gallery'
+import { Route as LibraryNoholiRouteImport } from './routes/library.noholi'
+import { Route as ReadIdRouteImport } from './routes/read.$id'
+import { Route as WriteupsIndexRouteImport } from './routes/writeups.index'
+import { Route as WriteupsBlogsRouteImport } from './routes/writeups.blogs'
+import { Route as WriteupsCreativeRouteImport } from './routes/writeups.creative'
+import { Route as WriteupsReviewsRouteImport } from './routes/writeups.reviews'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookIdRoute = BookIdRouteImport.update({
+  id: '/book/$id',
+  path: '/book/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryAudioRoute = LibraryAudioRouteImport.update({
+  id: '/library/audio',
+  path: '/library/audio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryBooksRoute = LibraryBooksRouteImport.update({
+  id: '/library/books',
+  path: '/library/books',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryEbooksRoute = LibraryEbooksRouteImport.update({
+  id: '/library/ebooks',
+  path: '/library/ebooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryGalleryRoute = LibraryGalleryRouteImport.update({
+  id: '/library/gallery',
+  path: '/library/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryNoholiRoute = LibraryNoholiRouteImport.update({
+  id: '/library/noholi',
+  path: '/library/noholi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadIdRoute = ReadIdRouteImport.update({
+  id: '/read/$id',
+  path: '/read/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WriteupsIndexRoute = WriteupsIndexRouteImport.update({
+  id: '/writeups/',
+  path: '/writeups/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WriteupsBlogsRoute = WriteupsBlogsRouteImport.update({
+  id: '/writeups/blogs',
+  path: '/writeups/blogs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WriteupsCreativeRoute = WriteupsCreativeRouteImport.update({
+  id: '/writeups/creative',
+  path: '/writeups/creative',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WriteupsReviewsRoute = WriteupsReviewsRouteImport.update({
+  id: '/writeups/reviews',
+  path: '/writeups/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/book/$id': typeof BookIdRoute
+  '/library/audio': typeof LibraryAudioRoute
+  '/library/books': typeof LibraryBooksRoute
+  '/library/ebooks': typeof LibraryEbooksRoute
+  '/library/gallery': typeof LibraryGalleryRoute
+  '/library/noholi': typeof LibraryNoholiRoute
+  '/read/$id': typeof ReadIdRoute
+  '/writeups/blogs': typeof WriteupsBlogsRoute
+  '/writeups/creative': typeof WriteupsCreativeRoute
+  '/writeups/reviews': typeof WriteupsReviewsRoute
+  '/writeups/': typeof WriteupsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/book/$id': typeof BookIdRoute
+  '/library/audio': typeof LibraryAudioRoute
+  '/library/books': typeof LibraryBooksRoute
+  '/library/ebooks': typeof LibraryEbooksRoute
+  '/library/gallery': typeof LibraryGalleryRoute
+  '/library/noholi': typeof LibraryNoholiRoute
+  '/read/$id': typeof ReadIdRoute
+  '/writeups/blogs': typeof WriteupsBlogsRoute
+  '/writeups/creative': typeof WriteupsCreativeRoute
+  '/writeups/reviews': typeof WriteupsReviewsRoute
+  '/writeups': typeof WriteupsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/book/$id': typeof BookIdRoute
+  '/library/audio': typeof LibraryAudioRoute
+  '/library/books': typeof LibraryBooksRoute
+  '/library/ebooks': typeof LibraryEbooksRoute
+  '/library/gallery': typeof LibraryGalleryRoute
+  '/library/noholi': typeof LibraryNoholiRoute
+  '/read/$id': typeof ReadIdRoute
+  '/writeups/blogs': typeof WriteupsBlogsRoute
+  '/writeups/creative': typeof WriteupsCreativeRoute
+  '/writeups/reviews': typeof WriteupsReviewsRoute
+  '/writeups/': typeof WriteupsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/article/$slug'
+    | '/book/$id'
+    | '/library/audio'
+    | '/library/books'
+    | '/library/ebooks'
+    | '/library/gallery'
+    | '/library/noholi'
+    | '/read/$id'
+    | '/writeups/blogs'
+    | '/writeups/creative'
+    | '/writeups/reviews'
+    | '/writeups/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/article/$slug'
+    | '/book/$id'
+    | '/library/audio'
+    | '/library/books'
+    | '/library/ebooks'
+    | '/library/gallery'
+    | '/library/noholi'
+    | '/read/$id'
+    | '/writeups/blogs'
+    | '/writeups/creative'
+    | '/writeups/reviews'
+    | '/writeups'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/article/$slug'
+    | '/book/$id'
+    | '/library/audio'
+    | '/library/books'
+    | '/library/ebooks'
+    | '/library/gallery'
+    | '/library/noholi'
+    | '/read/$id'
+    | '/writeups/blogs'
+    | '/writeups/creative'
+    | '/writeups/reviews'
+    | '/writeups/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  ArticleSlugRoute: typeof ArticleSlugRoute
+  BookIdRoute: typeof BookIdRoute
+  LibraryAudioRoute: typeof LibraryAudioRoute
+  LibraryBooksRoute: typeof LibraryBooksRoute
+  LibraryEbooksRoute: typeof LibraryEbooksRoute
+  LibraryGalleryRoute: typeof LibraryGalleryRoute
+  LibraryNoholiRoute: typeof LibraryNoholiRoute
+  ReadIdRoute: typeof ReadIdRoute
+  WriteupsBlogsRoute: typeof WriteupsBlogsRoute
+  WriteupsCreativeRoute: typeof WriteupsCreativeRoute
+  WriteupsReviewsRoute: typeof WriteupsReviewsRoute
+  WriteupsIndexRoute: typeof WriteupsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +234,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book/$id': {
+      id: '/book/$id'
+      path: '/book/$id'
+      fullPath: '/book/$id'
+      preLoaderRoute: typeof BookIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/audio': {
+      id: '/library/audio'
+      path: '/library/audio'
+      fullPath: '/library/audio'
+      preLoaderRoute: typeof LibraryAudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/books': {
+      id: '/library/books'
+      path: '/library/books'
+      fullPath: '/library/books'
+      preLoaderRoute: typeof LibraryBooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/ebooks': {
+      id: '/library/ebooks'
+      path: '/library/ebooks'
+      fullPath: '/library/ebooks'
+      preLoaderRoute: typeof LibraryEbooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/gallery': {
+      id: '/library/gallery'
+      path: '/library/gallery'
+      fullPath: '/library/gallery'
+      preLoaderRoute: typeof LibraryGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/noholi': {
+      id: '/library/noholi'
+      path: '/library/noholi'
+      fullPath: '/library/noholi'
+      preLoaderRoute: typeof LibraryNoholiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/read/$id': {
+      id: '/read/$id'
+      path: '/read/$id'
+      fullPath: '/read/$id'
+      preLoaderRoute: typeof ReadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/writeups/': {
+      id: '/writeups/'
+      path: '/writeups'
+      fullPath: '/writeups/'
+      preLoaderRoute: typeof WriteupsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/writeups/blogs': {
+      id: '/writeups/blogs'
+      path: '/writeups/blogs'
+      fullPath: '/writeups/blogs'
+      preLoaderRoute: typeof WriteupsBlogsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/writeups/creative': {
+      id: '/writeups/creative'
+      path: '/writeups/creative'
+      fullPath: '/writeups/creative'
+      preLoaderRoute: typeof WriteupsCreativeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/writeups/reviews': {
+      id: '/writeups/reviews'
+      path: '/writeups/reviews'
+      fullPath: '/writeups/reviews'
+      preLoaderRoute: typeof WriteupsReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  ArticleSlugRoute: ArticleSlugRoute,
+  BookIdRoute: BookIdRoute,
+  LibraryAudioRoute: LibraryAudioRoute,
+  LibraryBooksRoute: LibraryBooksRoute,
+  LibraryEbooksRoute: LibraryEbooksRoute,
+  LibraryGalleryRoute: LibraryGalleryRoute,
+  LibraryNoholiRoute: LibraryNoholiRoute,
+  ReadIdRoute: ReadIdRoute,
+  WriteupsBlogsRoute: WriteupsBlogsRoute,
+  WriteupsCreativeRoute: WriteupsCreativeRoute,
+  WriteupsReviewsRoute: WriteupsReviewsRoute,
+  WriteupsIndexRoute: WriteupsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
