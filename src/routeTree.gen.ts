@@ -10,33 +10,154 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BookIdRouteImport } from './routes/book.$id'
+import { Route as LibraryAudioRouteImport } from './routes/library.audio'
+import { Route as LibraryBooksRouteImport } from './routes/library.books'
+import { Route as LibraryEbooksRouteImport } from './routes/library.ebooks'
+import { Route as LibraryGalleryRouteImport } from './routes/library.gallery'
+import { Route as LibraryNoholiRouteImport } from './routes/library.noholi'
+import { Route as ReadIdRouteImport } from './routes/read.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookIdRoute = BookIdRouteImport.update({
+  id: '/book/$id',
+  path: '/book/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryAudioRoute = LibraryAudioRouteImport.update({
+  id: '/library/audio',
+  path: '/library/audio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryBooksRoute = LibraryBooksRouteImport.update({
+  id: '/library/books',
+  path: '/library/books',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryEbooksRoute = LibraryEbooksRouteImport.update({
+  id: '/library/ebooks',
+  path: '/library/ebooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryGalleryRoute = LibraryGalleryRouteImport.update({
+  id: '/library/gallery',
+  path: '/library/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryNoholiRoute = LibraryNoholiRouteImport.update({
+  id: '/library/noholi',
+  path: '/library/noholi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReadIdRoute = ReadIdRouteImport.update({
+  id: '/read/$id',
+  path: '/read/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/book/$id': typeof BookIdRoute
+  '/library/audio': typeof LibraryAudioRoute
+  '/library/books': typeof LibraryBooksRoute
+  '/library/ebooks': typeof LibraryEbooksRoute
+  '/library/gallery': typeof LibraryGalleryRoute
+  '/library/noholi': typeof LibraryNoholiRoute
+  '/read/$id': typeof ReadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/book/$id': typeof BookIdRoute
+  '/library/audio': typeof LibraryAudioRoute
+  '/library/books': typeof LibraryBooksRoute
+  '/library/ebooks': typeof LibraryEbooksRoute
+  '/library/gallery': typeof LibraryGalleryRoute
+  '/library/noholi': typeof LibraryNoholiRoute
+  '/read/$id': typeof ReadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/book/$id': typeof BookIdRoute
+  '/library/audio': typeof LibraryAudioRoute
+  '/library/books': typeof LibraryBooksRoute
+  '/library/ebooks': typeof LibraryEbooksRoute
+  '/library/gallery': typeof LibraryGalleryRoute
+  '/library/noholi': typeof LibraryNoholiRoute
+  '/read/$id': typeof ReadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/book/$id'
+    | '/library/audio'
+    | '/library/books'
+    | '/library/ebooks'
+    | '/library/gallery'
+    | '/library/noholi'
+    | '/read/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/book/$id'
+    | '/library/audio'
+    | '/library/books'
+    | '/library/ebooks'
+    | '/library/gallery'
+    | '/library/noholi'
+    | '/read/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/book/$id'
+    | '/library/audio'
+    | '/library/books'
+    | '/library/ebooks'
+    | '/library/gallery'
+    | '/library/noholi'
+    | '/read/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  BookIdRoute: typeof BookIdRoute
+  LibraryAudioRoute: typeof LibraryAudioRoute
+  LibraryBooksRoute: typeof LibraryBooksRoute
+  LibraryEbooksRoute: typeof LibraryEbooksRoute
+  LibraryGalleryRoute: typeof LibraryGalleryRoute
+  LibraryNoholiRoute: typeof LibraryNoholiRoute
+  ReadIdRoute: typeof ReadIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +169,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book/$id': {
+      id: '/book/$id'
+      path: '/book/$id'
+      fullPath: '/book/$id'
+      preLoaderRoute: typeof BookIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/audio': {
+      id: '/library/audio'
+      path: '/library/audio'
+      fullPath: '/library/audio'
+      preLoaderRoute: typeof LibraryAudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/books': {
+      id: '/library/books'
+      path: '/library/books'
+      fullPath: '/library/books'
+      preLoaderRoute: typeof LibraryBooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/ebooks': {
+      id: '/library/ebooks'
+      path: '/library/ebooks'
+      fullPath: '/library/ebooks'
+      preLoaderRoute: typeof LibraryEbooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/gallery': {
+      id: '/library/gallery'
+      path: '/library/gallery'
+      fullPath: '/library/gallery'
+      preLoaderRoute: typeof LibraryGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/noholi': {
+      id: '/library/noholi'
+      path: '/library/noholi'
+      fullPath: '/library/noholi'
+      preLoaderRoute: typeof LibraryNoholiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/read/$id': {
+      id: '/read/$id'
+      path: '/read/$id'
+      fullPath: '/read/$id'
+      preLoaderRoute: typeof ReadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  BookIdRoute: BookIdRoute,
+  LibraryAudioRoute: LibraryAudioRoute,
+  LibraryBooksRoute: LibraryBooksRoute,
+  LibraryEbooksRoute: LibraryEbooksRoute,
+  LibraryGalleryRoute: LibraryGalleryRoute,
+  LibraryNoholiRoute: LibraryNoholiRoute,
+  ReadIdRoute: ReadIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
