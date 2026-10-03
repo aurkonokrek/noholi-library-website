@@ -86,8 +86,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setSpeed: (n) => setPlayer((p) => ({ ...p, speed: n })),
     setVolume: (n) => setPlayer((p) => ({ ...p, volume: n })),
     setExpanded: (b) => setPlayer((p) => ({ ...p, expanded: b })),
-    next: () => setPlayer((p) => { const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i + 1) % audiobooks.length], pos: 0 }; }),
-    prev: () => setPlayer((p) => { if (p.pos > 5) return { ...p, pos: 0 }; const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i - 1 + audiobooks.length) % audiobooks.length], pos: 0 }; }),
+    next: () => setPlayer((p) => { const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i + 1) % audiobooks.length] ?? null, pos: 0 }; }),
+    prev: () => setPlayer((p) => { if (p.pos > 5) return { ...p, pos: 0 }; const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i - 1 + audiobooks.length) % audiobooks.length] ?? null, pos: 0 }; }),
     closePlayer: () => setPlayer((p) => ({ ...p, track: null, playing: false, expanded: false })),
   }), [theme, lang, t, loggedIn, wishlist, reservations, player]);
 
