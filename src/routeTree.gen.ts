@@ -11,7 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as JoinRouteImport } from './routes/join'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AccountIndexRouteImport } from './routes/account.index'
+import { Route as AccountBorrowedRouteImport } from './routes/account.borrowed'
+import { Route as AccountFinesRouteImport } from './routes/account.fines'
+import { Route as AccountProfileRouteImport } from './routes/account.profile'
+import { Route as AccountReservationsRouteImport } from './routes/account.reservations'
+import { Route as AccountSettingsRouteImport } from './routes/account.settings'
+import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as BookIdRouteImport } from './routes/book.$id'
 import { Route as LibraryAudioRouteImport } from './routes/library.audio'
@@ -35,10 +45,60 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
   getParentRoute: () => rootRouteImport,
+} as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountIndexRoute = AccountIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountBorrowedRoute = AccountBorrowedRouteImport.update({
+  id: '/borrowed',
+  path: '/borrowed',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountFinesRoute = AccountFinesRouteImport.update({
+  id: '/fines',
+  path: '/fines',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountProfileRoute = AccountProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountReservationsRoute = AccountReservationsRouteImport.update({
+  id: '/reservations',
+  path: '/reservations',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSettingsRoute = AccountSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountWishlistRoute = AccountWishlistRouteImport.update({
+  id: '/wishlist',
+  path: '/wishlist',
+  getParentRoute: () => AccountRoute,
 } as any)
 const ArticleSlugRoute = ArticleSlugRouteImport.update({
   id: '/article/$slug',
@@ -104,7 +164,16 @@ const WriteupsReviewsRoute = WriteupsReviewsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRouteWithChildren
   '/contact': typeof ContactRoute
+  '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
+  '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/fines': typeof AccountFinesRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/reservations': typeof AccountReservationsRoute
+  '/account/settings': typeof AccountSettingsRoute
+  '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/book/$id': typeof BookIdRoute
   '/library/audio': typeof LibraryAudioRoute
@@ -116,12 +185,21 @@ export interface FileRoutesByFullPath {
   '/writeups/blogs': typeof WriteupsBlogsRoute
   '/writeups/creative': typeof WriteupsCreativeRoute
   '/writeups/reviews': typeof WriteupsReviewsRoute
+  '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
+  '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/fines': typeof AccountFinesRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/reservations': typeof AccountReservationsRoute
+  '/account/settings': typeof AccountSettingsRoute
+  '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/book/$id': typeof BookIdRoute
   '/library/audio': typeof LibraryAudioRoute
@@ -133,13 +211,23 @@ export interface FileRoutesByTo {
   '/writeups/blogs': typeof WriteupsBlogsRoute
   '/writeups/creative': typeof WriteupsCreativeRoute
   '/writeups/reviews': typeof WriteupsReviewsRoute
+  '/account': typeof AccountIndexRoute
   '/writeups': typeof WriteupsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRouteWithChildren
   '/contact': typeof ContactRoute
+  '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
+  '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/fines': typeof AccountFinesRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/reservations': typeof AccountReservationsRoute
+  '/account/settings': typeof AccountSettingsRoute
+  '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/book/$id': typeof BookIdRoute
   '/library/audio': typeof LibraryAudioRoute
@@ -151,6 +239,7 @@ export interface FileRoutesById {
   '/writeups/blogs': typeof WriteupsBlogsRoute
   '/writeups/creative': typeof WriteupsCreativeRoute
   '/writeups/reviews': typeof WriteupsReviewsRoute
+  '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
 }
 export interface FileRouteTypes {
@@ -158,7 +247,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/account'
     | '/contact'
+    | '/join'
+    | '/login'
+    | '/account/borrowed'
+    | '/account/fines'
+    | '/account/profile'
+    | '/account/reservations'
+    | '/account/settings'
+    | '/account/wishlist'
     | '/article/$slug'
     | '/book/$id'
     | '/library/audio'
@@ -170,12 +268,21 @@ export interface FileRouteTypes {
     | '/writeups/blogs'
     | '/writeups/creative'
     | '/writeups/reviews'
+    | '/account/'
     | '/writeups/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
+    | '/join'
+    | '/login'
+    | '/account/borrowed'
+    | '/account/fines'
+    | '/account/profile'
+    | '/account/reservations'
+    | '/account/settings'
+    | '/account/wishlist'
     | '/article/$slug'
     | '/book/$id'
     | '/library/audio'
@@ -187,12 +294,22 @@ export interface FileRouteTypes {
     | '/writeups/blogs'
     | '/writeups/creative'
     | '/writeups/reviews'
+    | '/account'
     | '/writeups'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/account'
     | '/contact'
+    | '/join'
+    | '/login'
+    | '/account/borrowed'
+    | '/account/fines'
+    | '/account/profile'
+    | '/account/reservations'
+    | '/account/settings'
+    | '/account/wishlist'
     | '/article/$slug'
     | '/book/$id'
     | '/library/audio'
@@ -204,13 +321,17 @@ export interface FileRouteTypes {
     | '/writeups/blogs'
     | '/writeups/creative'
     | '/writeups/reviews'
+    | '/account/'
     | '/writeups/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AccountRoute: typeof AccountRouteWithChildren
   ContactRoute: typeof ContactRoute
+  JoinRoute: typeof JoinRoute
+  LoginRoute: typeof LoginRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   BookIdRoute: typeof BookIdRoute
   LibraryAudioRoute: typeof LibraryAudioRoute
@@ -241,12 +362,82 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/': {
+      id: '/account/'
+      path: '/'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AccountIndexRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/borrowed': {
+      id: '/account/borrowed'
+      path: '/borrowed'
+      fullPath: '/account/borrowed'
+      preLoaderRoute: typeof AccountBorrowedRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/fines': {
+      id: '/account/fines'
+      path: '/fines'
+      fullPath: '/account/fines'
+      preLoaderRoute: typeof AccountFinesRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/profile': {
+      id: '/account/profile'
+      path: '/profile'
+      fullPath: '/account/profile'
+      preLoaderRoute: typeof AccountProfileRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/reservations': {
+      id: '/account/reservations'
+      path: '/reservations'
+      fullPath: '/account/reservations'
+      preLoaderRoute: typeof AccountReservationsRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/settings': {
+      id: '/account/settings'
+      path: '/settings'
+      fullPath: '/account/settings'
+      preLoaderRoute: typeof AccountSettingsRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/wishlist': {
+      id: '/account/wishlist'
+      path: '/wishlist'
+      fullPath: '/account/wishlist'
+      preLoaderRoute: typeof AccountWishlistRouteImport
+      parentRoute: typeof AccountRoute
     }
     '/article/$slug': {
       id: '/article/$slug'
@@ -335,10 +526,36 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AccountRouteChildren {
+  AccountBorrowedRoute: typeof AccountBorrowedRoute
+  AccountFinesRoute: typeof AccountFinesRoute
+  AccountProfileRoute: typeof AccountProfileRoute
+  AccountReservationsRoute: typeof AccountReservationsRoute
+  AccountSettingsRoute: typeof AccountSettingsRoute
+  AccountWishlistRoute: typeof AccountWishlistRoute
+  AccountIndexRoute: typeof AccountIndexRoute
+}
+
+const AccountRouteChildren: AccountRouteChildren = {
+  AccountBorrowedRoute: AccountBorrowedRoute,
+  AccountFinesRoute: AccountFinesRoute,
+  AccountProfileRoute: AccountProfileRoute,
+  AccountReservationsRoute: AccountReservationsRoute,
+  AccountSettingsRoute: AccountSettingsRoute,
+  AccountWishlistRoute: AccountWishlistRoute,
+  AccountIndexRoute: AccountIndexRoute,
+}
+
+const AccountRouteWithChildren =
+  AccountRoute._addFileChildren(AccountRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AccountRoute: AccountRouteWithChildren,
   ContactRoute: ContactRoute,
+  JoinRoute: JoinRoute,
+  LoginRoute: LoginRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   BookIdRoute: BookIdRoute,
   LibraryAudioRoute: LibraryAudioRoute,
