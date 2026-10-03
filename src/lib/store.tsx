@@ -64,7 +64,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     login: () => { setLoggedIn(true); sessionStorage.setItem("noholi-auth", "1"); },
     logout: () => { setLoggedIn(false); sessionStorage.removeItem("noholi-auth"); toast("You have been logged out."); },
     wishlist,
-    inWish: (id) => wishlist.includes(id),
+    inWish: (id) => loggedIn && wishlist.includes(id),
     toggleWish: (id) => {
       if (!loggedIn) { toast("Log in to save to your wishlist", { description: "Use the demo patron account — no password needed." }); return; }
       setWishlist((w) => {
