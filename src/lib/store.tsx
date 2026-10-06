@@ -2,12 +2,14 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { toast } from "sonner";
 import { audiobooks, initialBorrowRequests, initialContributions, initialRecommendations, type Audio, type BorrowRequest, type Contribution, type Recommendation } from "./data";
 import { dict, type Lang } from "./i18n";
+import memberPhoto from "@/assets/member-aurko.jpg";
 
 
 type Ctx = {
   theme: "light" | "dark"; toggleTheme: () => void; setTheme: (t: "light" | "dark") => void;
   lang: Lang; setLang: (l: Lang) => void; t: (k: keyof typeof dict.en) => string;
   loggedIn: boolean; login: () => void; logout: () => void;
+  avatar: string | null; setAvatar: (url: string | null) => void;
   memberPrompt: string | null; askMember: (reason: string) => void; closeMemberPrompt: () => void;
   /** Runs fn for members; otherwise opens the Member Access prompt with the given reason. */
   requireMember: (reason: string, fn: () => void) => void;
@@ -30,6 +32,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeS] = useState<"light" | "dark">("light");
   const [lang, setLangS] = useState<Lang>("en");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [avatar, setAvatar] = useState<string | null>(memberPhoto);
   const [memberPrompt, setMemberPrompt] = useState<string | null>(null);
   const [wishlist, setWishlist] = useState<string[]>(["khoabnama", "a-gitanjali", "nodir-naam", "sapiens", "pather-panchali"]);
   const [borrowRequests, setBorrowRequests] = useState<BorrowRequest[]>(initialBorrowRequests);
@@ -73,6 +76,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     loggedIn,
     login: () => { setLoggedIn(true); sessionStorage.setItem("noholi-auth", "1"); },
     logout: () => { setLoggedIn(false); sessionStorage.removeItem("noholi-auth"); toast("You have been logged out."); },
+    avatar, setAvatar,
     memberPrompt, askMember: setMemberPrompt, closeMemberPrompt: () => setMemberPrompt(null),
     requireMember: (reason, fn) => { if (loggedIn) fn(); else setMemberPrompt(reason); },
     removeContribution: (id) => setContributions((x) => x.filter((c) => c.id !== id)),
@@ -106,7 +110,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     next: () => setPlayer((p) => { const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i + 1) % audiobooks.length] ?? null, pos: 0 }; }),
     prev: () => setPlayer((p) => { if (p.pos > 5) return { ...p, pos: 0 }; const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i - 1 + audiobooks.length) % audiobooks.length] ?? null, pos: 0 }; }),
     closePlayer: () => setPlayer((p) => ({ ...p, track: null, playing: false, expanded: false })),
-  }), [theme, lang, t, loggedIn, memberPrompt, wishlist, borrowRequests, contributions, recommendations, player]);
+  }), [theme, lang, t, loggedIn, avatar, memberPrompt, wishlist, borrowRequests, contributions, recommendations, player]);
 
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }

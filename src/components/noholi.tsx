@@ -179,3 +179,11 @@ export function StatusBadge({ status, className }: { status: string; className?:
 export function Initials({ name, className }: { name: string; className?: string }) {
   return <span className={cn("grid shrink-0 place-items-center rounded-full bg-foreground font-display text-background", className)} aria-hidden>{name.trim().charAt(0).toUpperCase() || "?"}</span>;
 }
+
+/** The signed-in member's photo, used everywhere the member appears. Falls back to initials if removed. */
+export function MemberAvatar({ className, textClass = "text-base" }: { className?: string; textClass?: string }) {
+  const { avatar } = useApp();
+  return avatar
+    ? <img src={avatar} alt="Your profile photo" className={cn("shrink-0 rounded-full object-cover", className)} />
+    : <Initials name="Aurko" className={cn(className, textClass)} />;
+}
