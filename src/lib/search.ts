@@ -13,7 +13,7 @@ export type SearchItem = {
   link:
     | { to: "/book/$id"; params: { id: string } }
     | { to: "/article/$slug"; params: { slug: string } }
-    | { to: "/library/audio" }
+    | { to: "/audio/$id"; params: { id: string } }
     | { to: "/search"; search: { q: string } };
   bookId?: string;
   audioId?: string;
@@ -35,7 +35,7 @@ export const searchIndex: SearchItem[] = [
   ...books.filter((b) => b.ebook).map((b) => bookItem(b, "E-Books")),
   ...audiobooks.map((a): SearchItem => ({
     key: `audio-${a.id}`, group: "Audio Books", title: a.titleEn, sub: `${a.authorEn} · read by ${a.narrator}`,
-    alt: `${a.titleBn} ${a.narrator}`, tone: a.tone, link: { to: "/library/audio" }, audioId: a.id,
+    alt: `${a.titleBn} ${a.narrator}`, tone: a.tone, link: { to: "/audio/$id", params: { id: a.id } }, audioId: a.id,
   })),
   ...[...authorMap.entries()].map(([en, v]): SearchItem => ({
     key: `author-${en}`, group: "Authors", title: en, sub: v.count ? `${v.count} title${v.count > 1 ? "s" : ""} in the library` : "Audio books",
