@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Initials } from "@/components/noholi";
+import { MemberAvatar } from "@/components/noholi";
 import { user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ function Settings() {
           ))}
         </TabsContent>
         <TabsContent value="account">
-          <Row title="Profile photo" desc="Shown to the librarian when you borrow."><div className="flex items-center gap-4"><Initials name={user.name} className="h-16 w-16 text-2xl" /><Button variant="outline" size="sm" onClick={() => toast("Photo upload is available at the front desk in this demo")}>Change photo</Button></div></Row>
+          <Row title="Profile photo" desc="Shown to the librarian when you borrow."><div className="flex items-center gap-4"><MemberAvatar className="h-16 w-16" textClass="text-2xl" /><Button variant="outline" size="sm" asChild><Link to="/account/profile">Change photo</Link></Button></div></Row>
           <Row title="Full name"><Input defaultValue={user.name} className="h-11" /></Row>
           <Row title="Email address" desc="Used for reminders and request updates."><Input defaultValue={user.email} className="h-11" /></Row>
           <Row title="Phone" desc="We send pickup alerts by SMS."><Input defaultValue={user.phone} className="h-11" /></Row>

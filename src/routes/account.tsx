@@ -1,5 +1,6 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { MemberAvatar } from "@/components/noholi";
 import { user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 
@@ -37,7 +38,7 @@ function AccountLayout() {
       <div className="border-b border-border">
         <div className="container-page grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 pt-10">
           <div className="flex min-w-0 items-center gap-4 pb-6">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-foreground font-display text-2xl text-background">A</span>
+            <MemberAvatar className="h-14 w-14" textClass="text-2xl" />
             <div className="min-w-0"><div className="truncate font-display text-2xl">{lang === "bn" ? user.nameBn : user.name}</div><div className="text-sm text-muted-foreground">{user.memberId} · <span className="text-success">● Active Patron</span></div></div>
           </div>
         </div>

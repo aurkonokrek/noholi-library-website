@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Logo } from "@/components/noholi";
+import { Logo, MemberAvatar } from "@/components/noholi";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { SearchBox } from "@/components/search-box";
 import { user } from "@/lib/data";
@@ -102,7 +102,7 @@ function AccountMenu() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="inline-flex items-center gap-2 rounded-full border border-border py-1 pl-1 pr-3 text-sm outline-none hover:border-foreground/40">
-        <span className="grid h-7 w-7 place-items-center rounded-full bg-foreground font-display text-sm text-background">A</span>
+        <MemberAvatar className="h-7 w-7" textClass="text-sm" />
         <span className="hidden xl:inline">{lang === "bn" ? user.nameBn : "Aurko"}</span>
         <ChevronDown className="h-3.5 w-3.5 opacity-60" />
       </DropdownMenuTrigger>

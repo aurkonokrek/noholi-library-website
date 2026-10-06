@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Availability, BookCover, fmtDate, Initials, StatusBadge } from "@/components/noholi";
+import { Availability, BookCover, fmtDate, Initials, StatusBadge, MemberAvatar } from "@/components/noholi";
 import { IdentityUpload, Stepper, SummaryBlock, VerifyState, type DocState } from "@/components/verify";
 import { getBook, user } from "@/lib/data";
 import { useApp } from "@/lib/store";
@@ -149,7 +149,7 @@ function Borrow() {
           <div className="grid gap-10 md:grid-cols-2">
             <div>
               <div className="flex items-center gap-5 border-b border-border pb-6">
-                <Initials name={user.name} className="h-20 w-20 text-3xl" />
+                <MemberAvatar className="h-20 w-20" textClass="text-3xl" />
                 <div><div className="font-display text-2xl">{name}</div><div className="text-sm text-muted-foreground">{user.memberId}</div><div className="mt-1"><VerifyState state="verified" /></div></div>
               </div>
               <dl className="divide-y divide-border text-sm">
@@ -209,7 +209,7 @@ function Borrow() {
               <div className="grid grid-cols-[56px_minmax(0,1fr)] gap-4"><BookCover book={book} size="sm" /><div><div className="font-display text-xl">{book.titleEn}</div><div className="text-sm text-muted-foreground">{book.authorEn}</div><div className="mt-1 text-sm">{copy}</div></div></div>
             </SummaryBlock>
             <SummaryBlock title="Member" onEdit={() => setStep(1)}>
-              <div className="flex items-center gap-4"><Initials name={user.name} className="h-12 w-12 text-xl" /><div className="text-sm"><div className="font-display text-xl">{name}</div><div className="text-muted-foreground">{user.memberId} · NID {nid}</div><VerifyState state={nidDoc ? "uploaded" : "missing"} /></div></div>
+              <div className="flex items-center gap-4"><MemberAvatar className="h-12 w-12" textClass="text-xl" /><div className="text-sm"><div className="font-display text-xl">{name}</div><div className="text-muted-foreground">{user.memberId} · NID {nid}</div><VerifyState state={nidDoc ? "uploaded" : "missing"} /></div></div>
             </SummaryBlock>
             <SummaryBlock title="Guarantor" onEdit={() => setStep(2)}>
               <div className="flex items-center gap-4">
