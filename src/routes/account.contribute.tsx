@@ -60,7 +60,7 @@ function Contribute() {
   const audio = itemId ? audiobooks.find((a) => a.id === itemId) : undefined;
   const itemTitle = book?.titleEn ?? audio?.titleEn ?? pb.title;
 
-  const errs: Record<string, string | undefined> = {};
+  const errs: Partial<Record<"source" | "item" | "pbTitle" | "pbAuthor" | "pbLang" | "pbGenre" | "rating" | "title" | "body" | "cat", string>> = {};
   if (type === "review") {
     if (step === 0 && !source) errs.source = "Choose where the book comes from.";
     if (step === 1 && source === "catalog" && !itemId) errs.item = "Search and choose the book.";
