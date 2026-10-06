@@ -8,6 +8,10 @@ type Ctx = {
   theme: "light" | "dark"; toggleTheme: () => void; setTheme: (t: "light" | "dark") => void;
   lang: Lang; setLang: (l: Lang) => void; t: (k: keyof typeof dict.en) => string;
   loggedIn: boolean; login: () => void; logout: () => void;
+  memberPrompt: string | null; askMember: (reason: string) => void; closeMemberPrompt: () => void;
+  /** Runs fn for members; otherwise opens the Member Access prompt with the given reason. */
+  requireMember: (reason: string, fn: () => void) => void;
+  removeContribution: (id: string) => void;
   wishlist: string[]; toggleWish: (id: string) => void; inWish: (id: string) => boolean;
   borrowRequests: BorrowRequest[]; addBorrowRequest: (r: Omit<BorrowRequest, "id" | "submitted" | "status">) => string;
   contributions: Contribution[]; addContribution: (c: Omit<Contribution, "id" | "updated">) => string;
@@ -26,6 +30,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeS] = useState<"light" | "dark">("light");
   const [lang, setLangS] = useState<Lang>("en");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [memberPrompt, setMemberPrompt] = useState<string | null>(null);
   const [wishlist, setWishlist] = useState<string[]>(["khoabnama", "a-gitanjali", "nodir-naam", "sapiens", "pather-panchali"]);
   const [borrowRequests, setBorrowRequests] = useState<BorrowRequest[]>(initialBorrowRequests);
   const [contributions, setContributions] = useState<Contribution[]>(initialContributions);
@@ -68,10 +73,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     loggedIn,
     login: () => { setLoggedIn(true); sessionStorage.setItem("noholi-auth", "1"); },
     logout: () => { setLoggedIn(false); sessionStorage.removeItem("noholi-auth"); toast("You have been logged out."); },
+    memberPrompt, askMember: setMemberPrompt, closeMemberPrompt: () => setMemberPrompt(null),
+    requireMember: (reason, fn) => { if (loggedIn) fn(); else setMemberPrompt(reason); },
+    removeContribution: (id) => setContributions((x) => x.filter((c) => c.id !== id)),
     wishlist,
     inWish: (id) => loggedIn && wishlist.includes(id),
     toggleWish: (id) => {
-      if (!loggedIn) { toast("Log in to save to your wishlist", { description: "Use the demo patron account — no password needed." }); return; }
+      if (!loggedIn) { setMemberPrompt("Log in or become a free member to save books to your wishlist."); return; }
       setWishlist((w) => {
         const has = w.includes(id);
         toast(has ? "Removed from wishlist" : "Saved to wishlist");
@@ -98,7 +106,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     next: () => setPlayer((p) => { const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i + 1) % audiobooks.length] ?? null, pos: 0 }; }),
     prev: () => setPlayer((p) => { if (p.pos > 5) return { ...p, pos: 0 }; const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i - 1 + audiobooks.length) % audiobooks.length] ?? null, pos: 0 }; }),
     closePlayer: () => setPlayer((p) => ({ ...p, track: null, playing: false, expanded: false })),
-  }), [theme, lang, t, loggedIn, wishlist, borrowRequests, contributions, recommendations, player]);
+  }), [theme, lang, t, loggedIn, memberPrompt, wishlist, borrowRequests, contributions, recommendations, player]);
 
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }

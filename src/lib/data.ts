@@ -182,19 +182,19 @@ export const initialBorrowRequests: BorrowRequest[] = [
 ];
 
 export type ContributionStatus = "Draft" | "Pending Review" | "Approved" | "Published" | "Rejected";
-export type Contribution = { id: string; kind: "blog" | "creative" | "review"; title: string; updated: string; status: ContributionStatus; note?: string; slug?: string; bookId?: string };
+export type Contribution = { id: string; kind: "blog" | "creative" | "review"; title: string; updated: string; status: ContributionStatus; note?: string; slug?: string; bookId?: string; bookTitle?: string; rating?: number };
 export const initialContributions: Contribution[] = [
   { id: "C-1182", kind: "review", title: "Aranyak and the forest that keeps calling", updated: "2026-10-02", status: "Pending Review", bookId: "aranyak" },
   { id: "C-1150", kind: "creative", title: "ধানমন্ডি লেকের ভোর", updated: "2026-09-21", status: "Draft" },
-  { id: "C-1094", kind: "blog", title: "What I learned volunteering at the children's corner", updated: "2026-08-18", status: "Published" },
+  { id: "C-1094", kind: "blog", title: "What I learned volunteering at the children's corner", updated: "2026-08-18", status: "Published", slug: "children-corner-opens" },
   { id: "C-1031", kind: "creative", title: "Letters to a closed bookshop", updated: "2026-07-04", status: "Rejected", note: "Thank you — this piece is close. The editors suggest tightening the second half and resubmitting." },
 ];
 
 export type RecStatus = "Submitted" | "Under Review" | "Considering" | "Acquired" | "Not Planned";
-export type Recommendation = { id: string; title: string; author: string; publisher?: string; isbn?: string; language: "Bangla" | "English"; reason: string; date: string; status: RecStatus };
+export type Recommendation = { id: string; format?: "Physical Book" | "E-Book" | "Audio Book"; title: string; author: string; publisher?: string; isbn?: string; language: "Bangla" | "English"; reason: string; date: string; status: RecStatus };
 export const initialRecommendations: Recommendation[] = [
-  { id: "RQ-0093", title: "Shesher Kobita", author: "Rabindranath Tagore", publisher: "Visva-Bharati", language: "Bangla", reason: "Our only copy is falling apart and the reading circle wants to study it next term.", date: "2026-09-18", status: "Considering" },
-  { id: "RQ-0071", title: "The Hungry Tide", author: "Amitav Ghosh", publisher: "HarperCollins", language: "English", reason: "A Sundarbans novel — it would sit well beside Padma Nadir Majhi.", date: "2026-07-02", status: "Acquired" },
+  { id: "RQ-0093", format: "Physical Book", title: "Shesher Kobita", author: "Rabindranath Tagore", publisher: "Visva-Bharati", language: "Bangla", reason: "Our only copy is falling apart and the reading circle wants to study it next term.", date: "2026-09-18", status: "Considering" },
+  { id: "RQ-0071", format: "Physical Book", title: "The Hungry Tide", author: "Amitav Ghosh", publisher: "HarperCollins", language: "English", reason: "A Sundarbans novel — it would sit well beside Padma Nadir Majhi.", date: "2026-07-02", status: "Acquired" },
 ];
 
 export const fines = [
@@ -230,4 +230,17 @@ export const readerChapters = [
     "Durga caught a fever after dancing in the first rain. It was only a small fever, everyone said. It would pass.",
     "Apu sat by her bed and told her stories he had invented about the train, about where it went, about the cities at the end of the line. She listened with her eyes closed and smiled at the good parts.",
   ] },
+];
+
+/** Short member reviews attached to a book or audio book (by id). Longer editorial reviews live in `articles`. */
+export type CommunityReview = { id: string; itemId: string; name: string; date: string; rating: number; title: string; text: string; recommend: boolean; tags?: string[] };
+export const communityReviews: CommunityReview[] = [
+  { id: "R-301", itemId: "pather-panchali", name: "Farzana Akter", date: "2026-09-12", rating: 5, title: "A book that smells of rain", text: "I borrowed it for my daughter's school project and ended up reading it myself in two evenings. Durga will stay with me for a long time.", recommend: true, tags: ["Emotional", "Slow-paced"] },
+  { id: "R-288", itemId: "pather-panchali", name: "Imran Chowdhury", date: "2026-08-02", rating: 4, title: "Slow, and worth it", text: "The first hundred pages ask for patience. After that, every small event in the village feels enormous.", recommend: true, tags: ["Thought-provoking"] },
+  { id: "R-276", itemId: "lalsalu", name: "Nusrat Jahan", date: "2026-09-21", rating: 5, title: "Short and sharp", text: "Barely 130 pages and it says more about power than books three times its length.", recommend: true, tags: ["Challenging", "Thought-provoking"] },
+  { id: "R-262", itemId: "khoabnama", name: "Rafi Islam", date: "2026-07-25", rating: 4, title: "Demanding, rewarding", text: "Keep a notebook for the names. The dream sequences are unlike anything else in Bangla fiction.", recommend: true, tags: ["Challenging"] },
+  { id: "R-255", itemId: "aranyak", name: "Tanvir Hasan", date: "2026-08-30", rating: 5, title: "The forest as a character", text: "Read it during load-shedding by candlelight — exactly the right way.", recommend: true, tags: ["Inspiring", "Slow-paced"] },
+  { id: "R-240", itemId: "a-gitanjali", name: "Sabrina Khan", date: "2026-09-04", rating: 5, title: "Kamal Hossain's voice is perfect", text: "Unhurried and warm. I listen to two poems every night before sleeping.", recommend: true, tags: ["Inspiring"] },
+  { id: "R-233", itemId: "a-nondito", name: "Arif Mahmud", date: "2026-08-11", rating: 4, title: "Funny, then devastating", text: "The narration catches Humayun Ahmed's humour well. The ending still hurts.", recommend: true, tags: ["Emotional", "Easy to read"] },
+  { id: "R-219", itemId: "little-prince", name: "Kamal Hossain", date: "2026-08-03", rating: 5, title: "Better at forty", text: "A children's book that turns out to be about grief.", recommend: true, tags: ["Emotional"] },
 ];
