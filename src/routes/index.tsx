@@ -211,7 +211,7 @@ function HeroBooks() {
     <div className="relative lg:col-span-6" aria-label="A shelf of books from the Noholi catalogue">
       <div className="relative mx-auto flex max-w-[560px] items-end justify-center gap-0 px-4 pb-6">
         {list.map((p, i) => (
-          <Link key={p.id} to="/book/$id" params={{ id: p.id }} className={`group relative ${p.w} ${i ? "-ml-[4%]" : ""} transition-transform duration-300 hover:-translate-y-2`}
+          <Link key={p.id} to="/book/$id" params={{ id: p.id }} className={`group relative ${p.w} ${i ? "-ml-[4%]" : ""}`}
             style={{ transform: `rotate(${p.rot}deg) translateY(${p.y}px)`, transformOrigin: "bottom center", zIndex: p.z }}>
             <BookCover book={p.b!} size="md" />
           </Link>
