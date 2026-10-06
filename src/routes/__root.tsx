@@ -17,6 +17,7 @@ import { AppProvider } from "@/lib/store";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AudioPlayer } from "@/components/audio-player";
+import { MemberPromptHost } from "@/components/member-gate";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -134,6 +135,7 @@ function RootComponent() {
         </main>
         {!bare && <SiteFooter />}
         {!path.startsWith("/read/") && <AudioPlayer />}
+        <MemberPromptHost />
         <Toaster position="bottom-right" />
       </AppProvider>
     </QueryClientProvider>
