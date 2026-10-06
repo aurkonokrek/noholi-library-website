@@ -26,7 +26,7 @@ function Wishlist() {
       <p className="mb-8 mt-2 text-sm text-muted-foreground">Your private reading list. Want Noholi to buy a book? <Link to="/account/recommend" className="underline underline-offset-2">Recommend it instead</Link>.</p>
       <div className="mb-8 flex flex-wrap gap-2">
         {tabs.map((t) => (
-          <Link key={t} to="/account/wishlist" search={t === "All" ? {} : { type: t }} aria-pressed={tab === t} className={cn("inline-flex h-8 items-center gap-1 rounded-full border px-4 text-sm", tab === t ? "border-foreground bg-foreground text-background" : "border-border")}>{t} <span className="opacity-60">{t === "All" ? items.length : items.filter((i) => i.type === t).length}</span></button>
+          <Link key={t} to="/account/wishlist" search={t === "All" ? {} : { type: t }} aria-current={tab === t ? "page" : undefined} className={cn("inline-flex h-8 items-center gap-1 rounded-full border px-4 text-sm", tab === t ? "border-foreground bg-foreground text-background" : "border-border")}>{t} <span className="opacity-60">{t === "All" ? items.length : items.filter((i) => i.type === t).length}</span></Link>
         ))}
       </div>
       {list.length === 0 ? (
