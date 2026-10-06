@@ -1,21 +1,24 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { audiobooks, initialReservations, type Audio } from "./data";
+import { audiobooks, initialBorrowRequests, initialContributions, initialRecommendations, type Audio, type BorrowRequest, type Contribution, type Recommendation } from "./data";
 import { dict, type Lang } from "./i18n";
 
-type Reservation = { bookId: string; date: string; status: string; expected: string };
 
 type Ctx = {
   theme: "light" | "dark"; toggleTheme: () => void; setTheme: (t: "light" | "dark") => void;
   lang: Lang; setLang: (l: Lang) => void; t: (k: keyof typeof dict.en) => string;
   loggedIn: boolean; login: () => void; logout: () => void;
   wishlist: string[]; toggleWish: (id: string) => void; inWish: (id: string) => boolean;
-  reservations: Reservation[]; reserve: (bookId: string) => void;
+  borrowRequests: BorrowRequest[]; addBorrowRequest: (r: Omit<BorrowRequest, "id" | "submitted" | "status">) => string;
+  contributions: Contribution[]; addContribution: (c: Omit<Contribution, "id" | "updated">) => string;
+  recommendations: Recommendation[]; addRecommendation: (r: Omit<Recommendation, "id" | "date" | "status">) => string;
   player: { track: Audio | null; playing: boolean; pos: number; speed: number; volume: number; expanded: boolean };
   play: (id: string) => void; togglePlay: () => void; seek: (s: number) => void; skip: (d: number) => void;
   setSpeed: (n: number) => void; setVolume: (n: number) => void; setExpanded: (b: boolean) => void;
   next: () => void; prev: () => void; closePlayer: () => void;
 };
+
+const today = () => new Date().toISOString().slice(0, 10);
 
 const AppCtx = createContext<Ctx | null>(null);
 
@@ -24,7 +27,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLangS] = useState<Lang>("en");
   const [loggedIn, setLoggedIn] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>(["khoabnama", "a-gitanjali", "nodir-naam", "sapiens", "pather-panchali"]);
-  const [reservations, setReservations] = useState<Reservation[]>(initialReservations);
+  const [borrowRequests, setBorrowRequests] = useState<BorrowRequest[]>(initialBorrowRequests);
+  const [contributions, setContributions] = useState<Contribution[]>(initialContributions);
+  const [recommendations, setRecommendations] = useState<Recommendation[]>(initialRecommendations);
   const [player, setPlayer] = useState<Ctx["player"]>({ track: null, playing: false, pos: 0, speed: 1, volume: 0.8, expanded: false });
   const hydrated = useRef(false);
 
@@ -73,8 +78,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         return has ? w.filter((x) => x !== id) : [id, ...w];
       });
     },
-    reservations,
-    reserve: (bookId) => setReservations((r) => r.some((x) => x.bookId === bookId) ? r : [{ bookId, date: new Date().toISOString().slice(0, 10), status: "Waiting · #1 in queue", expected: "Within 7–10 days" }, ...r]),
+    borrowRequests,
+    addBorrowRequest: (r) => { const id = `BR-26-0${420 + borrowRequests.length}`; setBorrowRequests((x) => [{ ...r, id, submitted: today(), status: "Pending Review" }, ...x]); return id; },
+    contributions,
+    addContribution: (c) => { const id = `C-${1183 + contributions.length}`; setContributions((x) => [{ ...c, id, updated: today() }, ...x]); return id; },
+    recommendations,
+    addRecommendation: (r) => { const id = `RQ-00${94 + recommendations.length}`; setRecommendations((x) => [{ ...r, id, date: today(), status: "Submitted" }, ...x]); return id; },
     player,
     play: (id) => {
       const tr = audiobooks.find((a) => a.id === id) ?? null;
@@ -89,7 +98,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     next: () => setPlayer((p) => { const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i + 1) % audiobooks.length] ?? null, pos: 0 }; }),
     prev: () => setPlayer((p) => { if (p.pos > 5) return { ...p, pos: 0 }; const i = audiobooks.findIndex((a) => a.id === p.track?.id); return { ...p, track: audiobooks[(i - 1 + audiobooks.length) % audiobooks.length] ?? null, pos: 0 }; }),
     closePlayer: () => setPlayer((p) => ({ ...p, track: null, playing: false, expanded: false })),
-  }), [theme, lang, t, loggedIn, wishlist, reservations, player]);
+  }), [theme, lang, t, loggedIn, wishlist, borrowRequests, contributions, recommendations, player]);
 
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }
