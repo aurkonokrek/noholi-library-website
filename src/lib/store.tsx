@@ -26,7 +26,10 @@ type Ctx = {
 
 const today = () => new Date().toISOString().slice(0, 10);
 
-const AppCtx = createContext<Ctx | null>(null);
+// Keep one context instance across hot reloads; otherwise an edit to this file creates a new
+// context while the mounted provider still uses the old one ("useApp outside provider").
+const g = globalThis as unknown as { __noholiCtx?: React.Context<Ctx | null> };
+const AppCtx = g.__noholiCtx ?? (g.__noholiCtx = createContext<Ctx | null>(null));
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeS] = useState<"light" | "dark">("light");
