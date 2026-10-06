@@ -15,6 +15,7 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountBorrowedRouteImport } from './routes/account.borrowed'
 import { Route as AccountFinesRouteImport } from './routes/account.fines'
@@ -62,6 +63,11 @@ const JoinRoute = JoinRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountIndexRoute = AccountIndexRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
+  '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
+  '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
+  '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/join'
     | '/login'
+    | '/search'
     | '/account/borrowed'
     | '/account/fines'
     | '/account/profile'
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/join'
     | '/login'
+    | '/search'
     | '/account/borrowed'
     | '/account/fines'
     | '/account/profile'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/join'
     | '/login'
+    | '/search'
     | '/account/borrowed'
     | '/account/fines'
     | '/account/profile'
@@ -320,6 +332,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   JoinRoute: typeof JoinRoute
   LoginRoute: typeof LoginRoute
+  SearchRoute: typeof SearchRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   BookIdRoute: typeof BookIdRoute
   LibraryAudioRoute: typeof LibraryAudioRoute
@@ -376,6 +389,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account/': {
@@ -535,6 +555,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   JoinRoute: JoinRoute,
   LoginRoute: LoginRoute,
+  SearchRoute: SearchRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   BookIdRoute: BookIdRoute,
   LibraryAudioRoute: LibraryAudioRoute,

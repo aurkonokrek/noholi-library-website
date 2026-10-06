@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { Empty, PageIntro } from "@/components/noholi";
 import { SearchBox, SearchResultRow } from "@/components/search-box";
@@ -19,7 +19,6 @@ export const Route = createFileRoute("/search")({
 
 function SearchPage() {
   const { q = "" } = Route.useSearch();
-  const nav = useNavigate({ from: "/search" });
   const res = runSearch(q);
   const grouped = groupOrder.map((g) => [g, res.filter((r) => r.group === g)] as const).filter(([, l]) => l.length);
   return (
@@ -28,7 +27,7 @@ function SearchPage() {
         {q ? `${res.length} result${res.length === 1 ? "" : "s"} across the catalogue and write ups.` : "Books, Noholi Books, e-books, audio books, authors and write ups."}
       </PageIntro>
       <div className="container-page">
-        <SearchBox key={q} value={undefined} className="max-w-2xl" autoFocus={!q} />
+        <SearchBox key={q} className="max-w-2xl" autoFocus={!q} />
         <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
           {grouped.map(([g, l]) => <a key={g} href={`#${g.replace(/\s/g, "-")}`} className="hover:text-foreground">{g} <span className="tabular-nums">{l.length}</span></a>)}
         </div>
@@ -41,7 +40,6 @@ function SearchPage() {
             </section>
           ))}
         </div>
-        {!q && <button className="sr-only" onClick={() => nav({ search: { q: "" } })}>Reset</button>}
       </div>
     </>
   );
