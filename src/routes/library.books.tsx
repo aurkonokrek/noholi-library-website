@@ -81,7 +81,6 @@ function BooksPage() {
       <section className="container-page">
         <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_200px]">
           <SearchBox value={q} onValueChange={setQ} groups={["Books", "Authors"]} placeholder={t("search")} inputClassName="border-foreground/30 text-base" />
-          <span className="hidden"><Search /><X /><Input /></span>
           <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
             <Select value={sort} onValueChange={setSort}>
               <SelectTrigger className="!h-12 rounded-none border-foreground/30" aria-label="Sort"><SelectValue /></SelectTrigger>
