@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { t, lang, play } = useApp();
+  const { t, lang, play, loggedIn } = useApp();
   const featured = books.filter((b) => !b.noholi).filter((_, i) => [0, 2, 4, 8, 16, 21].includes(i));
   const noholi = books.filter((b) => b.noholi);
   const blog = articles.filter((a) => a.kind === "blog");
@@ -30,7 +30,7 @@ function Home() {
     <>
       {/* Hero */}
       <section className="container-page pt-8 md:pt-12">
-        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-10">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-6">
           <div className="lg:col-span-6">
             <div className="eyebrow mb-4">Est. Dhanmondi, Dhaka · নহলি পাঠাগার</div>
             <h1 className={lang === "bn" ? "font-bangla text-6xl leading-[1.15] md:text-7xl" : "text-[4.2rem] leading-[0.92] md:text-[6rem]"}>
@@ -41,7 +41,11 @@ function Home() {
               <SearchBox placeholder="Search a title, author or ISBN…" inputClassName="h-14 border-foreground/30 text-base" />
               <div className="mt-4 flex flex-wrap gap-3">
                 <Button size="lg" asChild><Link to="/library/books">{t("explore")} <ArrowRight /></Link></Button>
-                <Button size="lg" variant="outline" asChild><Link to="/join">{t("become")}</Link></Button>
+                {loggedIn ? (
+                  <Link to="/account" className="inline-flex items-center gap-2 self-center text-sm text-muted-foreground hover:text-accent">Welcome back — you're a Noholi member <ArrowRight className="h-4 w-4" /></Link>
+                ) : (
+                  <Button size="lg" variant="outline" asChild><Link to="/join">{t("become")}</Link></Button>
+                )}
               </div>
             </div>
             <dl className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-border pt-5">
@@ -201,15 +205,15 @@ function Home() {
 /** Leaning shelf of real catalogue covers — the hero's visual anchor. */
 function HeroBooks() {
   const picks: { id: string; w: string; rot: number; y: number; z: number }[] = [
-    { id: "pather-panchali", w: "w-[33%]", rot: -4, y: 0, z: 3 },
-    { id: "lalsalu", w: "w-[25%]", rot: 2, y: 0, z: 2 },
-    { id: "hajar-bochor", w: "w-[29%]", rot: -1, y: 0, z: 4 },
-    { id: "aranyak", w: "w-[23%]", rot: 7, y: 0, z: 1 },
+    { id: "pather-panchali", w: "w-[34%]", rot: -4, y: 0, z: 3 },
+    { id: "lalsalu", w: "w-[27%]", rot: 2, y: 0, z: 2 },
+    { id: "hajar-bochor", w: "w-[31%]", rot: -1, y: 0, z: 4 },
+    { id: "aranyak", w: "w-[25%]", rot: 7, y: 0, z: 1 },
   ];
   const list = picks.map((p) => ({ ...p, b: books.find((x) => x.id === p.id) })).filter((p) => p.b);
   return (
-    <div className="relative lg:col-span-6" aria-label="A shelf of books from the Noholi catalogue">
-      <div className="relative mx-auto flex max-w-[600px] items-end justify-center gap-0 border-b border-foreground/70 px-4">
+    <div className="relative lg:col-span-6 lg:pb-14" aria-label="A shelf of books from the Noholi catalogue">
+      <div className="relative mx-auto flex max-w-[680px] items-end justify-center gap-0 border-b border-foreground/70 px-2 lg:-ml-6 lg:mr-0">
         {list.map((p, i) => (
           <Link key={p.id} to="/book/$id" params={{ id: p.id }} className={`group relative ${p.w} ${i ? "-ml-[4%]" : ""}`}
             style={{ transform: `rotate(${p.rot}deg) translateY(${p.y}px)`, transformOrigin: "bottom center", zIndex: p.z }}>
@@ -217,7 +221,7 @@ function HeroBooks() {
           </Link>
         ))}
       </div>
-      <Link to="/book/$id" params={{ id: "pather-panchali" }} className="mx-auto mt-3 flex max-w-[600px] items-baseline justify-between gap-4 px-4 text-sm hover:text-accent">
+      <Link to="/book/$id" params={{ id: "pather-panchali" }} className="mx-auto mt-3 flex max-w-[680px] items-baseline justify-between gap-4 px-2 lg:-ml-6 lg:mr-0 text-sm hover:text-accent">
         <span><span className="eyebrow mr-2">Book of the month</span><span className="font-bangla">পথের পাঁচালী</span></span>
         <span className="hidden text-muted-foreground sm:inline">Bibhutibhushan →</span>
       </Link>
