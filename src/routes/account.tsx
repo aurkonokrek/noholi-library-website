@@ -22,14 +22,14 @@ const tabs = [
 ] as const;
 
 function AccountLayout() {
-  const { loggedIn, login, lang } = useApp();
+  const { loggedIn, lang } = useApp();
   if (!loggedIn) {
     return (
       <div className="container-page max-w-lg py-32 text-center">
         <div className="eyebrow mb-4">Members only</div>
-        <h1 className="text-5xl">Please log in.</h1>
-        <p className="mt-3 text-muted-foreground">Your dashboard, loans and wishlist live here once you're signed in.</p>
-        <div className="mt-8 flex justify-center gap-3"><Button onClick={login}>Use demo patron</Button><Button variant="outline" asChild><Link to="/join">Become a member</Link></Button></div>
+        <h1 className="text-5xl">Become a Noholi member</h1>
+        <p className="mt-3 text-muted-foreground">Your profile, dashboard, borrowing and contributions live here. Membership is free.</p>
+        <div className="mt-8 flex justify-center gap-3"><Button asChild><Link to="/login">Log In</Link></Button><Button variant="accent" asChild><Link to="/join">Become a Member</Link></Button></div>
       </div>
     );
   }
