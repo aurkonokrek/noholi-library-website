@@ -201,26 +201,25 @@ function Home() {
 /** Leaning shelf of real catalogue covers — the hero's visual anchor. */
 function HeroBooks() {
   const picks: { id: string; w: string; rot: number; y: number; z: number }[] = [
-    { id: "pather-panchali", w: "w-[30%]", rot: -3, y: 0, z: 3 },
-    { id: "lalsalu", w: "w-[24%]", rot: 4, y: 18, z: 2 },
-    { id: "hajar-bochor", w: "w-[27%]", rot: -1.5, y: 6, z: 4 },
-    { id: "aranyak", w: "w-[22%]", rot: 6, y: 26, z: 1 },
+    { id: "pather-panchali", w: "w-[33%]", rot: -4, y: 0, z: 3 },
+    { id: "lalsalu", w: "w-[25%]", rot: 2, y: 0, z: 2 },
+    { id: "hajar-bochor", w: "w-[29%]", rot: -1, y: 0, z: 4 },
+    { id: "aranyak", w: "w-[23%]", rot: 7, y: 0, z: 1 },
   ];
   const list = picks.map((p) => ({ ...p, b: books.find((x) => x.id === p.id) })).filter((p) => p.b);
   return (
     <div className="relative lg:col-span-6" aria-label="A shelf of books from the Noholi catalogue">
-      <div className="relative mx-auto flex max-w-[560px] items-end justify-center gap-0 px-4 pb-6">
+      <div className="relative mx-auto flex max-w-[600px] items-end justify-center gap-0 border-b border-foreground/70 px-4">
         {list.map((p, i) => (
           <Link key={p.id} to="/book/$id" params={{ id: p.id }} className={`group relative ${p.w} ${i ? "-ml-[4%]" : ""}`}
             style={{ transform: `rotate(${p.rot}deg) translateY(${p.y}px)`, transformOrigin: "bottom center", zIndex: p.z }}>
             <BookCover book={p.b!} size="md" />
           </Link>
         ))}
-        <div className="absolute inset-x-0 bottom-3 h-px bg-foreground/70" aria-hidden />
       </div>
-      <Link to="/book/$id" params={{ id: "pather-panchali" }} className="mx-auto mt-2 flex max-w-[560px] items-baseline justify-between gap-4 px-4 text-sm hover:text-accent">
+      <Link to="/book/$id" params={{ id: "pather-panchali" }} className="mx-auto mt-3 flex max-w-[600px] items-baseline justify-between gap-4 px-4 text-sm hover:text-accent">
         <span><span className="eyebrow mr-2">Book of the month</span><span className="font-bangla">পথের পাঁচালী</span></span>
-        <span className="text-muted-foreground">Bibhutibhushan →</span>
+        <span className="hidden text-muted-foreground sm:inline">Bibhutibhushan →</span>
       </Link>
     </div>
   );
