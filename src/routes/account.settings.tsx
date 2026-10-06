@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Initials } from "@/components/noholi";
 import { user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -25,22 +27,31 @@ function Settings() {
   return (
     <div className="max-w-3xl">
       <h1 className="mb-6 text-4xl">Account settings</h1>
-      <h2 className="eyebrow mt-10">Profile & account</h2>
-      <Row title="Email address" desc="Used for receipts and due-date reminders."><Input defaultValue={user.email} className="h-11" /></Row>
-      <Row title="Phone" desc="We send pickup alerts by SMS."><Input defaultValue={user.phone} className="h-11" /></Row>
-      <h2 className="eyebrow mt-12">Password & security</h2>
-      <Row title="Change password"><div className="grid gap-3"><Label className="sr-only" htmlFor="cp">Current</Label><Input id="cp" type="password" placeholder="Current password" className="h-11" /><Input type="password" placeholder="New password" className="h-11" /><Button variant="outline" className="w-fit" onClick={() => toast("Password updated")}>Update password</Button></div></Row>
-      <h2 className="eyebrow mt-12">Notifications</h2>
-      {[["Due-date reminders", "Two days before a loan is due", true], ["Reservation ready", "When a held book arrives", true], ["New Noholi publications", "A short note when we publish", false], ["Write Ups digest", "Monthly roundup of new writing", false]].map(([t, d, on]) => (
-        <Row key={t as string} title={t as string} desc={d as string}><Switch defaultChecked={on as boolean} aria-label={t as string} /></Row>
-      ))}
-      <h2 className="eyebrow mt-12">Preferences</h2>
-      <Row title="Language"><Seg value={lang} options={[["en", "English"], ["bn", "বাংলা"]]} onChange={setLang} /></Row>
-      <Row title="Theme"><Seg value={theme} options={[["light", "Light"], ["dark", "Dark"]]} onChange={setTheme} /></Row>
-      <h2 className="eyebrow mt-12">Privacy</h2>
-      <Row title="Show my reviews publicly" desc="Your name appears on reviews you write."><Switch defaultChecked aria-label="Public reviews" /></Row>
-      <Row title="Keep reading history" desc="Used for Continue Reading and recommendations."><Switch defaultChecked aria-label="Reading history" /></Row>
-      <div className="mt-10 flex flex-wrap gap-3"><Button onClick={() => toast("Settings saved")}>Save settings</Button><Button variant="outline" onClick={() => { logout(); nav({ to: "/" }); }}>Log out</Button></div>
+      <Tabs defaultValue="general">
+        <TabsList className="h-auto w-full justify-start gap-6 rounded-none border-b border-border bg-transparent p-0">
+          {[["general", "General"], ["account", "Account"], ["security", "Security"]].map(([v, l]) => <TabsTrigger key={v} value={v} className="-mb-px flex-none rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 shadow-none data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none">{l}</TabsTrigger>)}
+        </TabsList>
+        <TabsContent value="general">
+          <Row title="Language" desc="Applies across the whole website."><Seg value={lang} options={[["en", "English"], ["bn", "বাংলা"]]} onChange={setLang} /></Row>
+          <Row title="Theme"><Seg value={theme} options={[["light", "Light"], ["dark", "Dark"]]} onChange={setTheme} /></Row>
+          {[["Due-date reminders", "Two days before a book is due back", true], ["Borrow request updates", "When a request is approved or ready for pickup", true], ["Contribution decisions", "When editors review your writing", true], ["New Noholi Books", "A short note when we publish", false]].map(([t, d, on]) => (
+            <Row key={t as string} title={t as string} desc={d as string}><Switch defaultChecked={on as boolean} aria-label={t as string} /></Row>
+          ))}
+        </TabsContent>
+        <TabsContent value="account">
+          <Row title="Profile photo" desc="Shown to the librarian when you borrow."><div className="flex items-center gap-4"><Initials name={user.name} className="h-16 w-16 text-2xl" /><Button variant="outline" size="sm" onClick={() => toast("Photo upload is available at the front desk in this demo")}>Change photo</Button></div></Row>
+          <Row title="Full name"><Input defaultValue={user.name} className="h-11" /></Row>
+          <Row title="Email address" desc="Used for reminders and request updates."><Input defaultValue={user.email} className="h-11" /></Row>
+          <Row title="Phone" desc="We send pickup alerts by SMS."><Input defaultValue={user.phone} className="h-11" /></Row>
+          <Row title="Address"><Input defaultValue={user.address} className="h-11" /></Row>
+          <div className="mt-8"><Button onClick={() => toast("Changes saved")}>Save changes</Button></div>
+        </TabsContent>
+        <TabsContent value="security">
+          <Row title="Change password"><div className="grid gap-3"><Label className="sr-only" htmlFor="cp">Current password</Label><Input id="cp" type="password" placeholder="Current password" className="h-11" /><Input type="password" placeholder="New password" aria-label="New password" className="h-11" /><Button variant="outline" className="w-fit" onClick={() => toast("Password updated")}>Update password</Button></div></Row>
+          <Row title="Keep reading history" desc="Used for Continue Reading and listening history."><Switch defaultChecked aria-label="Reading history" /></Row>
+          <Row title="Sign out" desc="Ends your session on this device."><Button variant="outline" onClick={() => { logout(); nav({ to: "/" }); }}>Log out</Button></Row>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

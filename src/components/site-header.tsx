@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Heart, Menu, Moon, Sun, User } from "lucide-react";
+import { ChevronDown, Heart, Menu, Moon, Search, Sun, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Logo } from "@/components/noholi";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { SearchBox } from "@/components/search-box";
 import { user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -55,6 +57,39 @@ function NavDrop({ label, items }: { label: string; items: readonly { to: string
           <DropdownMenuItem key={i.to} asChild className="cursor-pointer rounded-sm px-3 py-2 font-display text-base">
             <Link to={i.to}>{t(i.k as never)}</Link>
           </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function GlobalSearch() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="ghost" size="icon" className="rounded-full" aria-label="Search" onClick={() => setOpen(true)}><Search /></Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="top-[12%] translate-y-0 gap-0 rounded-sm p-0 sm:max-w-2xl [&>button]:hidden" onClick={(e) => { if ((e.target as HTMLElement).closest("[role=option],a,button[type=button]")) setTimeout(() => setOpen(false), 0); }}>
+          <DialogTitle className="sr-only">Search Noholi</DialogTitle>
+          <SearchBox autoFocus inputClassName="h-14 border-0 text-base" />
+          <div className="border-t border-border px-4 py-3 text-xs text-muted-foreground">Books, Noholi Books, e-books, audio books, authors and write ups · ↑↓ to move, Enter to open</div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
+function WishlistMenu() {
+  const { t, wishlist } = useApp();
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger className="relative inline-flex h-9 w-9 items-center justify-center rounded-full outline-none hover:bg-accent/10" aria-label={t("wishlist")}>
+        <Heart className="h-4 w-4" />{wishlist.length > 0 && <span className="absolute right-0.5 top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[0.6rem] text-accent-foreground">{wishlist.length}</span>}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-52 rounded-sm p-1.5">
+        <div className="eyebrow px-3 pb-1 pt-2">{t("wishlist")}</div>
+        {(["Books", "E-Books", "Audio Books"] as const).map((x) => (
+          <DropdownMenuItem key={x} asChild className="cursor-pointer rounded-sm px-3 py-2 font-display text-base"><Link to="/account/wishlist" search={{ type: x }}>{x}</Link></DropdownMenuItem>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
@@ -119,8 +154,11 @@ function MobileNav() {
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
               <Link to="/account" onClick={close} className="underline underline-offset-4">{t("dashboard")}</Link>
               <Link to="/account/wishlist" onClick={close} className="underline underline-offset-4">{t("wishlist")}</Link>
-              <Link to="/account/profile" onClick={close} className="underline underline-offset-4">Profile</Link>
-              <Link to="/account/settings" onClick={close} className="underline underline-offset-4">Settings</Link>
+              <Link to="/account/profile" onClick={close} className="underline underline-offset-4">{t("profile")}</Link>
+              <Link to="/account/settings" onClick={close} className="underline underline-offset-4">{t("settings")}</Link>
+              <Link to="/account/requests" onClick={close} className="underline underline-offset-4">Borrow requests</Link>
+              <Link to="/account/contributions" onClick={close} className="underline underline-offset-4">My contributions</Link>
+              <Link to="/account/recommend" onClick={close} className="underline underline-offset-4">Recommend a Book</Link>
             </div>
           </div>
         )}
@@ -149,7 +187,7 @@ function MobileNav() {
 }
 
 export function SiteHeader() {
-  const { t, loggedIn, wishlist } = useApp();
+  const { t, loggedIn } = useApp();
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/92 backdrop-blur">
       <div className="container-page grid h-16 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-6 md:h-[72px]">
@@ -162,13 +200,12 @@ export function SiteHeader() {
           <Link to="/contact" className={navCls}>{t("contact")}</Link>
         </nav>
         <div className="flex items-center gap-1.5 justify-self-end">
+          <GlobalSearch />
           <LangToggle className="hidden md:inline-flex" />
           <span className="hidden md:inline-flex"><ThemeToggle /></span>
           {loggedIn ? (
             <>
-              <Button variant="ghost" size="icon" asChild className="relative rounded-full">
-                <Link to="/account/wishlist" aria-label={t("wishlist")}><Heart />{wishlist.length > 0 && <span className="absolute right-0.5 top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[0.6rem] text-accent-foreground">{wishlist.length}</span>}</Link>
-              </Button>
+              <WishlistMenu />
               <span className="hidden lg:block"><AccountMenu /></span>
               <Button variant="ghost" size="icon" asChild className="lg:hidden"><Link to="/account" aria-label="Account"><User /></Link></Button>
             </>
