@@ -27,6 +27,7 @@ import { Route as AccountRequestsRouteImport } from './routes/account.requests'
 import { Route as AccountSettingsRouteImport } from './routes/account.settings'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as AudioIdRouteImport } from './routes/audio.$id'
 import { Route as BookIdRouteImport } from './routes/book.$id'
 import { Route as LibraryAudioRouteImport } from './routes/library.audio'
 import { Route as LibraryBooksRouteImport } from './routes/library.books'
@@ -130,6 +131,11 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AudioIdRoute = AudioIdRouteImport.update({
+  id: '/audio/$id',
+  path: '/audio/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookIdRoute = BookIdRouteImport.update({
   id: '/book/$id',
   path: '/book/$id',
@@ -209,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/audio/$id': typeof AudioIdRoute
   '/book/$id': typeof BookIdRoute
   '/library/audio': typeof LibraryAudioRoute
   '/library/books': typeof LibraryBooksRoute
@@ -240,6 +247,7 @@ export interface FileRoutesByTo {
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/audio/$id': typeof AudioIdRoute
   '/book/$id': typeof BookIdRoute
   '/library/audio': typeof LibraryAudioRoute
   '/library/books': typeof LibraryBooksRoute
@@ -273,6 +281,7 @@ export interface FileRoutesById {
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/audio/$id': typeof AudioIdRoute
   '/book/$id': typeof BookIdRoute
   '/library/audio': typeof LibraryAudioRoute
   '/library/books': typeof LibraryBooksRoute
@@ -307,6 +316,7 @@ export interface FileRouteTypes {
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
+    | '/audio/$id'
     | '/book/$id'
     | '/library/audio'
     | '/library/books'
@@ -338,6 +348,7 @@ export interface FileRouteTypes {
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
+    | '/audio/$id'
     | '/book/$id'
     | '/library/audio'
     | '/library/books'
@@ -370,6 +381,7 @@ export interface FileRouteTypes {
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
+    | '/audio/$id'
     | '/book/$id'
     | '/library/audio'
     | '/library/books'
@@ -394,6 +406,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SearchRoute: typeof SearchRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
+  AudioIdRoute: typeof AudioIdRoute
   BookIdRoute: typeof BookIdRoute
   LibraryAudioRoute: typeof LibraryAudioRoute
   LibraryBooksRoute: typeof LibraryBooksRoute
@@ -535,6 +548,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/audio/$id': {
+      id: '/audio/$id'
+      path: '/audio/$id'
+      fullPath: '/audio/$id'
+      preLoaderRoute: typeof AudioIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/book/$id': {
       id: '/book/$id'
       path: '/book/$id'
@@ -662,6 +682,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   SearchRoute: SearchRoute,
   ArticleSlugRoute: ArticleSlugRoute,
+  AudioIdRoute: AudioIdRoute,
   BookIdRoute: BookIdRoute,
   LibraryAudioRoute: LibraryAudioRoute,
   LibraryBooksRoute: LibraryBooksRoute,

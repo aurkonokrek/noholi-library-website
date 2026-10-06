@@ -3,6 +3,8 @@ import { ArrowLeft, Check, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Availability, BookCard, BookCover, WishButton } from "@/components/noholi";
 import { availability, books, getBook } from "@/lib/data";
+import { MemberButton, reasons } from "@/components/member-gate";
+import { ReviewsSection } from "@/components/reviews";
 import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/book/$id")({
@@ -27,7 +29,7 @@ export const Route = createFileRoute("/book/$id")({
 
 function BookPage() {
   const { book } = Route.useLoaderData();
-  const { loggedIn, borrowRequests } = useApp();
+  const { borrowRequests, requireMember } = useApp();
   const nav = useNavigate();
   const a = availability(book);
   const pending = borrowRequests.find((r) => r.bookId === book.id && ["Pending Review", "Approved", "Ready for Pickup"].includes(r.status));
@@ -40,7 +42,7 @@ function BookPage() {
     ["Condition", book.condition], ["Copies", `${book.availableCopies} of ${book.totalCopies} on shelf`],
   ];
 
-  const onBorrow = () => { if (!loggedIn) { nav({ to: "/login" }); return; } nav({ to: "/account/borrow/$id", params: { id: book.id } }); };
+  const onBorrow = () => nav({ to: "/account/borrow/$id", params: { id: book.id } });
 
   return (
     <>
@@ -69,10 +71,14 @@ function BookPage() {
             ) : a === "unavailable" ? (
               <Button size="lg" disabled>Currently Unavailable</Button>
             ) : (
-              <Button size="lg" variant="accent" onClick={onBorrow}>Borrow</Button>
+              <MemberButton size="lg" variant="accent" reason={reasons.borrow} onAllowed={onBorrow}>Borrow</MemberButton>
             )}
             {book.ebook && <Button size="lg" variant="outline" asChild><Link to="/read/$id" params={{ id: book.id }}>Read E-Book</Link></Button>}
             <WishButton id={book.id} label className="ml-2" />
+          </div>
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+            <button type="button" onClick={() => document.getElementById("reviews-h")?.scrollIntoView({ behavior: "smooth" })} className="underline underline-offset-4 hover:text-accent">Write a Review</button>
+            <button type="button" onClick={() => requireMember(reasons.recommend, () => nav({ to: "/account/recommend" }))} className="text-muted-foreground underline underline-offset-4 hover:text-accent">Recommend a Book to Noholi</button>
           </div>
           <p className="mt-4 text-sm text-muted-foreground"><span className="font-medium text-foreground">Borrowing fee: ৳0.</span> Late return fines may apply according to library policy.</p>
 
@@ -85,6 +91,8 @@ function BookPage() {
           </dl>
         </div>
       </section>
+
+      <ReviewsSection itemId={book.id} title={book.titleEn} />
 
       {related.length > 0 && (
         <section className="container-page mt-10">

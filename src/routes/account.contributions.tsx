@@ -1,60 +1,75 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Empty, fmtDate, StatusBadge } from "@/components/noholi";
-import { getBook } from "@/lib/data";
+import { Empty, fmtDate, Stars, StatusBadge } from "@/components/noholi";
+import type { Contribution } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
+const filters = ["All", "Blogs", "Creative Writings", "Book Reviews", "Drafts", "Pending Review", "Published", "Rejected"] as const;
+type F = (typeof filters)[number];
+
 export const Route = createFileRoute("/account/contributions")({
+  validateSearch: z.object({ f: z.enum(filters).optional() }),
   head: () => ({ meta: [{ title: "My contributions — My Noholi" }, { name: "description", content: "Your blogs, creative writing and book reviews submitted to Noholi." }] }),
   component: Contributions,
 });
 
-const tabs = ["Drafts", "Pending Review", "Published", "Rejected"] as const;
-const inTab = (t: (typeof tabs)[number], s: string) => t === "Drafts" ? s === "Draft" : t === "Published" ? s === "Published" || s === "Approved" : s === t;
+const match = (f: F, c: Contribution) => {
+  switch (f) {
+    case "All": return true;
+    case "Blogs": return c.kind === "blog";
+    case "Creative Writings": return c.kind === "creative";
+    case "Book Reviews": return c.kind === "review";
+    case "Drafts": return c.status === "Draft";
+    case "Published": return c.status === "Published" || c.status === "Approved";
+    default: return c.status === f;
+  }
+};
 const kindLabel = { blog: "Blog", creative: "Creative Writing", review: "Book Review" } as const;
 
-export function ContributeLinks() {
-  return (
-    <div className="grid gap-px border border-border bg-border sm:grid-cols-3">
-      {([["blog", "Submit a Blog", "News, essays and notes on reading."], ["creative", "Submit Creative Writing", "Poems, stories and lyric prose."], ["review", "Submit a Book Review", "Tell other readers about a book."]] as const).map(([k, t, d]) => (
-        <Link key={k} to="/account/contribute" search={{ type: k }} className="group bg-background p-5 transition-colors hover:bg-muted"><div className="font-display text-xl group-hover:text-accent">{t} →</div><div className="mt-1 text-sm text-muted-foreground">{d}</div></Link>
-      ))}
-    </div>
-  );
-}
-
 function Contributions() {
-  const { contributions } = useApp();
-  const [tab, setTab] = useState<(typeof tabs)[number]>("Pending Review");
-  const list = contributions.filter((c) => inTab(tab, c.status));
+  const { contributions, removeContribution } = useApp();
+  const { f = "All" } = Route.useSearch();
+  const list = contributions.filter((c) => match(f, c));
   return (
     <>
-      <h1 className="text-4xl">My contributions</h1>
-      <p className="mt-2 max-w-2xl text-sm text-muted-foreground">Everything you send is read by the Noholi editors before it appears on the website. Nothing is published automatically.</p>
-      <div className="mt-8"><ContributeLinks /></div>
-      <div className="mt-12 flex gap-6 overflow-x-auto border-b border-border" role="tablist">
-        {tabs.map((t) => <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)} className={cn("-mb-px whitespace-nowrap border-b-2 pb-3 text-sm", tab === t ? "border-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}>{t} <span className="tabular-nums opacity-60">{contributions.filter((c) => inTab(t, c.status)).length}</span></button>)}
+      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+        <div><h1 className="text-4xl">My contributions</h1><p className="mt-2 max-w-2xl text-sm text-muted-foreground">Everything you send is read by Noholi's editors before it appears on the website. Nothing is published automatically.</p></div>
+        <div className="flex flex-wrap gap-2">
+          <Button size="sm" variant="outline" asChild><Link to="/account/contribute" search={{ type: "blog" }}>Submit a Blog</Link></Button>
+          <Button size="sm" variant="outline" asChild><Link to="/account/contribute" search={{ type: "creative" }}>Submit Creative Writing</Link></Button>
+          <Button size="sm" variant="outline" asChild><Link to="/account/contribute" search={{ type: "review" }}>Write a Book Review</Link></Button>
+        </div>
       </div>
+      <nav className="mt-10 flex gap-5 overflow-x-auto border-b border-border" aria-label="Filter contributions">
+        {filters.map((x) => <Link key={x} to="/account/contributions" search={x === "All" ? {} : { f: x }} aria-current={f === x ? "page" : undefined} className={cn("-mb-px whitespace-nowrap border-b-2 pb-3 text-sm", f === x ? "border-foreground" : "border-transparent text-muted-foreground hover:text-foreground")}>{x} <span className="tabular-nums opacity-60">{contributions.filter((c) => match(x, c)).length}</span></Link>)}
+      </nav>
       {list.length === 0 ? (
-        <div className="mt-8"><Empty title="Your writing journey starts here." body={tab === "Drafts" ? "Drafts you save will wait here until you're ready." : "Nothing in this list yet."} /></div>
+        <div className="mt-8"><Empty title="Your writing journey starts here." body={f === "Drafts" ? "Drafts you save will wait here until you're ready." : "Nothing in this list yet."} action={<Button asChild><Link to="/writeups">Explore Write Ups</Link></Button>} /></div>
       ) : (
         <ul className="divide-y divide-border">
           {list.map((c) => (
-            <li key={c.id} className="grid gap-2 py-5 sm:grid-cols-[minmax(0,1fr)_160px] sm:items-start">
+            <li key={c.id} className="grid gap-3 py-5 md:grid-cols-[minmax(0,1fr)_150px_auto] md:items-center">
               <div className="min-w-0">
-                <div className="eyebrow">{kindLabel[c.kind]}{c.bookId && ` · ${getBook(c.bookId)?.titleEn}`}</div>
+                <div className="eyebrow">{kindLabel[c.kind]}{c.bookTitle && ` · ${c.bookTitle}`}</div>
                 <div className="mt-1 font-display text-xl">{c.title}</div>
-                <div className="text-xs text-muted-foreground">{c.id} · updated {fmtDate(c.updated)}</div>
+                <div className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground"><span className="font-mono">{c.id}</span><span>Last updated {fmtDate(c.updated)}</span>{c.rating ? <Stars n={c.rating} /> : null}</div>
                 {c.note && <p className="mt-3 border-l-2 border-border pl-3 text-sm text-muted-foreground">{c.note}</p>}
               </div>
-              <div className="sm:text-right"><StatusBadge status={c.status} />{c.status === "Pending Review" && <div className="mt-1 text-xs text-muted-foreground">Editors reply within a week</div>}</div>
+              <div><StatusBadge status={c.status} />{c.status === "Pending Review" && <div className="mt-1 text-xs text-muted-foreground">Editors reply within a week</div>}</div>
+              <div className="flex flex-wrap gap-2 md:justify-end">
+                {c.status === "Draft" && <>
+                  <Button size="sm" asChild><Link to="/account/contribute" search={{ type: c.kind, ...(c.bookId ? { book: c.bookId } : {}) }}>Continue writing</Link></Button>
+                  <Button size="sm" variant="ghost" className="text-muted-foreground" onClick={() => removeContribution(c.id)}>Delete draft</Button>
+                </>}
+                {c.status === "Rejected" && <Button size="sm" variant="outline" asChild><Link to="/account/contribute" search={{ type: c.kind }}>Edit & resubmit</Link></Button>}
+                {c.status === "Published" && c.slug && <Button size="sm" variant="outline" asChild><Link to="/article/$slug" params={{ slug: c.slug }}>View</Link></Button>}
+              </div>
             </li>
           ))}
         </ul>
       )}
-      <div className="mt-10"><Button variant="outline" asChild><Link to="/writeups">Read published write ups</Link></Button></div>
     </>
   );
 }

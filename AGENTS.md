@@ -16,3 +16,4 @@
 - Member pages are nested under the `/account` layout, which gates on the demo login. Why: one place for the patron shell and access check.
 - Search uses one index/ranker (`src/lib/search.ts`) and one autocomplete component (`SearchBox`), including picker mode via `onPick`. Why: the brief requires a single consistent search pattern everywhere.
 - Borrowing is a multi-step Borrow Request (`/account/borrow/$id`), never a checkout; member submissions and book recommendations always start in a review status. Why: library-first product rules — no payments, nothing auto-published.
+- Member-only actions call `requireMember` / `MemberButton`, which open the single `MemberPromptHost` dialog mounted in the root. Why: one consistent "Member Access Required" prompt instead of disabled buttons.
