@@ -34,6 +34,7 @@ import { Route as WriteupsIndexRouteImport } from './routes/writeups.index'
 import { Route as WriteupsBlogsRouteImport } from './routes/writeups.blogs'
 import { Route as WriteupsCreativeRouteImport } from './routes/writeups.creative'
 import { Route as WriteupsReviewsRouteImport } from './routes/writeups.reviews'
+import { Route as AccountBorrowIdRouteImport } from './routes/account.borrow.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -160,6 +161,11 @@ const WriteupsReviewsRoute = WriteupsReviewsRouteImport.update({
   path: '/writeups/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountBorrowIdRoute = AccountBorrowIdRouteImport.update({
+  id: '/borrow/$id',
+  path: '/borrow/$id',
+  getParentRoute: () => AccountRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/writeups/reviews': typeof WriteupsReviewsRoute
   '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
+  '/account/borrow/$id': typeof AccountBorrowIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -213,6 +220,7 @@ export interface FileRoutesByTo {
   '/writeups/reviews': typeof WriteupsReviewsRoute
   '/account': typeof AccountIndexRoute
   '/writeups': typeof WriteupsIndexRoute
+  '/account/borrow/$id': typeof AccountBorrowIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -241,6 +249,7 @@ export interface FileRoutesById {
   '/writeups/reviews': typeof WriteupsReviewsRoute
   '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
+  '/account/borrow/$id': typeof AccountBorrowIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -270,6 +279,7 @@ export interface FileRouteTypes {
     | '/writeups/reviews'
     | '/account/'
     | '/writeups/'
+    | '/account/borrow/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
     | '/writeups/reviews'
     | '/account'
     | '/writeups'
+    | '/account/borrow/$id'
   id:
     | '__root__'
     | '/'
@@ -323,6 +334,7 @@ export interface FileRouteTypes {
     | '/writeups/reviews'
     | '/account/'
     | '/writeups/'
+    | '/account/borrow/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -524,6 +536,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WriteupsReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/borrow/$id': {
+      id: '/account/borrow/$id'
+      path: '/borrow/$id'
+      fullPath: '/account/borrow/$id'
+      preLoaderRoute: typeof AccountBorrowIdRouteImport
+      parentRoute: typeof AccountRoute
+    }
   }
 }
 
@@ -534,6 +553,7 @@ interface AccountRouteChildren {
   AccountSettingsRoute: typeof AccountSettingsRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
   AccountIndexRoute: typeof AccountIndexRoute
+  AccountBorrowIdRoute: typeof AccountBorrowIdRoute
 }
 
 const AccountRouteChildren: AccountRouteChildren = {
@@ -543,6 +563,7 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountSettingsRoute: AccountSettingsRoute,
   AccountWishlistRoute: AccountWishlistRoute,
   AccountIndexRoute: AccountIndexRoute,
+  AccountBorrowIdRoute: AccountBorrowIdRoute,
 }
 
 const AccountRouteWithChildren =
