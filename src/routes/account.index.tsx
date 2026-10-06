@@ -86,10 +86,13 @@ function Dashboard() {
           <Stat to="/account/contributions" n={drafts} label="Drafts" />
           <Stat to="/account/contributions" n={published} label="Published" />
         </div>
+        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {(["Blogs", "Creative Writings", "Book Reviews", "Drafts", "Pending Review", "Published"] as const).map((f) => <Link key={f} to="/account/contributions" search={{ f }} className="underline underline-offset-4 hover:text-accent">{f === "Blogs" ? "My Blogs" : f === "Creative Writings" ? "My Creative Writings" : f === "Book Reviews" ? "My Book Reviews" : f}</Link>)}
+        </div>
         <div className="mt-5 flex flex-wrap gap-2">
           <Button variant="outline" size="sm" asChild><Link to="/account/contribute" search={{ type: "blog" }}>Submit a Blog</Link></Button>
           <Button variant="outline" size="sm" asChild><Link to="/account/contribute" search={{ type: "creative" }}>Submit Creative Writing</Link></Button>
-          <Button variant="outline" size="sm" asChild><Link to="/account/contribute" search={{ type: "review" }}>Submit a Book Review</Link></Button>
+          <Button variant="outline" size="sm" asChild><Link to="/account/contribute" search={{ type: "review" }}>Write a Book Review</Link></Button>
         </div>
       </Group>
 
