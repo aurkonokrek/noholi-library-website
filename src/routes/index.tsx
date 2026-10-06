@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { BookCard, BookCover, Cover, fmtDate, SectionHead } from "@/components/noholi";
 import { articles, audiobooks, books, fmtDuration, images } from "@/lib/data";
 import { useApp } from "@/lib/store";
+import { SearchBox } from "@/components/search-box";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,38 +29,33 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="container-page pt-10 md:pt-16">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="flex flex-col justify-between lg:col-span-5">
-            <div>
-              <div className="eyebrow mb-8">Est. Dhanmondi, Dhaka · নহলি পাঠাগার</div>
-              <h1 className={lang === "bn" ? "font-bangla text-6xl leading-[1.15] md:text-7xl" : "text-[4.2rem] leading-[0.92] md:text-[6.5rem]"}>
-                {t("heroTitle")}
-              </h1>
-              <p className="mt-8 max-w-md text-lg leading-relaxed text-muted-foreground">{t("heroBody")}</p>
-              <div className="mt-10 flex flex-wrap gap-3">
+      <section className="container-page pt-8 md:pt-12">
+        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-6">
+            <div className="eyebrow mb-4">Est. Dhanmondi, Dhaka · নহলি পাঠাগার</div>
+            <h1 className={lang === "bn" ? "font-bangla text-6xl leading-[1.15] md:text-7xl" : "text-[4.2rem] leading-[0.92] md:text-[6rem]"}>
+              {t("heroTitle")}
+            </h1>
+            <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">{t("heroBody")}</p>
+            <div className="mt-8 max-w-lg">
+              <SearchBox placeholder="Search a title, author or ISBN…" inputClassName="h-14 border-foreground/30 text-base" />
+              <div className="mt-4 flex flex-wrap gap-3">
                 <Button size="lg" asChild><Link to="/library/books">{t("explore")} <ArrowRight /></Link></Button>
                 <Button size="lg" variant="outline" asChild><Link to="/join">{t("become")}</Link></Button>
               </div>
             </div>
-            <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-border pt-6">
+            <dl className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-border pt-5">
               {[["12,400+", "Books on the shelf"], ["860", "E-books"], ["140", "Audio books"]].map(([n, l]) => (
                 <div key={l}><dt className="font-display text-3xl">{n}</dt><dd className="mt-1 text-xs text-muted-foreground">{l}</dd></div>
               ))}
             </dl>
           </div>
-          <div className="relative lg:col-span-7">
-            <img src={images.hero} alt="A reader at the long table in Noholi's reading room" width={1600} height={1104} className="photo aspect-[4/3] w-full object-cover lg:aspect-auto lg:h-full" />
-            <Link to="/book/$id" params={{ id: "pather-panchali" }} className="absolute -bottom-8 left-6 hidden w-64 items-center gap-4 border border-border bg-background p-4 shadow-book transition-transform hover:-translate-y-0.5 md:flex">
-              <BookCover book={books[0]} size="sm" className="w-14 shrink-0" />
-              <div className="min-w-0"><div className="eyebrow mb-1 !text-[0.6rem]">Book of the month</div><div className="font-bangla text-lg leading-tight">পথের পাঁচালী</div><div className="text-xs text-muted-foreground">Bibhutibhushan</div></div>
-            </Link>
-          </div>
+          <HeroBooks />
         </div>
       </section>
 
       {/* Featured */}
-      <section className="container-page mt-28">
+      <section className="container-page mt-24">
         <SectionHead eyebrow="Library" title={t("featured")} link={<Link to="/library/books" className="inline-flex items-center gap-2 text-sm hover:text-accent">{t("viewAll")} <ArrowRight className="h-4 w-4" /></Link>} />
         <div className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-6">
           {featured.map((b) => <BookCard key={b.id} book={b} />)}
@@ -199,5 +195,32 @@ function Home() {
         </div>
       </section>
     </>
+  );
+}
+
+/** Leaning shelf of real catalogue covers — the hero's visual anchor. */
+function HeroBooks() {
+  const picks: { id: string; w: string; rot: number; y: number; z: number }[] = [
+    { id: "pather-panchali", w: "w-[33%]", rot: -4, y: 0, z: 3 },
+    { id: "lalsalu", w: "w-[25%]", rot: 2, y: 0, z: 2 },
+    { id: "hajar-bochor", w: "w-[29%]", rot: -1, y: 0, z: 4 },
+    { id: "aranyak", w: "w-[23%]", rot: 7, y: 0, z: 1 },
+  ];
+  const list = picks.map((p) => ({ ...p, b: books.find((x) => x.id === p.id) })).filter((p) => p.b);
+  return (
+    <div className="relative lg:col-span-6" aria-label="A shelf of books from the Noholi catalogue">
+      <div className="relative mx-auto flex max-w-[600px] items-end justify-center gap-0 border-b border-foreground/70 px-4">
+        {list.map((p, i) => (
+          <Link key={p.id} to="/book/$id" params={{ id: p.id }} className={`group relative ${p.w} ${i ? "-ml-[4%]" : ""}`}
+            style={{ transform: `rotate(${p.rot}deg) translateY(${p.y}px)`, transformOrigin: "bottom center", zIndex: p.z }}>
+            <BookCover book={p.b!} size="md" />
+          </Link>
+        ))}
+      </div>
+      <Link to="/book/$id" params={{ id: "pather-panchali" }} className="mx-auto mt-3 flex max-w-[600px] items-baseline justify-between gap-4 px-4 text-sm hover:text-accent">
+        <span><span className="eyebrow mr-2">Book of the month</span><span className="font-bangla">পথের পাঁচালী</span></span>
+        <span className="hidden text-muted-foreground sm:inline">Bibhutibhushan →</span>
+      </Link>
+    </div>
   );
 }
