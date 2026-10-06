@@ -29,7 +29,7 @@ export const Route = createFileRoute("/book/$id")({
 
 function BookPage() {
   const { book } = Route.useLoaderData();
-  const { borrowRequests } = useApp();
+  const { borrowRequests, requireMember } = useApp();
   const nav = useNavigate();
   const a = availability(book);
   const pending = borrowRequests.find((r) => r.bookId === book.id && ["Pending Review", "Approved", "Ready for Pickup"].includes(r.status));
@@ -78,6 +78,7 @@ function BookPage() {
           </div>
           <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm">
             <button type="button" onClick={() => document.getElementById("reviews-h")?.scrollIntoView({ behavior: "smooth" })} className="underline underline-offset-4 hover:text-accent">Write a Review</button>
+            <button type="button" onClick={() => requireMember(reasons.recommend, () => nav({ to: "/account/recommend" }))} className="text-muted-foreground underline underline-offset-4 hover:text-accent">Recommend a Book to Noholi</button>
           </div>
           <p className="mt-4 text-sm text-muted-foreground"><span className="font-medium text-foreground">Borrowing fee: ৳0.</span> Late return fines may apply according to library policy.</p>
 
