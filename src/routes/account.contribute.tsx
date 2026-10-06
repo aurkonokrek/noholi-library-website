@@ -39,7 +39,7 @@ function Contribute() {
   const [sent, setSent] = useState<{ id: string; draft: boolean } | null>(null);
   const book = bookId ? getBook(bookId) : undefined;
 
-  const errs: Record<string, string> = {};
+  const errs: Partial<Record<"title" | "body" | "cat" | "book" | "rating", string>> = {};
   if (!title.trim()) errs.title = "Add a title.";
   if (body.trim().split(/\s+/).length < 20) errs.body = "Write at least a few sentences (20+ words).";
   if (type !== "review" && !cat) errs.cat = "Choose a category.";
