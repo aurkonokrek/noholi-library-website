@@ -10,7 +10,7 @@ const en = {
   explore: "Explore the Library", featured: "On the shelf this week", viewAll: "View all", viewBook: "View book",
   available: "Available", limited: "Limited copies", unavailable: "Currently borrowed", search: "Search titles, authors, ISBN…",
   read: "Read", listen: "Listen", play: "Play", reserve: "Reserve", membershipTitle: "Become part of Noholi.",
-  membershipBody: "One card. Every shelf, every recording, every reading evening. Membership starts at ৳300 a month.",
+  membershipBody: "One card. Every shelf, every recording, every reading evening. Membership is free.",
   learnMore: "Learn more", latestWriteups: "From the reading room", language: "Language", theme: "Theme",
 };
 
