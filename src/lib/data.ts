@@ -156,7 +156,7 @@ export const gallery = [
 export const user = {
   name: "Aurko Rahman", nameBn: "অর্ক রহমান", memberId: "NH-00124", email: "aurko@example.com",
   phone: "+880 1712-345678", address: "House 14, Road 7, Dhanmondi, Dhaka 1205",
-  since: "2023-02-11", expires: "2027-02-10", plan: "Annual Patron",
+  since: "2023-02-11", expires: "2027-02-10", plan: "Free membership", nid: "1990 2614 8873 4401",
 };
 
 export const loans = [
@@ -168,9 +168,33 @@ export const loans = [
   { bookId: "thakurmar-jhuli", issued: "2026-04-01", due: "2026-04-22", returned: "2026-04-20", status: "returned" as const },
 ];
 
-export const initialReservations = [
-  { bookId: "chilekothar-sepai", date: "2026-09-25", status: "Waiting · #2 in queue", expected: "Around 18 Oct 2026" },
-  { bookId: "khoabnama", date: "2026-09-30", status: "Ready for pickup", expected: "Collect by 7 Oct 2026" },
+export type BorrowStatus = "Pending Review" | "Approved" | "Ready for Pickup" | "Active" | "Returned" | "Overdue" | "Cancelled" | "Lost";
+export type BorrowRequest = {
+  id: string; bookId: string; copy: string; submitted: string; due: string; status: BorrowStatus; notes?: string;
+  guarantor: { name: string; relation: string; phone: string };
+};
+export const initialBorrowRequests: BorrowRequest[] = [
+  { id: "BR-26-0418", bookId: "khoabnama", copy: "Copy 2 of 3", submitted: "2026-09-30", due: "2026-10-21", status: "Ready for Pickup", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
+  { id: "BR-26-0402", bookId: "chilekothar-sepai", copy: "Copy 1 of 2", submitted: "2026-09-25", due: "2026-10-16", status: "Pending Review", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
+  { id: "BR-26-0377", bookId: "aranyak", copy: "Copy 1 of 3", submitted: "2026-09-12", due: "2026-10-05", status: "Active", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
+  { id: "BR-26-0311", bookId: "padma-nadir-majhi", copy: "Copy 3 of 4", submitted: "2026-08-30", due: "2026-09-29", status: "Overdue", guarantor: { name: "Tanvir Hasan", relation: "Friend", phone: "+880 1819-552013" } },
+  { id: "BR-26-0204", bookId: "nondito-noroke", copy: "Copy 1 of 2", submitted: "2026-06-30", due: "2026-07-23", status: "Returned", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
+];
+
+export type ContributionStatus = "Draft" | "Pending Review" | "Approved" | "Published" | "Rejected";
+export type Contribution = { id: string; kind: "blog" | "creative" | "review"; title: string; updated: string; status: ContributionStatus; note?: string; slug?: string; bookId?: string };
+export const initialContributions: Contribution[] = [
+  { id: "C-1182", kind: "review", title: "Aranyak and the forest that keeps calling", updated: "2026-10-02", status: "Pending Review", bookId: "aranyak" },
+  { id: "C-1150", kind: "creative", title: "ধানমন্ডি লেকের ভোর", updated: "2026-09-21", status: "Draft" },
+  { id: "C-1094", kind: "blog", title: "What I learned volunteering at the children's corner", updated: "2026-08-18", status: "Published" },
+  { id: "C-1031", kind: "creative", title: "Letters to a closed bookshop", updated: "2026-07-04", status: "Rejected", note: "Thank you — this piece is close. The editors suggest tightening the second half and resubmitting." },
+];
+
+export type RecStatus = "Submitted" | "Under Review" | "Considering" | "Acquired" | "Not Planned";
+export type Recommendation = { id: string; title: string; author: string; publisher?: string; isbn?: string; language: "Bangla" | "English"; reason: string; date: string; status: RecStatus };
+export const initialRecommendations: Recommendation[] = [
+  { id: "RQ-0093", title: "Shesher Kobita", author: "Rabindranath Tagore", publisher: "Visva-Bharati", language: "Bangla", reason: "Our only copy is falling apart and the reading circle wants to study it next term.", date: "2026-09-18", status: "Considering" },
+  { id: "RQ-0071", title: "The Hungry Tide", author: "Amitav Ghosh", publisher: "HarperCollins", language: "English", reason: "A Sundarbans novel — it would sit well beside Padma Nadir Majhi.", date: "2026-07-02", status: "Acquired" },
 ];
 
 export const fines = [

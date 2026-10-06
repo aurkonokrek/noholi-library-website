@@ -80,14 +80,14 @@ function About() {
         </div>
         <div className="space-y-5 text-lg leading-relaxed text-muted-foreground lg:col-span-6 lg:col-start-7">
           <p>Our members range from six-year-olds at Friday story hour to retired professors working through the complete Elias. Around a third read mostly in English, a third mostly in Bangla, and a third refuse to choose.</p>
-          <p>Membership keeps the lights on: annual patron fees fund new acquisitions, the children's corner and free cards for students who cannot pay.</p>
+          <p>Membership is free, and always will be. Donations, Noholi Books and volunteers fund new acquisitions and the children's corner.</p>
         </div>
       </section>
 
       <section className="container-page mt-24">
         <div className="bg-secondary px-8 py-16 text-center md:py-20">
           <h2 className="text-4xl md:text-6xl">Come and read with us.</h2>
-          <p className="mx-auto mt-4 max-w-md text-muted-foreground">Membership from ৳300 a month. Student cards free on request.</p>
+          <p className="mx-auto mt-4 max-w-md text-muted-foreground">Membership is free. Bring your NID and you're in.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button size="lg" variant="accent" asChild><Link to="/join">Become a Member</Link></Button>
             <Button size="lg" variant="outline" asChild><Link to="/contact">Visit the library</Link></Button>

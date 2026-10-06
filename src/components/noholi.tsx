@@ -62,9 +62,9 @@ export function Availability({ book, className }: { book: Book; className?: stri
   const { t } = useApp();
   const a = availability(book);
   return (
-    <span className={cn("inline-flex items-center gap-1.5 text-xs font-medium", a === "available" ? "text-success" : a === "limited" ? "text-warning" : "text-muted-foreground", className)}>
-      <span className={cn("h-1.5 w-1.5 rounded-full", a === "available" ? "bg-success" : a === "limited" ? "bg-warning" : "bg-muted-foreground")} />
-      {a === "available" ? `${t("available")} · ${book.availableCopies}/${book.totalCopies}` : t(a)}
+    <span className={cn("inline-flex items-center gap-1.5 text-xs font-medium", a === "unavailable" ? "text-muted-foreground" : "text-success", className)}>
+      <span className={cn("h-1.5 w-1.5 rounded-full", a === "available" ? "bg-success" : a === "limited" ? "border border-success" : "border border-muted-foreground")} />
+      {a === "unavailable" ? t(a) : `${t(a)} · ${book.availableCopies}/${book.totalCopies}`}
     </span>
   );
 }
@@ -158,3 +158,24 @@ export function Empty({ title, body, action }: { title: string; body: string; ac
 
 export const fmtDate = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 export const taka = (n: number) => `৳${n.toLocaleString("en-IN")}`;
+
+const statusTone: Record<string, string> = {
+  "Pending Review": "pending", Submitted: "pending", "Under Review": "pending", Considering: "pending", Draft: "muted",
+  Approved: "ok", "Ready for Pickup": "ok", Active: "ok", Published: "ok", Acquired: "ok", Returned: "muted",
+  Overdue: "bad", Rejected: "bad", Lost: "bad", Cancelled: "muted", "Not Planned": "muted", Due: "bad", Cleared: "muted",
+};
+
+/** Subtle status label: text + shape, never colour alone. */
+export function StatusBadge({ status, className }: { status: string; className?: string }) {
+  const tone = statusTone[status] ?? "muted";
+  return (
+    <span className={cn("inline-flex items-center gap-1.5 whitespace-nowrap text-xs font-medium", tone === "ok" ? "text-success" : tone === "bad" ? "text-destructive" : tone === "pending" ? "text-foreground" : "text-muted-foreground", className)}>
+      <span className={cn("h-1.5 w-1.5 rounded-full", tone === "ok" ? "bg-success" : tone === "bad" ? "bg-destructive" : tone === "pending" ? "border border-foreground" : "bg-muted-foreground/50")} />
+      {status}
+    </span>
+  );
+}
+
+export function Initials({ name, className }: { name: string; className?: string }) {
+  return <span className={cn("grid shrink-0 place-items-center rounded-full bg-foreground font-display text-background", className)} aria-hidden>{name.trim().charAt(0).toUpperCase() || "?"}</span>;
+}

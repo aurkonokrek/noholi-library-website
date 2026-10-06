@@ -15,11 +15,15 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountBorrowedRouteImport } from './routes/account.borrowed'
+import { Route as AccountContributeRouteImport } from './routes/account.contribute'
+import { Route as AccountContributionsRouteImport } from './routes/account.contributions'
 import { Route as AccountFinesRouteImport } from './routes/account.fines'
 import { Route as AccountProfileRouteImport } from './routes/account.profile'
-import { Route as AccountReservationsRouteImport } from './routes/account.reservations'
+import { Route as AccountRecommendRouteImport } from './routes/account.recommend'
+import { Route as AccountRequestsRouteImport } from './routes/account.requests'
 import { Route as AccountSettingsRouteImport } from './routes/account.settings'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -34,6 +38,7 @@ import { Route as WriteupsIndexRouteImport } from './routes/writeups.index'
 import { Route as WriteupsBlogsRouteImport } from './routes/writeups.blogs'
 import { Route as WriteupsCreativeRouteImport } from './routes/writeups.creative'
 import { Route as WriteupsReviewsRouteImport } from './routes/writeups.reviews'
+import { Route as AccountBorrowIdRouteImport } from './routes/account.borrow.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -65,6 +70,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AccountIndexRoute = AccountIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -73,6 +83,16 @@ const AccountIndexRoute = AccountIndexRouteImport.update({
 const AccountBorrowedRoute = AccountBorrowedRouteImport.update({
   id: '/borrowed',
   path: '/borrowed',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountContributeRoute = AccountContributeRouteImport.update({
+  id: '/contribute',
+  path: '/contribute',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountContributionsRoute = AccountContributionsRouteImport.update({
+  id: '/contributions',
+  path: '/contributions',
   getParentRoute: () => AccountRoute,
 } as any)
 const AccountFinesRoute = AccountFinesRouteImport.update({
@@ -85,9 +105,14 @@ const AccountProfileRoute = AccountProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AccountRoute,
 } as any)
-const AccountReservationsRoute = AccountReservationsRouteImport.update({
-  id: '/reservations',
-  path: '/reservations',
+const AccountRecommendRoute = AccountRecommendRouteImport.update({
+  id: '/recommend',
+  path: '/recommend',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountRequestsRoute = AccountRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
   getParentRoute: () => AccountRoute,
 } as any)
 const AccountSettingsRoute = AccountSettingsRouteImport.update({
@@ -160,6 +185,11 @@ const WriteupsReviewsRoute = WriteupsReviewsRouteImport.update({
   path: '/writeups/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountBorrowIdRoute = AccountBorrowIdRouteImport.update({
+  id: '/borrow/$id',
+  path: '/borrow/$id',
+  getParentRoute: () => AccountRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -168,10 +198,14 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
+  '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/contribute': typeof AccountContributeRoute
+  '/account/contributions': typeof AccountContributionsRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
-  '/account/reservations': typeof AccountReservationsRoute
+  '/account/recommend': typeof AccountRecommendRoute
+  '/account/requests': typeof AccountRequestsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -187,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/writeups/reviews': typeof WriteupsReviewsRoute
   '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
+  '/account/borrow/$id': typeof AccountBorrowIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -194,10 +229,14 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
+  '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/contribute': typeof AccountContributeRoute
+  '/account/contributions': typeof AccountContributionsRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
-  '/account/reservations': typeof AccountReservationsRoute
+  '/account/recommend': typeof AccountRecommendRoute
+  '/account/requests': typeof AccountRequestsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -213,6 +252,7 @@ export interface FileRoutesByTo {
   '/writeups/reviews': typeof WriteupsReviewsRoute
   '/account': typeof AccountIndexRoute
   '/writeups': typeof WriteupsIndexRoute
+  '/account/borrow/$id': typeof AccountBorrowIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -222,10 +262,14 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
+  '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/contribute': typeof AccountContributeRoute
+  '/account/contributions': typeof AccountContributionsRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
-  '/account/reservations': typeof AccountReservationsRoute
+  '/account/recommend': typeof AccountRecommendRoute
+  '/account/requests': typeof AccountRequestsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -241,6 +285,7 @@ export interface FileRoutesById {
   '/writeups/reviews': typeof WriteupsReviewsRoute
   '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
+  '/account/borrow/$id': typeof AccountBorrowIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,10 +296,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/join'
     | '/login'
+    | '/search'
     | '/account/borrowed'
+    | '/account/contribute'
+    | '/account/contributions'
     | '/account/fines'
     | '/account/profile'
-    | '/account/reservations'
+    | '/account/recommend'
+    | '/account/requests'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -270,6 +319,7 @@ export interface FileRouteTypes {
     | '/writeups/reviews'
     | '/account/'
     | '/writeups/'
+    | '/account/borrow/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -277,10 +327,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/join'
     | '/login'
+    | '/search'
     | '/account/borrowed'
+    | '/account/contribute'
+    | '/account/contributions'
     | '/account/fines'
     | '/account/profile'
-    | '/account/reservations'
+    | '/account/recommend'
+    | '/account/requests'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -296,6 +350,7 @@ export interface FileRouteTypes {
     | '/writeups/reviews'
     | '/account'
     | '/writeups'
+    | '/account/borrow/$id'
   id:
     | '__root__'
     | '/'
@@ -304,10 +359,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/join'
     | '/login'
+    | '/search'
     | '/account/borrowed'
+    | '/account/contribute'
+    | '/account/contributions'
     | '/account/fines'
     | '/account/profile'
-    | '/account/reservations'
+    | '/account/recommend'
+    | '/account/requests'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -323,6 +382,7 @@ export interface FileRouteTypes {
     | '/writeups/reviews'
     | '/account/'
     | '/writeups/'
+    | '/account/borrow/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -332,6 +392,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   JoinRoute: typeof JoinRoute
   LoginRoute: typeof LoginRoute
+  SearchRoute: typeof SearchRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   BookIdRoute: typeof BookIdRoute
   LibraryAudioRoute: typeof LibraryAudioRoute
@@ -390,6 +451,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/account/': {
       id: '/account/'
       path: '/'
@@ -402,6 +470,20 @@ declare module '@tanstack/react-router' {
       path: '/borrowed'
       fullPath: '/account/borrowed'
       preLoaderRoute: typeof AccountBorrowedRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/contribute': {
+      id: '/account/contribute'
+      path: '/contribute'
+      fullPath: '/account/contribute'
+      preLoaderRoute: typeof AccountContributeRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/contributions': {
+      id: '/account/contributions'
+      path: '/contributions'
+      fullPath: '/account/contributions'
+      preLoaderRoute: typeof AccountContributionsRouteImport
       parentRoute: typeof AccountRoute
     }
     '/account/fines': {
@@ -418,11 +500,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountProfileRouteImport
       parentRoute: typeof AccountRoute
     }
-    '/account/reservations': {
-      id: '/account/reservations'
-      path: '/reservations'
-      fullPath: '/account/reservations'
-      preLoaderRoute: typeof AccountReservationsRouteImport
+    '/account/recommend': {
+      id: '/account/recommend'
+      path: '/recommend'
+      fullPath: '/account/recommend'
+      preLoaderRoute: typeof AccountRecommendRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/requests': {
+      id: '/account/requests'
+      path: '/requests'
+      fullPath: '/account/requests'
+      preLoaderRoute: typeof AccountRequestsRouteImport
       parentRoute: typeof AccountRoute
     }
     '/account/settings': {
@@ -523,27 +612,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WriteupsReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/borrow/$id': {
+      id: '/account/borrow/$id'
+      path: '/borrow/$id'
+      fullPath: '/account/borrow/$id'
+      preLoaderRoute: typeof AccountBorrowIdRouteImport
+      parentRoute: typeof AccountRoute
+    }
   }
 }
 
 interface AccountRouteChildren {
   AccountBorrowedRoute: typeof AccountBorrowedRoute
+  AccountContributeRoute: typeof AccountContributeRoute
+  AccountContributionsRoute: typeof AccountContributionsRoute
   AccountFinesRoute: typeof AccountFinesRoute
   AccountProfileRoute: typeof AccountProfileRoute
-  AccountReservationsRoute: typeof AccountReservationsRoute
+  AccountRecommendRoute: typeof AccountRecommendRoute
+  AccountRequestsRoute: typeof AccountRequestsRoute
   AccountSettingsRoute: typeof AccountSettingsRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
   AccountIndexRoute: typeof AccountIndexRoute
+  AccountBorrowIdRoute: typeof AccountBorrowIdRoute
 }
 
 const AccountRouteChildren: AccountRouteChildren = {
   AccountBorrowedRoute: AccountBorrowedRoute,
+  AccountContributeRoute: AccountContributeRoute,
+  AccountContributionsRoute: AccountContributionsRoute,
   AccountFinesRoute: AccountFinesRoute,
   AccountProfileRoute: AccountProfileRoute,
-  AccountReservationsRoute: AccountReservationsRoute,
+  AccountRecommendRoute: AccountRecommendRoute,
+  AccountRequestsRoute: AccountRequestsRoute,
   AccountSettingsRoute: AccountSettingsRoute,
   AccountWishlistRoute: AccountWishlistRoute,
   AccountIndexRoute: AccountIndexRoute,
+  AccountBorrowIdRoute: AccountBorrowIdRoute,
 }
 
 const AccountRouteWithChildren =
@@ -556,6 +660,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   JoinRoute: JoinRoute,
   LoginRoute: LoginRoute,
+  SearchRoute: SearchRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   BookIdRoute: BookIdRoute,
   LibraryAudioRoute: LibraryAudioRoute,

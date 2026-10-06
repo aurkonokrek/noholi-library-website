@@ -35,7 +35,7 @@ function Profile() {
           <div className="mt-4 font-display text-2xl">{u.name}</div>
           <div className="text-sm text-muted-foreground">{user.memberId}</div>
           <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border pt-4 text-sm">
-            <div><div className="text-xs text-muted-foreground">Plan</div>{user.plan}</div>
+            <div><div className="text-xs text-muted-foreground">Membership</div>{user.plan}</div>
             <div><div className="text-xs text-muted-foreground">Status</div><span className="text-success">● Active</span></div>
             <div><div className="text-xs text-muted-foreground">Member since</div>{fmtDate(user.since)}</div>
             <div><div className="text-xs text-muted-foreground">Valid until</div>{fmtDate(user.expires)}</div>
