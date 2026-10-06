@@ -96,7 +96,7 @@ export function SearchBox({ groups = groupOrder, placeholder = "Search books, au
 
 export function SearchResultRow({ it }: { it: SearchItem }) {
   return (
-    <Link {...(it.link as never)} className="grid grid-cols-[40px_minmax(0,1fr)] items-center gap-4 py-4 hover:text-accent">
+    <Link {...(it.link as { to: "/search" })} className="grid grid-cols-[40px_minmax(0,1fr)] items-center gap-4 py-4 hover:text-accent">
       {it.tone !== undefined ? <Cover title="" author="" tone={it.tone} size="sm" className="w-10" /> : <span className="grid h-10 w-10 place-items-center rounded-full border border-border font-display">{it.title.charAt(0)}</span>}
       <span className="min-w-0"><span className="block truncate font-display text-xl">{it.title}</span><span className="block truncate text-sm text-muted-foreground">{it.sub}</span></span>
     </Link>

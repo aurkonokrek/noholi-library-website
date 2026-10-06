@@ -56,7 +56,7 @@ function Borrow() {
   const [notes, setNotes] = useState("");
   const name = lang === "bn" ? user.nameBn : user.name;
 
-  const errors: Record<string, string> = {};
+  const errors: Partial<Record<"copy" | "nid" | "nidDoc" | "gPhoto" | "name" | "relation" | "phone" | "gnid" | "gNid" | "present" | "permanent" | "agree" | "due", string>> = {};
   if (step === 0 && !copy) errors.copy = "Choose an available copy.";
   if (step === 1) { if (nid.replace(/\s/g, "").length < 10) errors.nid = "Enter your 10, 13 or 17 digit NID number."; if (!nidDoc) errors.nidDoc = "Add a photo of your NID card."; }
   if (step === 2) {
