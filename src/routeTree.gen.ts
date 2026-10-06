@@ -19,7 +19,6 @@ import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountBorrowedRouteImport } from './routes/account.borrowed'
 import { Route as AccountFinesRouteImport } from './routes/account.fines'
 import { Route as AccountProfileRouteImport } from './routes/account.profile'
-import { Route as AccountReservationsRouteImport } from './routes/account.reservations'
 import { Route as AccountSettingsRouteImport } from './routes/account.settings'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -83,11 +82,6 @@ const AccountFinesRoute = AccountFinesRouteImport.update({
 const AccountProfileRoute = AccountProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => AccountRoute,
-} as any)
-const AccountReservationsRoute = AccountReservationsRouteImport.update({
-  id: '/reservations',
-  path: '/reservations',
   getParentRoute: () => AccountRoute,
 } as any)
 const AccountSettingsRoute = AccountSettingsRouteImport.update({
@@ -171,7 +165,6 @@ export interface FileRoutesByFullPath {
   '/account/borrowed': typeof AccountBorrowedRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
-  '/account/reservations': typeof AccountReservationsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -197,7 +190,6 @@ export interface FileRoutesByTo {
   '/account/borrowed': typeof AccountBorrowedRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
-  '/account/reservations': typeof AccountReservationsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -225,7 +217,6 @@ export interface FileRoutesById {
   '/account/borrowed': typeof AccountBorrowedRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
-  '/account/reservations': typeof AccountReservationsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -254,7 +245,6 @@ export interface FileRouteTypes {
     | '/account/borrowed'
     | '/account/fines'
     | '/account/profile'
-    | '/account/reservations'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -280,7 +270,6 @@ export interface FileRouteTypes {
     | '/account/borrowed'
     | '/account/fines'
     | '/account/profile'
-    | '/account/reservations'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -307,7 +296,6 @@ export interface FileRouteTypes {
     | '/account/borrowed'
     | '/account/fines'
     | '/account/profile'
-    | '/account/reservations'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -418,13 +406,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountProfileRouteImport
       parentRoute: typeof AccountRoute
     }
-    '/account/reservations': {
-      id: '/account/reservations'
-      path: '/reservations'
-      fullPath: '/account/reservations'
-      preLoaderRoute: typeof AccountReservationsRouteImport
-      parentRoute: typeof AccountRoute
-    }
     '/account/settings': {
       id: '/account/settings'
       path: '/settings'
@@ -530,7 +511,6 @@ interface AccountRouteChildren {
   AccountBorrowedRoute: typeof AccountBorrowedRoute
   AccountFinesRoute: typeof AccountFinesRoute
   AccountProfileRoute: typeof AccountProfileRoute
-  AccountReservationsRoute: typeof AccountReservationsRoute
   AccountSettingsRoute: typeof AccountSettingsRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
   AccountIndexRoute: typeof AccountIndexRoute
@@ -540,7 +520,6 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountBorrowedRoute: AccountBorrowedRoute,
   AccountFinesRoute: AccountFinesRoute,
   AccountProfileRoute: AccountProfileRoute,
-  AccountReservationsRoute: AccountReservationsRoute,
   AccountSettingsRoute: AccountSettingsRoute,
   AccountWishlistRoute: AccountWishlistRoute,
   AccountIndexRoute: AccountIndexRoute,
