@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Newsreader", "Noto Serif Bengali", Georgia, serif;
-  --font-sans: "Instrument Sans", "Hind Siliguri", system-ui, sans-serif;
-  --font-bangla: "Noto Serif Bengali", "Hind Siliguri", serif;
+  --font-display: Georgia, "Noto Serif Bengali", serif;
+  --font-sans: "Open Sans", "Noto Sans Bengali", sans-serif;
+  --font-bangla: Georgia, "Noto Serif Bengali", serif;
 
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
