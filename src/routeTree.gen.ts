@@ -18,8 +18,12 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountBorrowedRouteImport } from './routes/account.borrowed'
+import { Route as AccountContributeRouteImport } from './routes/account.contribute'
+import { Route as AccountContributionsRouteImport } from './routes/account.contributions'
 import { Route as AccountFinesRouteImport } from './routes/account.fines'
 import { Route as AccountProfileRouteImport } from './routes/account.profile'
+import { Route as AccountRecommendRouteImport } from './routes/account.recommend'
+import { Route as AccountRequestsRouteImport } from './routes/account.requests'
 import { Route as AccountSettingsRouteImport } from './routes/account.settings'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -81,6 +85,16 @@ const AccountBorrowedRoute = AccountBorrowedRouteImport.update({
   path: '/borrowed',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountContributeRoute = AccountContributeRouteImport.update({
+  id: '/contribute',
+  path: '/contribute',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountContributionsRoute = AccountContributionsRouteImport.update({
+  id: '/contributions',
+  path: '/contributions',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountFinesRoute = AccountFinesRouteImport.update({
   id: '/fines',
   path: '/fines',
@@ -89,6 +103,16 @@ const AccountFinesRoute = AccountFinesRouteImport.update({
 const AccountProfileRoute = AccountProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountRecommendRoute = AccountRecommendRouteImport.update({
+  id: '/recommend',
+  path: '/recommend',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountRequestsRoute = AccountRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
   getParentRoute: () => AccountRoute,
 } as any)
 const AccountSettingsRoute = AccountSettingsRouteImport.update({
@@ -176,8 +200,12 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/contribute': typeof AccountContributeRoute
+  '/account/contributions': typeof AccountContributionsRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
+  '/account/recommend': typeof AccountRecommendRoute
+  '/account/requests': typeof AccountRequestsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -203,8 +231,12 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/contribute': typeof AccountContributeRoute
+  '/account/contributions': typeof AccountContributionsRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
+  '/account/recommend': typeof AccountRecommendRoute
+  '/account/requests': typeof AccountRequestsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -232,8 +264,12 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/account/borrowed': typeof AccountBorrowedRoute
+  '/account/contribute': typeof AccountContributeRoute
+  '/account/contributions': typeof AccountContributionsRoute
   '/account/fines': typeof AccountFinesRoute
   '/account/profile': typeof AccountProfileRoute
+  '/account/recommend': typeof AccountRecommendRoute
+  '/account/requests': typeof AccountRequestsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -262,8 +298,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/search'
     | '/account/borrowed'
+    | '/account/contribute'
+    | '/account/contributions'
     | '/account/fines'
     | '/account/profile'
+    | '/account/recommend'
+    | '/account/requests'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -289,8 +329,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/search'
     | '/account/borrowed'
+    | '/account/contribute'
+    | '/account/contributions'
     | '/account/fines'
     | '/account/profile'
+    | '/account/recommend'
+    | '/account/requests'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -317,8 +361,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/search'
     | '/account/borrowed'
+    | '/account/contribute'
+    | '/account/contributions'
     | '/account/fines'
     | '/account/profile'
+    | '/account/recommend'
+    | '/account/requests'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -424,6 +472,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountBorrowedRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/contribute': {
+      id: '/account/contribute'
+      path: '/contribute'
+      fullPath: '/account/contribute'
+      preLoaderRoute: typeof AccountContributeRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/contributions': {
+      id: '/account/contributions'
+      path: '/contributions'
+      fullPath: '/account/contributions'
+      preLoaderRoute: typeof AccountContributionsRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/fines': {
       id: '/account/fines'
       path: '/fines'
@@ -436,6 +498,20 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/account/profile'
       preLoaderRoute: typeof AccountProfileRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/recommend': {
+      id: '/account/recommend'
+      path: '/recommend'
+      fullPath: '/account/recommend'
+      preLoaderRoute: typeof AccountRecommendRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/requests': {
+      id: '/account/requests'
+      path: '/requests'
+      fullPath: '/account/requests'
+      preLoaderRoute: typeof AccountRequestsRouteImport
       parentRoute: typeof AccountRoute
     }
     '/account/settings': {
@@ -548,8 +624,12 @@ declare module '@tanstack/react-router' {
 
 interface AccountRouteChildren {
   AccountBorrowedRoute: typeof AccountBorrowedRoute
+  AccountContributeRoute: typeof AccountContributeRoute
+  AccountContributionsRoute: typeof AccountContributionsRoute
   AccountFinesRoute: typeof AccountFinesRoute
   AccountProfileRoute: typeof AccountProfileRoute
+  AccountRecommendRoute: typeof AccountRecommendRoute
+  AccountRequestsRoute: typeof AccountRequestsRoute
   AccountSettingsRoute: typeof AccountSettingsRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
   AccountIndexRoute: typeof AccountIndexRoute
@@ -558,8 +638,12 @@ interface AccountRouteChildren {
 
 const AccountRouteChildren: AccountRouteChildren = {
   AccountBorrowedRoute: AccountBorrowedRoute,
+  AccountContributeRoute: AccountContributeRoute,
+  AccountContributionsRoute: AccountContributionsRoute,
   AccountFinesRoute: AccountFinesRoute,
   AccountProfileRoute: AccountProfileRoute,
+  AccountRecommendRoute: AccountRecommendRoute,
+  AccountRequestsRoute: AccountRequestsRoute,
   AccountSettingsRoute: AccountSettingsRoute,
   AccountWishlistRoute: AccountWishlistRoute,
   AccountIndexRoute: AccountIndexRoute,

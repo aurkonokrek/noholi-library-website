@@ -23,18 +23,13 @@ export const Route = createFileRoute("/join")({
 });
 
 const steps = ["Personal", "Contact", "Account", "Review"];
-const plans = [
-  { id: "monthly", name: "Monthly", price: "৳300 / month", note: "Cancel any time" },
-  { id: "annual", name: "Annual Patron", price: "৳3,000 / year", note: "Two months free" },
-  { id: "student", name: "Student", price: "Free", note: "With valid student ID" },
-];
 
 function Join() {
   const { login } = useApp();
   const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
-  const [d, setD] = useState({ name: "", dob: "", gender: "", email: "", phone: "", address: "", plan: "annual", pw: "", pw2: "", terms: false });
+  const [d, setD] = useState({ name: "", dob: "", gender: "", email: "", phone: "", address: "", pw: "", pw2: "", terms: false });
   const [err, setErr] = useState("");
   const set = (k: keyof typeof d) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setD({ ...d, [k]: e.target.value });
 
@@ -62,7 +57,7 @@ function Join() {
           <div className="mx-auto mt-10 max-w-sm border border-foreground p-6 text-left">
             <div className="flex items-start justify-between"><Logo className="h-7" /><span className="eyebrow">Patron card</span></div>
             <div className="mt-8 font-display text-2xl">{d.name}</div>
-            <div className="mt-1 flex justify-between text-sm text-muted-foreground"><span>NH-00{Math.floor(200 + Math.random() * 700)}</span><span>{plans.find((p) => p.id === d.plan)?.name}</span></div>
+            <div className="mt-1 flex justify-between text-sm text-muted-foreground"><span>NH-00{Math.floor(200 + Math.random() * 700)}</span><span>Free membership</span></div>
             <div className="mt-3 inline-flex items-center gap-1.5 text-xs text-warning"><span className="h-1.5 w-1.5 rounded-full bg-warning" /> Pending verification</div>
           </div>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
@@ -75,7 +70,7 @@ function Join() {
           <aside className="lg:col-span-4">
             <div className="eyebrow mb-4">Membership</div>
             <h1 className="text-5xl leading-[1]">Become part of Noholi.</h1>
-            <p className="mt-4 text-muted-foreground">Four short steps. It takes about three minutes.</p>
+            <p className="mt-4 text-muted-foreground">Membership is free. Four short steps — about three minutes, no payment.</p>
             <ol className="mt-10 space-y-1" aria-label="Progress">
               {steps.map((s, i) => (
                 <li key={s} className={cn("flex items-center gap-4 py-2", i > step && "text-muted-foreground")}>
@@ -100,22 +95,17 @@ function Join() {
                 <div className="space-y-2 sm:col-span-2"><Label htmlFor="ad">Address</Label><Textarea id="ad" value={d.address} onChange={set("address")} placeholder="House, road, area, city" rows={3} /></div>
               </>}
               {step === 2 && <>
-                <fieldset className="sm:col-span-2"><legend className="mb-3 text-sm font-medium">Membership plan</legend>
-                  <div className="grid gap-3 sm:grid-cols-3">{plans.map((p) => (
-                    <button type="button" key={p.id} onClick={() => setD({ ...d, plan: p.id })} aria-pressed={d.plan === p.id} className={cn("border p-4 text-left transition-colors", d.plan === p.id ? "border-foreground bg-muted" : "border-border hover:border-foreground/40")}>
-                      <div className="font-display text-lg">{p.name}</div><div className="mt-1 text-sm">{p.price}</div><div className="mt-1 text-xs text-muted-foreground">{p.note}</div>
-                    </button>))}</div>
-                </fieldset>
+                <div className="border-y border-foreground py-4 sm:col-span-2"><div className="font-display text-xl">Membership is free.</div><div className="mt-1 text-sm text-muted-foreground">No membership fee and no payment — now or later. Borrowing is free too.</div></div>
                 <div className="space-y-2"><Label htmlFor="pw">Password</Label><Input id="pw" type="password" value={d.pw} onChange={set("pw")} className="h-12" /></div>
                 <div className="space-y-2"><Label htmlFor="pw2">Confirm password</Label><Input id="pw2" type="password" value={d.pw2} onChange={set("pw2")} className="h-12" /></div>
               </>}
               {step === 3 && <div className="sm:col-span-2">
                 <dl className="divide-y divide-border border-y border-border">
-                  {[["Name", d.name], ["Date of birth", d.dob || "—"], ["Email", d.email], ["Phone", d.phone], ["Address", d.address || "—"], ["Plan", plans.find((p) => p.id === d.plan)?.name + " · " + plans.find((p) => p.id === d.plan)?.price]].map(([k, v]) => (
+                  {[["Name", d.name], ["Date of birth", d.dob || "—"], ["Email", d.email], ["Phone", d.phone], ["Address", d.address || "—"], ["Membership", "Free"]].map(([k, v]) => (
                     <div key={k} className="grid grid-cols-[140px_minmax(0,1fr)] py-3 text-sm"><dt className="text-muted-foreground">{k}</dt><dd>{v}</dd></div>
                   ))}
                 </dl>
-                <label className="mt-6 flex items-start gap-3 text-sm"><Checkbox checked={d.terms} onCheckedChange={(c) => setD({ ...d, terms: !!c })} className="mt-0.5" /> I agree to the Noholi membership terms and borrowing rules, including late fees of ৳10 per day.</label>
+                <label className="mt-6 flex items-start gap-3 text-sm"><Checkbox checked={d.terms} onCheckedChange={(c) => setD({ ...d, terms: !!c })} className="mt-0.5" /> I agree to the Noholi membership terms and borrowing rules, including fines for late returns according to library policy.</label>
               </div>}
             </div>
             {err && <p className="mt-5 text-sm text-destructive" role="alert">{err}</p>}

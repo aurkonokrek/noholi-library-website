@@ -1,16 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Availability, BookCover, Cover, Empty } from "@/components/noholi";
 import { audiobooks, getBook } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/account/wishlist")({ component: Wishlist });
+const tabs = ["All", "Books", "E-Books", "Audio Books"] as const;
+export const Route = createFileRoute("/account/wishlist")({ validateSearch: z.object({ type: z.enum(tabs).optional() }), component: Wishlist });
 
 function Wishlist() {
   const { wishlist, toggleWish, play } = useApp();
-  const [tab, setTab] = useState("All");
+  const { type: tab = "All" } = Route.useSearch();
   const items = wishlist.map((id) => {
     const a = audiobooks.find((x) => x.id === id);
     if (a) return { id, type: "Audio Books" as const, a };
@@ -21,14 +22,15 @@ function Wishlist() {
 
   return (
     <>
-      <h1 className="mb-8 text-4xl">Wishlist</h1>
+      <h1 className="text-4xl">Wishlist</h1>
+      <p className="mb-8 mt-2 text-sm text-muted-foreground">Your private reading list. Want Noholi to buy a book? <Link to="/account/recommend" className="underline underline-offset-2">Recommend it instead</Link>.</p>
       <div className="mb-8 flex flex-wrap gap-2">
-        {["All", "Books", "E-Books", "Audio Books"].map((t) => (
-          <button key={t} onClick={() => setTab(t)} aria-pressed={tab === t} className={cn("h-8 rounded-full border px-4 text-sm", tab === t ? "border-foreground bg-foreground text-background" : "border-border")}>{t} <span className="opacity-60">{t === "All" ? items.length : items.filter((i) => i.type === t).length}</span></button>
+        {tabs.map((t) => (
+          <Link key={t} to="/account/wishlist" search={t === "All" ? {} : { type: t }} aria-pressed={tab === t} className={cn("inline-flex h-8 items-center gap-1 rounded-full border px-4 text-sm", tab === t ? "border-foreground bg-foreground text-background" : "border-border")}>{t} <span className="opacity-60">{t === "All" ? items.length : items.filter((i) => i.type === t).length}</span></button>
         ))}
       </div>
       {list.length === 0 ? (
-        <Empty title="Your wishlist is empty" body="Tap the heart on any book, e-book or audio book to save it here." action={<Button asChild><Link to="/library/books">Explore the library</Link></Button>} />
+        <Empty title="No books saved yet." body="Tap the heart on any book, e-book or audio book to save it here." action={<Button asChild><Link to="/library/books">Explore the library</Link></Button>} />
       ) : (
         <ul className="divide-y divide-border border-y border-border">
           {list.map((i) => (
@@ -43,7 +45,7 @@ function Wishlist() {
               <div className="col-start-2 flex items-center gap-2 sm:col-start-auto">
                 {i.type === "Audio Books" && <Button size="sm" onClick={() => play(i.id)}>Listen</Button>}
                 {i.type === "E-Books" && <Button size="sm" asChild><Link to="/read/$id" params={{ id: i.id }}>Read</Link></Button>}
-                {i.type === "Books" && <Button size="sm" asChild><Link to="/book/$id" params={{ id: i.id }}>Reserve</Link></Button>}
+                {i.type === "Books" && <Button size="sm" asChild><Link to="/book/$id" params={{ id: i.id }}>Borrow</Link></Button>}
                 {i.type !== "Audio Books" && <Button size="sm" variant="ghost" asChild><Link to="/book/$id" params={{ id: i.id }}>View</Link></Button>}
                 <Button size="sm" variant="ghost" className="text-muted-foreground" onClick={() => toggleWish(i.id)}>Remove</Button>
               </div>

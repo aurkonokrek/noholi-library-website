@@ -7,7 +7,7 @@ export const Route = createFileRoute("/account")({
   head: () => ({
     meta: [
       { title: "My Noholi — Patron account" },
-      { name: "description", content: "Your Noholi dashboard, loans, reservations, wishlist and settings." },
+      { name: "description", content: "Your Noholi dashboard, loans, borrow requests, wishlist and settings." },
       { property: "og:title", content: "My Noholi" },
       { property: "og:description", content: "Patron account at Noholi Library." },
     ],
@@ -16,8 +16,8 @@ export const Route = createFileRoute("/account")({
 });
 
 const tabs = [
-  ["/account", "Dashboard"], ["/account/borrowed", "Borrowed"], ["/account/reservations", "Reservations"],
-  ["/account/wishlist", "Wishlist"], ["/account/fines", "Fines"], ["/account/profile", "Profile"], ["/account/settings", "Settings"],
+  ["/account", "Dashboard"], ["/account/borrowed", "Borrowed"], ["/account/requests", "Borrow requests"], ["/account/fines", "Fines"],
+  ["/account/wishlist", "Wishlist"], ["/account/contributions", "Contributions"], ["/account/recommend", "Recommend a Book"], ["/account/profile", "Profile"], ["/account/settings", "Settings"],
 ] as const;
 
 function AccountLayout() {
