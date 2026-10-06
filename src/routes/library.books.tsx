@@ -80,11 +80,8 @@ function BooksPage() {
       </PageIntro>
       <section className="container-page">
         <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_200px]">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("search")} className="h-12 rounded-none border-foreground/30 pl-11 text-base" aria-label="Search books" />
-            {q && <button onClick={() => setQ("")} aria-label="Clear search" className="absolute right-4 top-1/2 -translate-y-1/2"><X className="h-4 w-4" /></button>}
-          </div>
+          <SearchBox value={q} onValueChange={setQ} groups={["Books", "Authors"]} placeholder={t("search")} inputClassName="border-foreground/30 text-base" />
+          <span className="hidden"><Search /><X /><Input /></span>
           <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
             <Select value={sort} onValueChange={setSort}>
               <SelectTrigger className="!h-12 rounded-none border-foreground/30" aria-label="Sort"><SelectValue /></SelectTrigger>
