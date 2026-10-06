@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Pause, Play, Search } from "lucide-react";
@@ -58,7 +59,7 @@ function AudioPage() {
               <li key={a.id} className={cn("grid grid-cols-[56px_minmax(0,1fr)_auto] items-center gap-4 border-b border-border py-5 md:grid-cols-[32px_64px_minmax(0,1.3fr)_minmax(0,1fr)_120px_auto] md:gap-6", isPlaying(a.id) && "bg-muted/60")}>
                 <span className="hidden font-display text-muted-foreground md:block">{String(i + 1).padStart(2, "0")}</span>
                 <Cover title={a.titleBn} author="" tone={a.tone} size="sm" />
-                <div className="min-w-0"><div className="truncate font-display text-xl">{a.titleEn}</div><div className="truncate text-sm text-muted-foreground">{a.authorEn} · {a.language}</div><div className="mt-1 text-xs text-muted-foreground md:hidden">{fmtDuration(a.duration)}</div></div>
+                <div className="min-w-0"><Link to="/audio/$id" params={{ id: a.id }} className="block truncate font-display text-xl hover:text-accent">{a.titleEn}</Link><div className="truncate text-sm text-muted-foreground">{a.authorEn} · {a.language}</div><div className="mt-1 text-xs text-muted-foreground md:hidden">{fmtDuration(a.duration)}</div></div>
                 <p className="hidden text-sm text-muted-foreground md:line-clamp-2">{a.description}</p>
                 <span className="hidden text-sm tabular-nums text-muted-foreground md:block">{fmtDuration(a.duration)}</span>
                 <div className="flex items-center gap-3">
