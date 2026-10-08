@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Heart, Menu, Moon, Search, Sun, User } from "lucide-react";
+import { ChevronDown, Menu, Moon, Search, Sun, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -83,11 +83,10 @@ function WishlistMenu() {
   const { t, wishlist } = useApp();
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger className="relative inline-flex h-9 w-9 items-center justify-center rounded-full outline-none hover:bg-accent/10" aria-label={t("wishlist")}>
-        <Heart className="h-4 w-4" />{wishlist.length > 0 && <span className="absolute right-0.5 top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[0.6rem] text-accent-foreground">{wishlist.length}</span>}
+      <DropdownMenuTrigger className={cn(navCls, "inline-flex items-center gap-1 px-2 outline-none")}>
+        {t("wishlist")}{wishlist.length > 0 && <span className="text-xs font-normal tabular-nums text-muted-foreground">({wishlist.length})</span>} <ChevronDown className="h-3.5 w-3.5 opacity-60" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52 rounded-sm p-1.5">
-        <div className="eyebrow px-3 pb-1 pt-2">{t("wishlist")}</div>
         {(["Books", "E-Books", "Audio Books"] as const).map((x) => (
           <DropdownMenuItem key={x} asChild className="cursor-pointer rounded-sm px-3 py-2 font-display text-base"><Link to="/account/wishlist" search={{ type: x }}>{x}</Link></DropdownMenuItem>
         ))}
@@ -96,6 +95,10 @@ function WishlistMenu() {
   );
 }
 
+const itemCls = "cursor-pointer rounded-sm px-3 py-1.5";
+const subCls = "cursor-pointer rounded-sm py-1.5 pl-6 pr-3 text-muted-foreground focus:text-foreground";
+const groupCls = "px-3 pb-1 pt-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground";
+
 function AccountMenu() {
   const { t, logout, lang } = useApp();
   const nav = useNavigate();
@@ -103,24 +106,41 @@ function AccountMenu() {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="inline-flex items-center gap-2 rounded-full border border-border py-1 pl-1 pr-3 text-sm outline-none hover:border-foreground/40">
         <MemberAvatar className="h-7 w-7" textClass="text-sm" />
-        <span className="hidden xl:inline">{lang === "bn" ? user.nameBn : "Aurko"}</span>
+        <span className="font-semibold">Patron Account</span>
         <ChevronDown className="h-3.5 w-3.5 opacity-60" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-64 rounded-sm p-0">
-        <div className="px-4 py-4" aria-label="Patron details">
-          <div className="font-display text-lg leading-tight">{lang === "bn" ? user.nameBn : user.name}</div>
-          <div className="mt-1 text-xs text-muted-foreground">{t("memberId")}: {user.memberId}</div>
-          <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-success"><span className="h-1.5 w-1.5 rounded-full bg-success" />{t("activePatron")}</div>
+      <DropdownMenuContent align="end" className="max-h-[calc(100vh-6rem)] w-72 overflow-y-auto rounded-sm p-0">
+        <div className="flex items-center gap-3 px-4 py-4" aria-label="Patron details">
+          <MemberAvatar className="h-11 w-11" textClass="text-lg" />
+          <div className="min-w-0">
+            <div className="truncate font-display text-lg leading-tight">{lang === "bn" ? user.nameBn : user.name}</div>
+            <div className="mt-0.5 text-xs text-muted-foreground">{t("memberId")}: {user.memberId}</div>
+            <div className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-success"><span className="h-1.5 w-1.5 rounded-full bg-success" />{t("activePatron")}</div>
+          </div>
         </div>
         <DropdownMenuSeparator className="my-0" />
         <div className="p-1.5">
-          <DropdownMenuItem asChild className="cursor-pointer px-3 py-2"><Link to="/account/profile">{t("profile")}</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild className="cursor-pointer px-3 py-2"><Link to="/account">{t("dashboard")}</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild className="cursor-pointer px-3 py-2"><Link to="/account/settings">{t("settings")}</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={cn(itemCls, "font-medium")}><Link to="/account">My Dashboard</Link></DropdownMenuItem>
         </div>
         <DropdownMenuSeparator className="my-0" />
         <div className="p-1.5">
-          <DropdownMenuItem className="cursor-pointer px-3 py-2" onSelect={() => { logout(); nav({ to: "/" }); }}>{t("logout")}</DropdownMenuItem>
+          <div className={groupCls}>My Library</div>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/borrowed">Borrowed Books</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/requests">Borrow Requests</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/fines">Overdue &amp; Fines</Link></DropdownMenuItem>
+          <div className={cn(groupCls, "mt-1")}><Link to="/account/contributions" className="hover:text-foreground">My Contributions</Link></div>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/contributions" search={{ f: "Blogs" }}>Blogs</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/contributions" search={{ f: "Creative Writings" }}>Creative Writings</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/contributions" search={{ f: "Book Reviews" }}>Book Reviews</Link></DropdownMenuItem>
+        </div>
+        <DropdownMenuSeparator className="my-0" />
+        <div className="p-1.5">
+          <DropdownMenuItem asChild className={cn(itemCls, "font-semibold text-accent focus:text-accent")}><Link to="/account/recommend">Recommend a Book</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={itemCls}><Link to="/account/settings">{t("settings")}</Link></DropdownMenuItem>
+        </div>
+        <DropdownMenuSeparator className="my-0" />
+        <div className="p-1.5">
+          <DropdownMenuItem className={itemCls} onSelect={() => { logout(); nav({ to: "/" }); }}>{t("logout")}</DropdownMenuItem>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -205,7 +225,7 @@ export function SiteHeader() {
           <span className="hidden md:inline-flex"><ThemeToggle /></span>
           {loggedIn ? (
             <>
-              <WishlistMenu />
+              <span className="hidden lg:block"><WishlistMenu /></span>
               <span className="hidden lg:block"><AccountMenu /></span>
               <Button variant="ghost" size="icon" asChild className="lg:hidden"><Link to="/account" aria-label="Account"><User /></Link></Button>
             </>
