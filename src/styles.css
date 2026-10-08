@@ -166,15 +166,15 @@
 
 /* Physical book: front-facing at rest; cursor position (--rx/--ry set in Cover) turns it to reveal page block and depth, then it settles back. */
 .book3d { container-type: inline-size; perspective: 900px; }
-.book3d-body { position: relative; height: 100%; transform-style: preserve-3d; --d: 9cqw;
+.book3d-body { position: relative; height: 100%; transform-style: preserve-3d; --d: 16cqw;
   transform: none; transition: transform 500ms cubic-bezier(.2,.7,.3,1); }
 .book3d-face { transform: translateZ(0); border-radius: 2px 5px 5px 2px !important;
   box-shadow: inset 4px 0 6px -3px rgb(0 0 0 / .35), inset -1px 0 0 rgb(255 255 255 / .12), 4px 8px 16px -10px color-mix(in oklab, var(--foreground) 40%, transparent) !important;
   transition: box-shadow 400ms ease; }
 .book3d-back { position: absolute; inset: 0; border-radius: 2px 5px 5px 2px; transform: translateZ(calc(var(--d) * -1)); filter: brightness(.55); }
 .book3d-pages { position: absolute; top: 1.5%; bottom: 1.5%; right: 1px; width: calc(var(--d) - 2px); transform-origin: right center; transform: rotateY(-90deg) translateX(1px);
-  background: linear-gradient(90deg, rgb(0 0 0 / .18), transparent 30%, transparent 70%, rgb(0 0 0 / .12)),
-    repeating-linear-gradient(90deg, oklch(0.96 0.012 85) 0 1px, oklch(0.86 0.015 85) 1px 2px); }
+  background: linear-gradient(90deg, oklch(0.9 0.01 85), transparent 70%),
+    repeating-linear-gradient(0deg, oklch(0.99 0.006 85) 0 1px, oklch(0.94 0.01 85) 1px 2px); }
 .dark .book3d-pages { filter: brightness(.82); }
 /* Spine binding crease + soft cloth sheen, adapted from the reference 3D book. */
 .book3d-bind { background:
