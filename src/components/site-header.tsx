@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Menu, Moon, Search, Sun, User } from "lucide-react";
+import { ChevronDown, Facebook, Instagram, Mail, MapPin, Menu, Moon, Phone, Search, Sun, User, Youtube } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -210,9 +210,23 @@ export function SiteHeader() {
   const { t, loggedIn } = useApp();
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/92 backdrop-blur">
-      <div className="container-page grid h-16 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-6 md:h-[72px]">
-        <Link to="/" aria-label="Noholi home"><Logo /></Link>
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
+      <div className="bg-foreground text-background">
+        <div className="container-page flex h-9 items-center justify-between gap-4 text-xs">
+          <div className="flex min-w-0 items-center gap-5">
+            <span className="hidden items-center gap-1.5 md:inline-flex"><MapPin className="h-3.5 w-3.5 opacity-70" />42 Satmasjid Road, Dhanmondi, Dhaka</span>
+            <a href="tel:+880258154420" className="inline-flex items-center gap-1.5 hover:opacity-80"><Phone className="h-3.5 w-3.5 opacity-70" />+880 2-5815 4420</a>
+            <a href="mailto:hello@noholi.org" className="hidden items-center gap-1.5 hover:opacity-80 sm:inline-flex"><Mail className="h-3.5 w-3.5 opacity-70" />hello@noholi.org</a>
+          </div>
+          <div className="flex items-center gap-3.5">
+            <a href="#" aria-label="Facebook" className="hover:opacity-80"><Facebook className="h-3.5 w-3.5" /></a>
+            <a href="#" aria-label="Instagram" className="hover:opacity-80"><Instagram className="h-3.5 w-3.5" /></a>
+            <a href="#" aria-label="YouTube" className="hover:opacity-80"><Youtube className="h-3.5 w-3.5" /></a>
+          </div>
+        </div>
+      </div>
+      <div className="container-page grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 md:h-[72px]">
+        <Link to="/" aria-label="Noholi home" className="justify-self-start"><Logo /></Link>
+        <nav className="hidden items-center justify-center gap-7 lg:flex" aria-label="Main">
           <Link to="/" className={navCls} activeOptions={{ exact: true }}>{t("home")}</Link>
           <Link to="/about" className={navCls}>{t("about")}</Link>
           <NavDrop label={t("library")} items={libraryLinks} />
