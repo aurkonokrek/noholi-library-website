@@ -20,7 +20,7 @@ export const writeLinks = [
   { to: "/writeups/blogs", k: "blogs" }, { to: "/writeups/creative", k: "creative" }, { to: "/writeups/reviews", k: "reviews" },
 ] as const;
 
-const navCls = "text-[0.92rem] text-foreground/80 hover:text-foreground transition-colors data-[status=active]:text-foreground";
+const navCls = "text-[0.92rem] font-semibold text-foreground/80 hover:text-foreground transition-colors data-[status=active]:text-foreground";
 
 function LangToggle({ className }: { className?: string }) {
   const { lang, setLang } = useApp();

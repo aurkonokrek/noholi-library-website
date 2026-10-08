@@ -110,10 +110,10 @@ export function BookCard({ book, showMeta = true }: { book: Book; showMeta?: boo
   );
 }
 
-export function PageIntro({ eyebrow, title, children, aside }: { eyebrow: string; title: ReactNode; children?: ReactNode; aside?: ReactNode }) {
+export function PageIntro({ eyebrow, title, children, aside, compact }: { eyebrow: string; title: ReactNode; children?: ReactNode; aside?: ReactNode; compact?: boolean }) {
   return (
-    <header className="container-page pb-10 pt-14 md:pb-14 md:pt-20">
-      <div className="grid gap-8 border-b border-border pb-10 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+    <header className={cn("container-page", compact ? "pb-5 pt-8 md:pb-6 md:pt-10" : "pb-10 pt-14 md:pb-14 md:pt-20")}>
+      <div className={cn("grid gap-8 border-b border-border md:grid-cols-[minmax(0,1fr)_auto] md:items-end", compact ? "pb-5" : "pb-10")}>
         <div className="max-w-3xl">
           <div className="eyebrow mb-5">{eyebrow}</div>
           <h1 className="text-5xl leading-[0.98] md:text-7xl">{title}</h1>
