@@ -214,7 +214,7 @@ export function SiteHeader() {
         <div className="container-page flex h-9 items-center justify-between gap-4 text-xs">
           <div className="flex min-w-0 items-center gap-5">
             <span className="hidden items-center gap-1.5 md:inline-flex"><MapPin className="h-3.5 w-3.5 opacity-70" />42 Satmasjid Road, Dhanmondi, Dhaka</span>
-            <a href="tel:+88025815442" className="inline-flex items-center gap-1.5 hover:opacity-80"><Phone className="h-3.5 w-3.5 opacity-70" />+880 2-5815 4420</a>
+            <a href="tel:+880258154420" className="inline-flex items-center gap-1.5 hover:opacity-80"><Phone className="h-3.5 w-3.5 opacity-70" />+880 2-5815 4420</a>
             <a href="mailto:hello@noholi.org" className="hidden items-center gap-1.5 hover:opacity-80 sm:inline-flex"><Mail className="h-3.5 w-3.5 opacity-70" />hello@noholi.org</a>
           </div>
           <div className="flex items-center gap-3.5">
