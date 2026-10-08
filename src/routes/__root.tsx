@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { useRouterState } from "@tanstack/react-router";
 import { AppProvider } from "@/lib/store";
+import { SiteSky } from "@/components/site-sky";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AudioPlayer } from "@/components/audio-player";
@@ -128,6 +129,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AppProvider>
+        <SiteSky />
         {!bare && <SiteHeader />}
         <main className="min-h-[60vh]">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
