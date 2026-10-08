@@ -35,7 +35,8 @@ export function Cover({ title, author, tone, noholi, className, size = "md" }: {
       <div className="book3d-pages" />
      <div className="book3d-face relative h-full overflow-hidden rounded-[2px] shadow-book"
       style={{ background: `var(--cover-${tone})`, color: `var(--cover-${tone}-fg)` }}>
-      <div className="absolute inset-y-0 left-0 w-[6%] bg-black/10" />
+      <div className="book3d-bind absolute inset-y-0 left-0 w-[8.2%] mix-blend-overlay" />
+      <div className="book3d-sheen pointer-events-none absolute inset-0" />
       {v === 0 && (
         <div className="flex h-full flex-col justify-between p-[10%] pl-[14%]">
           <div className={cn("uppercase tracking-[0.18em] opacity-75", as)}>{author}</div>
