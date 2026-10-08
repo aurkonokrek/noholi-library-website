@@ -90,7 +90,7 @@ function BooksPage() {
     <>
       <PageIntro eyebrow={`${t("library")} / ${t("books")}`} title="The printed collection." compact />
       <section className="container-page">
-        <div className="z-30 -mx-4 grid gap-3 bg-background/95 px-4 py-3 backdrop-blur md:sticky md:top-[var(--hdr,64px)] md:grid-cols-[minmax(0,1fr)_200px]">
+        <div className="z-30 -mx-4 grid gap-3 bg-background/95 px-4 py-3 backdrop-blur md:sticky md:top-[var(--hdr,73px)] md:grid-cols-[minmax(0,1fr)_200px]">
           <SearchBox value={q} onValueChange={setQ} groups={["Books", "Authors"]} placeholder={t("search")} inputClassName="border-foreground/30 text-base" />
           <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
             <Select value={sort} onValueChange={setSort}>
@@ -104,7 +104,7 @@ function BooksPage() {
           </div>
         </div>
         <div className="mt-5 grid gap-10 lg:grid-cols-[200px_minmax(0,1fr)]">
-          <aside className="hidden lg:block"><div className="sticky top-[calc(var(--hdr,64px)+5rem)] max-h-[calc(100vh-var(--hdr,64px)-6rem)] overflow-y-auto pb-6 pr-2">  <Filters /></div></aside>
+          <aside className="hidden lg:block"><div className="sticky top-[calc(var(--hdr,73px)+5rem)] max-h-[calc(100vh-var(--hdr,73px)-6rem)] overflow-y-auto pb-6 pr-2">  <Filters /></div></aside>
           <div>
             {active > 0 && (
               <div className="mb-4 flex flex-wrap gap-2">
