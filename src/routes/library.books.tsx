@@ -88,11 +88,9 @@ function BooksPage() {
 
   return (
     <>
-      <PageIntro eyebrow={`${t("library")} / ${t("books")}`} title="The printed collection.">
-        Twelve thousand books to borrow — Bangla classics, new fiction, histories, and a children's shelf that is never quite tidy.
-      </PageIntro>
+      <PageIntro eyebrow={`${t("library")} / ${t("books")}`} title="The printed collection." compact />
       <section className="container-page">
-        <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_200px]">
+        <div className="z-30 -mx-4 grid gap-3 bg-background/95 px-4 py-3 backdrop-blur md:sticky md:top-[var(--hdr,73px)] md:grid-cols-[minmax(0,1fr)_200px]">
           <SearchBox value={q} onValueChange={setQ} groups={["Books", "Authors"]} placeholder={t("search")} inputClassName="border-foreground/30 text-base" />
           <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
             <Select value={sort} onValueChange={setSort}>
@@ -105,8 +103,8 @@ function BooksPage() {
             </Sheet>
           </div>
         </div>
-        <div className="mt-10 grid gap-12 lg:grid-cols-[220px_minmax(0,1fr)]">
-          <aside className="hidden lg:block"><div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-6 pr-2">  <Filters /></div></aside>
+        <div className="mt-5 grid gap-10 lg:grid-cols-[200px_minmax(0,1fr)]">
+          <aside className="hidden lg:block"><div className="sticky top-[calc(var(--hdr,73px)+5rem)] max-h-[calc(100vh-var(--hdr,73px)-6rem)] overflow-y-auto pb-6 pr-2">  <Filters /></div></aside>
           <div>
             {active > 0 && (
               <div className="mb-4 flex flex-wrap gap-2">
@@ -116,13 +114,13 @@ function BooksPage() {
                 <button onClick={clear} className="h-7 px-2 text-xs underline underline-offset-4">Clear All</button>
               </div>
             )}
-            <div className="mb-8 text-sm text-muted-foreground" aria-live="polite">{loading ? "Loading catalogue…" : `${results.length} ${results.length === 1 ? "book" : "books"}${q ? ` for “${q}”` : ""}`}</div>
+            <div className="mb-5 text-sm text-muted-foreground" aria-live="polite">{loading ? "Loading catalogue…" : `${results.length} ${results.length === 1 ? "book" : "books"}${q ? ` for “${q}”` : ""}`}</div>
             {loading ? (
-              <div className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {Array.from({ length: 8 }).map((_, i) => <div key={i}><Skeleton className="aspect-[2/3] rounded-none" /><Skeleton className="mt-4 h-5 w-3/4" /><Skeleton className="mt-2 h-4 w-1/2" /></div>)}
               </div>
             ) : results.length ? (
-              <div className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {results.map((b) => <BookCard key={b.id} book={b} />)}
               </div>
             ) : (

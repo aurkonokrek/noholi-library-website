@@ -13,6 +13,7 @@ import { IdentityUpload, Stepper, SummaryBlock, type DocState } from "@/componen
 import { audiobooks, getBook, user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { BeforeYouSubmit, DocUpload, MethodChoice, fmtSize, guidance, type SubmitMethod, type UploadedDoc } from "@/components/doc-upload";
 
 const types = ["blog", "creative", "review"] as const;
 
@@ -35,6 +36,8 @@ function Contribute() {
   // shared
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [method, setMethod] = useState<SubmitMethod>("write");
+  const [doc, setDoc] = useState<UploadedDoc | null>(null);
   const [excerpt, setExcerpt] = useState("");
   const [cover, setCover] = useState<DocState>(null);
   const [cat, setCat] = useState<string[]>([]);
@@ -73,11 +76,13 @@ function Contribute() {
     if (step === 2) {
       if (!rating) errs.rating = "Give a rating.";
       if (!title.trim()) errs.title = "Add a review title.";
-      if (words(body) < 20) errs.body = "Write at least a few sentences (20+ words).";
+      if (method === "write" && words(body) < 20) errs.body = "Write at least a few sentences (20+ words).";
+      if (method === "upload" && (!doc || doc.progress < 100)) errs.body = "Upload your document (DOC, DOCX or PDF).";
     }
   } else {
     if (!title.trim()) errs.title = "Add a title.";
-    if (words(body) < 20) errs.body = "Write at least a few sentences (20+ words).";
+    if (method === "write" && words(body) < 20) errs.body = "Write at least a few sentences (20+ words).";
+      if (method === "upload" && (!doc || doc.progress < 100)) errs.body = "Upload your document (DOC, DOCX or PDF).";
     if (type === "creative" && !cat.length) errs.cat = "Choose a writing type.";
   }
   const e = tried ? errs : {};
@@ -115,10 +120,21 @@ function Contribute() {
   );
 
   const writingArea = (lbl: string) => (
-    <div className="space-y-2">
-      <Label htmlFor="b">{lbl}<Req /></Label>
-      <Textarea id="b" rows={16} value={body} onChange={(x) => setBody(x.target.value)} placeholder="Start writing…" className={cn("prose-reading min-h-[360px] border-0 border-y bg-transparent px-0 font-display text-xl leading-[1.75] shadow-none focus-visible:ring-0", type === "creative" && lang.includes("Bangla") && "font-bangla")} />
-      <div className="flex justify-between text-xs"><Err m={e.body} /><span className="ml-auto tabular-nums text-muted-foreground">{words(body)} words · ~{Math.max(1, Math.round(words(body) / 200))} min read</span></div>
+    <div className="space-y-6">
+      <MethodChoice value={method} onChange={(m) => { setMethod(m); setTried(false); }} />
+      {method === "write" ? (
+        <div className="space-y-2">
+          <Label htmlFor="b">{lbl}<Req /></Label>
+          <Textarea id="b" rows={16} value={body} onChange={(x) => setBody(x.target.value)} placeholder="Start writing…" className={cn("prose-reading min-h-[360px] border-0 border-y bg-transparent px-0 font-display text-xl leading-[1.75] shadow-none focus-visible:ring-0", type === "creative" && lang.includes("Bangla") && "font-bangla")} />
+          <div className="flex justify-between text-xs"><Err m={e.body} /><span className="ml-auto tabular-nums text-muted-foreground">{words(body)} words · ~{Math.max(1, Math.round(words(body) / 200))} min read</span></div>
+        </div>
+      ) : (
+        <div className="space-y-5">
+          <BeforeYouSubmit items={[...guidance[type]]} />
+          <div className="space-y-2"><Label>Your document<Req /></Label><DocUpload value={doc} onChange={setDoc} error={e.body} /></div>
+          <p className="text-xs text-muted-foreground">Uploading doesn't submit anything yet — you can review everything before sending it to the editors.</p>
+        </div>
+      )}
     </div>
   );
 
@@ -218,7 +234,7 @@ function Contribute() {
                 <Stars n={rating} />
                 <h3 className="mt-2 font-display text-3xl">{title}</h3>
                 <div className="mt-1 text-sm text-muted-foreground">by {user.name}{readDate && ` · read ${readDate}`}{recommend[0] && ` · ${recommend[0] === "Yes" ? "Recommends" : "Doesn't recommend"}`}</div>
-                <p className="mt-4 whitespace-pre-line font-display text-lg leading-relaxed">{body}</p>
+                {method === "upload" && doc ? <p className="mt-4 text-sm">Attached document: <span className="font-medium">{doc.name}</span> <span className="text-muted-foreground">({doc.ext} · {fmtSize(doc.size)})</span> <button type="button" onClick={() => setStep(2)} className="ml-2 underline underline-offset-4">Replace</button></p> : <p className="mt-4 whitespace-pre-line font-display text-lg leading-relaxed">{body}</p>}
                 {rtags.length > 0 && <div className="mt-3 text-sm text-muted-foreground">{rtags.join(" · ")}</div>}
               </SummaryBlock>
               <p className="border-t border-border pt-5 text-sm text-muted-foreground">After you submit, your review is marked <strong className="text-foreground">Pending Review</strong>. An editor reads it before it appears on the book's page.</p>
