@@ -106,7 +106,7 @@ function AccountMenu() {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="inline-flex items-center gap-2 rounded-full border border-border py-1 pl-1 pr-3 text-sm outline-none hover:border-foreground/40">
         <MemberAvatar className="h-7 w-7" textClass="text-sm" />
-        <span className="font-semibold">Patron Account</span>
+        <span className="max-w-[10rem] truncate font-semibold">{lang === "bn" ? user.nameBn : user.name}</span>
         <ChevronDown className="h-3.5 w-3.5 opacity-60" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="max-h-[calc(100vh-6rem)] w-72 overflow-y-auto rounded-sm p-0">
