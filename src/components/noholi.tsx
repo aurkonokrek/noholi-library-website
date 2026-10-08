@@ -24,11 +24,11 @@ export function Cover({ title, author, tone, noholi, className, size = "md" }: {
         const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
         el.style.setProperty("--ry", `${(x * 36 - 10).toFixed(2)}deg`);
         el.style.setProperty("--rx", `${(-y * 16).toFixed(2)}deg`);
-        el.dataset.active = "";
+        el.dataset["active"] = "";
       }}
       onPointerLeave={(e) => {
         const el = e.currentTarget;
-        el.style.removeProperty("--ry"); el.style.removeProperty("--rx"); delete el.dataset.active;
+        el.style.removeProperty("--ry"); el.style.removeProperty("--rx"); delete el.dataset["active"];
       }}>
      <div className="book3d-body">
       <div className="book3d-back" style={{ background: `var(--cover-${tone})` }} />
