@@ -22,8 +22,8 @@ export function Cover({ title, author, tone, noholi, className, size = "md" }: {
         if (e.pointerType !== "mouse") return;
         const el = e.currentTarget, r = el.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-        el.style.setProperty("--ry", `${(x * 36 - 10).toFixed(2)}deg`);
-        el.style.setProperty("--rx", `${(-y * 16).toFixed(2)}deg`);
+        el.style.setProperty("--ry", `${(-x * 44).toFixed(2)}deg`);
+        el.style.setProperty("--rx", `${(y * 14).toFixed(2)}deg`);
         el.dataset["active"] = "";
       }}
       onPointerLeave={(e) => {
