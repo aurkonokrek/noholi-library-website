@@ -17,7 +17,19 @@ export function Cover({ title, author, tone, noholi, className, size = "md" }: {
   const ts = size === "lg" ? "text-3xl md:text-4xl" : size === "sm" ? "text-[0.8rem]" : "text-lg";
   const as = size === "lg" ? "text-sm" : "text-[0.6rem]";
   return (
-    <div className={cn("book3d relative aspect-[2/3]", className)} aria-hidden>
+    <div className={cn("book3d relative aspect-[2/3]", className)} aria-hidden
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return;
+        const el = e.currentTarget, r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.setProperty("--ry", `${(x * 36 - 10).toFixed(2)}deg`);
+        el.style.setProperty("--rx", `${(-y * 16).toFixed(2)}deg`);
+        el.dataset.active = "";
+      }}
+      onPointerLeave={(e) => {
+        const el = e.currentTarget;
+        el.style.removeProperty("--ry"); el.style.removeProperty("--rx"); delete el.dataset.active;
+      }}>
      <div className="book3d-body">
       <div className="book3d-back" style={{ background: `var(--cover-${tone})` }} />
       <div className="book3d-pages" />
