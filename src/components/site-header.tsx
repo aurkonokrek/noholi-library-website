@@ -224,16 +224,16 @@ export function SiteHeader() {
           </div>
         </div>
       </div>
-      <div className="container-page grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 md:h-[72px]">
-        <Link to="/" aria-label="Noholi home" className="justify-self-start"><Logo /></Link>
-        <nav className="hidden items-center justify-center gap-7 lg:flex" aria-label="Main">
+      <div className="container-page flex h-16 items-center gap-4 md:h-[72px]">
+        <Link to="/" aria-label="Noholi home" className="shrink-0"><Logo /></Link>
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-5 whitespace-nowrap lg:flex xl:gap-7" aria-label="Main">
           <Link to="/" className={navCls} activeOptions={{ exact: true }}>{t("home")}</Link>
           <Link to="/about" className={navCls}>{t("about")}</Link>
           <NavDrop label={t("library")} items={libraryLinks} />
           <NavDrop label={t("writeups")} items={[{ to: "/writeups", k: "writeups" }, ...writeLinks]} />
           <Link to="/contact" className={navCls}>{t("contact")}</Link>
         </nav>
-        <div className="flex items-center gap-1.5 justify-self-end">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-0">
           <GlobalSearch />
           <LangToggle className="hidden md:inline-flex" />
           <span className="hidden md:inline-flex"><ThemeToggle /></span>
