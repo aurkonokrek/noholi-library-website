@@ -164,16 +164,23 @@
   --cover-7: oklch(0.42 0.1 15);   --cover-7-fg: oklch(0.92 0.05 80);
 }
 
-/* Physical book: cover face + page edge + back board. Hover tilt only on real-hover devices. */
+/* Physical book: cover face + page block + back board, angled at rest; hover lifts and turns a little more. */
 .book3d { container-type: inline-size; perspective: 900px; }
-.book3d-body { position: relative; height: 100%; transform-style: preserve-3d; --d: 7cqw;
-  transition: transform 260ms cubic-bezier(.2,.7,.3,1); will-change: transform; }
-.book3d-face { transform: translateZ(0); transition: box-shadow 260ms ease; }
-.book3d-back { position: absolute; inset: 0; border-radius: 2px; transform: translateZ(calc(var(--d) * -1)); filter: brightness(.6); }
-.book3d-pages { position: absolute; top: 2%; bottom: 2%; right: 0; width: var(--d); transform-origin: right center; transform: rotateY(-90deg);
-  background: repeating-linear-gradient(90deg, color-mix(in oklab, var(--background) 92%, var(--foreground)) 0 1px, color-mix(in oklab, var(--background) 80%, var(--foreground)) 1px 2px); }
+.book3d-body { position: relative; height: 100%; transform-style: preserve-3d; --d: 9cqw;
+  transform: rotateY(-24deg); transition: transform 260ms cubic-bezier(.2,.7,.3,1); }
+.book3d-face { transform: translateZ(0); border-radius: 2px 5px 5px 2px !important;
+  box-shadow: inset 4px 0 6px -3px rgb(0 0 0 / .35), inset -1px 0 0 rgb(255 255 255 / .12), 10px 14px 22px -10px color-mix(in oklab, var(--foreground) 40%, transparent) !important;
+  transition: box-shadow 260ms ease; }
+.book3d-back { position: absolute; inset: 0; border-radius: 2px 5px 5px 2px; transform: translateZ(calc(var(--d) * -1)); filter: brightness(.55);
+  box-shadow: 14px 18px 26px -12px color-mix(in oklab, var(--foreground) 45%, transparent); }
+.book3d-pages { position: absolute; top: 1.5%; bottom: 1.5%; right: 1px; width: calc(var(--d) - 2px); transform-origin: right center; transform: rotateY(-90deg) translateX(1px);
+  background: linear-gradient(90deg, rgb(0 0 0 / .18), transparent 30%, transparent 70%, rgb(0 0 0 / .12)),
+    repeating-linear-gradient(90deg, oklch(0.96 0.012 85) 0 1px, oklch(0.86 0.015 85) 1px 2px); }
+.dark .book3d-pages { filter: brightness(.82); }
+@media (max-width: 767px) { .book3d { perspective: 1200px; } .book3d-body { transform: rotateY(-16deg); } }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  a:hover > .book3d .book3d-body, .group:hover > a > .book3d .book3d-body, .book3d:hover .book3d-body { transform: translateY(-4px) rotateY(-20deg); }
-  a:hover > .book3d .book3d-face, .group:hover > a > .book3d .book3d-face, .book3d:hover .book3d-face { box-shadow: 0 18px 30px -12px color-mix(in oklab, var(--foreground) 45%, transparent); }
+  a:hover > .book3d .book3d-body, .group:hover > a > .book3d .book3d-body, .book3d:hover .book3d-body { transform: translateY(-5px) rotateY(-32deg); }
+  a:hover > .book3d .book3d-face, .group:hover > a > .book3d .book3d-face, .book3d:hover .book3d-face {
+    box-shadow: inset 4px 0 6px -3px rgb(0 0 0 / .35), inset -1px 0 0 rgb(255 255 255 / .12), 16px 24px 30px -12px color-mix(in oklab, var(--foreground) 50%, transparent) !important; }
 }
-@media (hover: none) { a:active > .book3d .book3d-body { transform: scale(.98); transition-duration: 120ms; } }
+@media (hover: none) { a:active > .book3d .book3d-body { transform: rotateY(-16deg) scale(.98); transition-duration: 120ms; } }
