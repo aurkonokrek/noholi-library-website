@@ -5,17 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium cursor-pointer focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/85",
-        accent: "bg-accent text-accent-foreground hover:bg-accent/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-foreground/25 bg-transparent hover:border-foreground hover:bg-muted",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-muted",
-        link: "text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-accent",
+        default: "cta-base bg-primary text-primary-foreground hover:bg-primary/85 shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+        accent: "cta-base cta-primary",
+        destructive: "transition-colors focus-visible:ring-2 focus-visible:ring-ring bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "cta-base cta-secondary",
+        secondary: "transition-colors focus-visible:ring-2 focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring",
+        link: "cta-text text-foreground",
       },
       size: {
         default: "h-10 px-5",
