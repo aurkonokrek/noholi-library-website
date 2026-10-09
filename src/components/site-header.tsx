@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 export const libraryLinks = [
   { to: "/library/books", k: "books" }, { to: "/library/noholi", k: "noholiBooks" },
-  { to: "/library/ebooks", k: "ebooks" }, { to: "/library/audio", k: "audiobooks" }, { to: "/library/gallery", k: "gallery" },
+  { to: "/library/ebooks", k: "ebooks" }, { to: "/library/audio", k: "audiobooks" }, { to: "/library/gallery", k: "gallery" }, { to: "/library/rules", k: "rules" },
 ] as const;
 export const writeLinks = [
   { to: "/writeups/blogs", k: "blogs" }, { to: "/writeups/creative", k: "creative" }, { to: "/writeups/reviews", k: "reviews" },

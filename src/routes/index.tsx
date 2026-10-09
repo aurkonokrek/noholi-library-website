@@ -1,10 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Headphones, Library, Play, Tablet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookCard, BookCover, Cover, fmtDate, SectionHead } from "@/components/noholi";
 import { articles, audiobooks, books, fmtDuration, images } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { SearchBox } from "@/components/search-box";
+import { reasons } from "@/components/member-gate";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -94,6 +95,24 @@ function Home() {
         </div>
       </section>
 
+      {/* How Noholi works */}
+      <section className="container-page mt-24">
+        <SectionHead eyebrow="Getting started" title="How Noholi Works" link={<Link to="/library/books" className="inline-flex items-center gap-2 text-sm hover:text-accent">Explore the Library <ArrowRight className="h-4 w-4" /></Link>} />
+        <ol className="grid border-t border-foreground md:grid-cols-3">
+          {[
+            ["01", "Become a Member", "Join Noholi for free and become part of a community of readers."],
+            ["02", "Find Your Next Read", "Explore the collection and discover books that speak to you."],
+            ["03", "Read, Return, Repeat", "Request a book, enjoy your reading, and return it according to library rules."],
+          ].map(([n, h, b]) => (
+            <li key={n} className="border-b border-border py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0">
+              <span className="font-display text-4xl text-accent">{n}</span>
+              <h3 className="mt-4 text-2xl">{h}</h3>
+              <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">{b}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* Noholi books */}
       <section className="container-page mt-28">
         <SectionHead eyebrow="Noholi Prokash" title="Published by Noholi" link={<Link to="/library/noholi" className="inline-flex items-center gap-2 text-sm hover:text-accent">{t("viewAll")} <ArrowRight className="h-4 w-4" /></Link>} />
@@ -179,6 +198,9 @@ function Home() {
         </div>
       </section>
 
+      {/* Help shape the collection */}
+      <ShapeCollection />
+
       {/* About */}
       <section className="container-page mt-28 grid gap-12 lg:grid-cols-12 lg:items-center">
         <img src={images.gChildren} alt="Children reading on the rug at Noholi" loading="lazy" className="photo aspect-[4/3] w-full object-cover lg:col-span-6" />
@@ -226,5 +248,34 @@ function HeroBooks() {
         <span className="hidden text-muted-foreground sm:inline">Bibhutibhushan →</span>
       </Link>
     </div>
+  );
+}
+
+/** Recommend vs. wishlist — two separate member actions, side by side. */
+function ShapeCollection() {
+  const { requireMember } = useApp();
+  const nav = useNavigate();
+  const spines = ["lalsalu", "aranyak", "hajar-bochor"].map((id) => books.find((b) => b.id === id)).filter(Boolean);
+  return (
+    <section className="container-page mt-28">
+      <div className="grid items-center gap-10 border-y border-border py-14 md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-16">
+        <div className="mx-auto flex w-full max-w-[300px] items-end justify-center" aria-hidden>
+          {spines.map((b, i) => (
+            <div key={b!.id} className={`w-[38%] ${i ? "-ml-[8%]" : ""}`} style={{ transform: `rotate(${[-5, 1, 6][i]}deg)`, transformOrigin: "bottom center", zIndex: [1, 3, 2][i] }}>
+              <BookCover book={b!} size="md" />
+            </div>
+          ))}
+        </div>
+        <div>
+          <div className="eyebrow mb-4">Help Shape the Collection</div>
+          <h2 className="text-4xl leading-tight md:text-5xl">The next great read could come from you.</h2>
+          <p className="mt-5 max-w-lg leading-relaxed text-muted-foreground">Every library grows through the curiosity of its readers. Tell us which books, voices, and ideas you'd love to find on our shelves.</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" variant="accent" onClick={() => requireMember(reasons.recommend, () => nav({ to: "/account/recommend" }))}>Recommend a Book</Button>
+            <Button size="lg" variant="outline" onClick={() => requireMember("Log in or become a free member to see your wishlist.", () => nav({ to: "/account/wishlist" }))}>Explore the Wishlist</Button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

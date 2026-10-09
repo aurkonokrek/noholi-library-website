@@ -2,7 +2,7 @@ export type Lang = "en" | "bn";
 
 const en = {
   home: "Home", about: "About Us", library: "Library", books: "Books", noholiBooks: "Noholi Books",
-  ebooks: "E-Books", audiobooks: "Audio Books", gallery: "Gallery", writeups: "Write Ups", blogs: "Blogs",
+  ebooks: "E-Books", audiobooks: "Audio Books", gallery: "Gallery", rules: "Rules", writeups: "Write Ups", blogs: "Blogs",
   creative: "Creative Writings", reviews: "Book Reviews", contact: "Contact", login: "Log in",
   become: "Become a Member", wishlist: "Wishlist", profile: "View Member Profile", dashboard: "Member Dashboard",
   settings: "Account Settings", logout: "Log Out", activePatron: "Active Patron", memberId: "Member ID",
@@ -16,7 +16,7 @@ const en = {
 
 const bn: typeof en = {
   home: "প্রথম পাতা", about: "আমাদের কথা", library: "পাঠাগার", books: "বই", noholiBooks: "নহলি প্রকাশনা",
-  ebooks: "ই-বুক", audiobooks: "অডিও বই", gallery: "গ্যালারি", writeups: "লেখালেখি", blogs: "ব্লগ",
+  ebooks: "ই-বুক", audiobooks: "অডিও বই", gallery: "গ্যালারি", rules: "নিয়মাবলি", writeups: "লেখালেখি", blogs: "ব্লগ",
   creative: "সৃজনশীল লেখা", reviews: "বই আলোচনা", contact: "যোগাযোগ", login: "লগ ইন",
   become: "সদস্য হোন", wishlist: "পছন্দের তালিকা", profile: "সদস্য প্রোফাইল", dashboard: "সদস্য ড্যাশবোর্ড",
   settings: "অ্যাকাউন্ট সেটিংস", logout: "লগ আউট", activePatron: "সক্রিয় সদস্য", memberId: "সদস্য নম্বর",
