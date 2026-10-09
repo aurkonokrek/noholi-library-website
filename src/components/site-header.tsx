@@ -8,7 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Logo, MemberAvatar } from "@/components/noholi";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { SearchBox } from "@/components/search-box";
-import { user } from "@/lib/data";
+import { library, user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -213,8 +213,8 @@ export function SiteHeader() {
       <div className="bg-foreground text-background">
         <div className="container-page flex h-9 items-center justify-between gap-4 text-xs">
           <div className="flex min-w-0 items-center gap-5">
-            <span className="hidden items-center gap-1.5 md:inline-flex"><MapPin className="h-3.5 w-3.5 opacity-70" />42 Satmasjid Road, Dhanmondi, Dhaka</span>
-            <a href="tel:+880258154420" className="inline-flex items-center gap-1.5 hover:opacity-80"><Phone className="h-3.5 w-3.5 opacity-70" />+880 2-5815 4420</a>
+            <a href={library.mapsUrl} target="_blank" rel="noopener noreferrer" className="hidden items-center gap-1.5 hover:opacity-80 md:inline-flex"><MapPin className="h-3.5 w-3.5 opacity-70" />{library.addressShort}</a>
+            <a href={library.phoneHref} className="inline-flex items-center gap-1.5 hover:opacity-80"><Phone className="h-3.5 w-3.5 opacity-70" />{library.phoneDisplay}</a>
             <a href="mailto:hello@noholi.org" className="hidden items-center gap-1.5 hover:opacity-80 sm:inline-flex"><Mail className="h-3.5 w-3.5 opacity-70" />hello@noholi.org</a>
           </div>
           <div className="flex items-center gap-3.5">
