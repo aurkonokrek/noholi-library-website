@@ -35,7 +35,7 @@ function Home() {
       <section className="container-page pt-8 md:pt-12">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-6">
           <div className="lg:col-span-6">
-            <div className="eyebrow mb-4">Est. Dhanmondi, Dhaka · নহলি পাঠাগার</div>
+            <div className="eyebrow mb-4">Est. Pallabi, Dhaka · নহলি পাঠাগার</div>
             <h1 className={lang === "bn" ? "font-bangla text-6xl leading-[1.15] md:text-7xl" : "text-[4.2rem] leading-[0.92] md:text-[6rem]"}>
               {t("heroTitle")}
             </h1>

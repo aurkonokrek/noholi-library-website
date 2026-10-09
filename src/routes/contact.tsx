@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PageIntro } from "@/components/noholi";
+import { LocationMap } from "@/components/location-map";
+import { library } from "@/lib/data";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Noholi Library" },
-      { name: "description", content: "Visit Noholi Library in Dhanmondi, Dhaka, or send us a message." },
+      { name: "description", content: "Visit Noholi Library at House 808, Road 11 Avenue 6, Pallabi, Dhaka 1216, or send us a message." },
       { property: "og:title", content: "Contact Noholi Library" },
       { property: "og:description", content: "Address, opening hours and a contact form for Noholi Library." },
       { property: "og:type", content: "website" },
@@ -29,19 +31,19 @@ function Contact() {
       <section className="container-page grid gap-16 lg:grid-cols-12">
         <div className="space-y-10 lg:col-span-4">
           {[
-            { icon: MapPin, t: "Address", d: "42 Satmasjid Road, Dhanmondi\nDhaka 1209, Bangladesh" },
-            { icon: Phone, t: "Phone", d: "+880 2-5815 4420\n+880 1711-220 440" },
-            { icon: Mail, t: "Email", d: "hello@noholi.org\nmembers@noholi.org" },
+            { icon: MapPin, t: "Address", d: library.address.join("\n"), href: library.mapsUrl },
+            { icon: Phone, t: "Phone", d: library.phoneDisplay, href: library.phoneHref },
+            { icon: Mail, t: "Email", d: "hello@noholi.org\nmembers@noholi.org", href: "mailto:hello@noholi.org" },
           ].map((x) => (
             <div key={x.t} className="grid grid-cols-[24px_minmax(0,1fr)] gap-4">
               <x.icon className="mt-1 h-5 w-5 text-accent" />
-              <div><div className="eyebrow mb-2">{x.t}</div><p className="whitespace-pre-line font-display text-xl leading-snug">{x.d}</p></div>
+              <div><div className="eyebrow mb-2">{x.t}</div><a href={x.href} target={x.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="block whitespace-pre-line font-display text-xl leading-snug hover:text-accent">{x.d}</a></div>
             </div>
           ))}
           <div className="border-t border-border pt-8">
             <div className="eyebrow mb-4">Opening hours</div>
             <dl className="space-y-2 text-sm">
-              {[["Saturday – Thursday", "10:00 – 20:00"], ["Friday", "15:00 – 20:00"], ["Public holidays", "Closed"]].map(([d, h]) => (
+              {library.hours.map(([d, h]) => (
                 <div key={d} className="flex justify-between border-b border-dashed border-border pb-2"><dt>{d}</dt><dd className="tabular-nums text-muted-foreground">{h}</dd></div>
               ))}
             </dl>
@@ -67,20 +69,7 @@ function Contact() {
         </div>
       </section>
       <section className="container-page mt-20">
-        <div className="relative h-80 overflow-hidden border border-border bg-secondary" role="img" aria-label="Map showing Noholi Library in Dhanmondi">
-          <svg className="absolute inset-0 h-full w-full text-border" aria-hidden>
-            <defs><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="currentColor" /></pattern></defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-            <path d="M0 220 C 300 160, 500 260, 1400 120" stroke="currentColor" strokeWidth="18" fill="none" />
-            <path d="M620 0 L 560 400" stroke="currentColor" strokeWidth="10" fill="none" />
-          </svg>
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full text-center">
-            <div className="whitespace-nowrap bg-foreground px-3 py-1.5 text-xs text-background">Noholi Library</div>
-            <div className="mx-auto h-6 w-px bg-foreground" />
-            <div className="mx-auto h-3 w-3 rounded-full bg-accent ring-4 ring-accent/25" />
-          </div>
-          <div className="absolute bottom-4 left-4 text-xs text-muted-foreground">Dhanmondi Lake · 5 min walk</div>
-        </div>
+        <LocationMap className="h-[26rem] w-full" card />
       </section>
     </>
   );

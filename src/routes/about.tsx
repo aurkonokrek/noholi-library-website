@@ -28,7 +28,7 @@ function About() {
       <section className="container-page grid gap-12 py-24 lg:grid-cols-12">
         <div className="eyebrow lg:col-span-3">Our story</div>
         <div className="space-y-6 font-display text-2xl leading-relaxed lg:col-span-8">
-          <p>Noholi started in 2016 as a lending shelf in a Dhanmondi living room — two hundred books, a notebook for signatures, and a rule that whatever you borrowed, you returned with a sentence about why it mattered.</p>
+          <p>Noholi started in 2016 as a lending shelf in a Pallabi living room — two hundred books, a notebook for signatures, and a rule that whatever you borrowed, you returned with a sentence about why it mattered.</p>
           <p className="text-muted-foreground">Today it is a public library of twelve thousand volumes, a small press, a recording studio and a reading room that is full most afternoons. The notebook is still there. It has run to forty-one volumes.</p>
         </div>
       </section>
