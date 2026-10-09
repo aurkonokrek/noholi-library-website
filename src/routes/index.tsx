@@ -250,3 +250,32 @@ function HeroBooks() {
     </div>
   );
 }
+
+/** Recommend vs. wishlist — two separate member actions, side by side. */
+function ShapeCollection() {
+  const { requireMember } = useApp();
+  const nav = useNavigate();
+  const spines = ["lalsalu", "aranyak", "hajar-bochor"].map((id) => books.find((b) => b.id === id)).filter(Boolean);
+  return (
+    <section className="container-page mt-28">
+      <div className="grid items-center gap-10 border-y border-border py-14 md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] md:gap-16">
+        <div className="mx-auto flex w-full max-w-[300px] items-end justify-center" aria-hidden>
+          {spines.map((b, i) => (
+            <div key={b!.id} className={`w-[38%] ${i ? "-ml-[8%]" : ""}`} style={{ transform: `rotate(${[-5, 1, 6][i]}deg)`, transformOrigin: "bottom center", zIndex: [1, 3, 2][i] }}>
+              <BookCover book={b!} size="md" />
+            </div>
+          ))}
+        </div>
+        <div>
+          <div className="eyebrow mb-4">Help Shape the Collection</div>
+          <h2 className="text-4xl leading-tight md:text-5xl">The next great read could come from you.</h2>
+          <p className="mt-5 max-w-lg leading-relaxed text-muted-foreground">Every library grows through the curiosity of its readers. Tell us which books, voices, and ideas you'd love to find on our shelves.</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" variant="accent" onClick={() => requireMember(reasons.recommend, () => nav({ to: "/account/recommend" }))}>Recommend a Book</Button>
+            <Button size="lg" variant="outline" onClick={() => requireMember("Log in or become a free member to see your wishlist.", () => nav({ to: "/account/wishlist" }))}>Explore the Wishlist</Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
