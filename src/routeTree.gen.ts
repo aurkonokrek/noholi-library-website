@@ -34,6 +34,7 @@ import { Route as LibraryBooksRouteImport } from './routes/library.books'
 import { Route as LibraryEbooksRouteImport } from './routes/library.ebooks'
 import { Route as LibraryGalleryRouteImport } from './routes/library.gallery'
 import { Route as LibraryNoholiRouteImport } from './routes/library.noholi'
+import { Route as LibraryRulesRouteImport } from './routes/library.rules'
 import { Route as ReadIdRouteImport } from './routes/read.$id'
 import { Route as WriteupsIndexRouteImport } from './routes/writeups.index'
 import { Route as WriteupsBlogsRouteImport } from './routes/writeups.blogs'
@@ -166,6 +167,11 @@ const LibraryNoholiRoute = LibraryNoholiRouteImport.update({
   path: '/library/noholi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LibraryRulesRoute = LibraryRulesRouteImport.update({
+  id: '/library/rules',
+  path: '/library/rules',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReadIdRoute = ReadIdRouteImport.update({
   id: '/read/$id',
   path: '/read/$id',
@@ -222,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/library/ebooks': typeof LibraryEbooksRoute
   '/library/gallery': typeof LibraryGalleryRoute
   '/library/noholi': typeof LibraryNoholiRoute
+  '/library/rules': typeof LibraryRulesRoute
   '/read/$id': typeof ReadIdRoute
   '/writeups/blogs': typeof WriteupsBlogsRoute
   '/writeups/creative': typeof WriteupsCreativeRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByTo {
   '/library/ebooks': typeof LibraryEbooksRoute
   '/library/gallery': typeof LibraryGalleryRoute
   '/library/noholi': typeof LibraryNoholiRoute
+  '/library/rules': typeof LibraryRulesRoute
   '/read/$id': typeof ReadIdRoute
   '/writeups/blogs': typeof WriteupsBlogsRoute
   '/writeups/creative': typeof WriteupsCreativeRoute
@@ -288,6 +296,7 @@ export interface FileRoutesById {
   '/library/ebooks': typeof LibraryEbooksRoute
   '/library/gallery': typeof LibraryGalleryRoute
   '/library/noholi': typeof LibraryNoholiRoute
+  '/library/rules': typeof LibraryRulesRoute
   '/read/$id': typeof ReadIdRoute
   '/writeups/blogs': typeof WriteupsBlogsRoute
   '/writeups/creative': typeof WriteupsCreativeRoute
@@ -323,6 +332,7 @@ export interface FileRouteTypes {
     | '/library/ebooks'
     | '/library/gallery'
     | '/library/noholi'
+    | '/library/rules'
     | '/read/$id'
     | '/writeups/blogs'
     | '/writeups/creative'
@@ -355,6 +365,7 @@ export interface FileRouteTypes {
     | '/library/ebooks'
     | '/library/gallery'
     | '/library/noholi'
+    | '/library/rules'
     | '/read/$id'
     | '/writeups/blogs'
     | '/writeups/creative'
@@ -388,6 +399,7 @@ export interface FileRouteTypes {
     | '/library/ebooks'
     | '/library/gallery'
     | '/library/noholi'
+    | '/library/rules'
     | '/read/$id'
     | '/writeups/blogs'
     | '/writeups/creative'
@@ -413,6 +425,7 @@ export interface RootRouteChildren {
   LibraryEbooksRoute: typeof LibraryEbooksRoute
   LibraryGalleryRoute: typeof LibraryGalleryRoute
   LibraryNoholiRoute: typeof LibraryNoholiRoute
+  LibraryRulesRoute: typeof LibraryRulesRoute
   ReadIdRoute: typeof ReadIdRoute
   WriteupsBlogsRoute: typeof WriteupsBlogsRoute
   WriteupsCreativeRoute: typeof WriteupsCreativeRoute
@@ -597,6 +610,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryNoholiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/library/rules': {
+      id: '/library/rules'
+      path: '/library/rules'
+      fullPath: '/library/rules'
+      preLoaderRoute: typeof LibraryRulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/read/$id': {
       id: '/read/$id'
       path: '/read/$id'
@@ -689,6 +709,7 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryEbooksRoute: LibraryEbooksRoute,
   LibraryGalleryRoute: LibraryGalleryRoute,
   LibraryNoholiRoute: LibraryNoholiRoute,
+  LibraryRulesRoute: LibraryRulesRoute,
   ReadIdRoute: ReadIdRoute,
   WriteupsBlogsRoute: WriteupsBlogsRoute,
   WriteupsCreativeRoute: WriteupsCreativeRoute,
