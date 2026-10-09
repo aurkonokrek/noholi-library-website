@@ -246,7 +246,7 @@ export function SiteHeader() {
           ) : (
             <div className="hidden items-center gap-2 lg:flex">
               <Button variant="ghost" asChild><Link to="/login">{t("login")}</Link></Button>
-              <Button variant="default" asChild><Link to="/join">{t("become")}</Link></Button>
+              <Button variant="accent" asChild><Link to="/join">{t("become")}</Link></Button>
             </div>
           )}
           <MobileNav />
