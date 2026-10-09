@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { library } from "@/lib/data";
 import { useApp } from "@/lib/store";
 
-export function LocationMap({ className = "h-80 w-full", card = false }: { className?: string; card?: boolean }) {
+export function LocationMap({ className = "h-80 w-full", card = false }: { className?: string; card?: boolean | "sm" }) {
   const { lang } = useApp();
   const bn = lang === "bn";
   return (
@@ -17,7 +17,7 @@ export function LocationMap({ className = "h-80 w-full", card = false }: { class
         className="absolute inset-0 h-full w-full border-0"
       />
       {card && (
-        <div className="pointer-events-none absolute inset-x-4 bottom-4 sm:inset-x-auto sm:left-4">
+        <div className={`pointer-events-none absolute inset-x-4 bottom-4 sm:inset-x-auto sm:left-4${card === "sm" ? " hidden sm:block" : ""}`}>
           <div className="pointer-events-auto max-w-xs border border-border bg-background/95 p-4 backdrop-blur">
             <div className="eyebrow mb-2">{bn ? library.nameBn : library.name}</div>
             <p className="text-sm leading-relaxed text-muted-foreground">{library.address.join(", ")}</p>

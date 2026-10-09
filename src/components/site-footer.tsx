@@ -35,7 +35,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="container-page pb-14">
-        <LocationMap className="h-72 w-full" card />
+        <LocationMap className="h-72 w-full" card="sm" />
       </div>
       <div className="container-page flex flex-col gap-4 border-t border-border py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <span>© 2026 Noholi Library. Prototype — all data is for demonstration.</span>
