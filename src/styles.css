@@ -204,20 +204,20 @@
 @utility cta-primary {
   border-radius: 9999px;
   color: var(--color-accent-foreground);
-  background-color: color-mix(in oklab, var(--color-accent) 62%, transparent);
+  background-color: color-mix(in oklab, var(--color-accent) 78%, transparent);
   background-image: linear-gradient(180deg, color-mix(in oklab, white 30%, transparent) 0%, color-mix(in oklab, white 6%, transparent) 48%, transparent 52%, color-mix(in oklab, white 8%, transparent) 100%);
   border: 1px solid color-mix(in oklab, white 38%, transparent);
   backdrop-filter: blur(14px) saturate(160%);
   box-shadow: inset 0 1px 0 color-mix(in oklab, white 50%, transparent), inset 0 -1px 0 color-mix(in oklab, var(--color-accent) 50%, transparent), 0 8px 24px -12px color-mix(in oklab, var(--color-accent) 60%, transparent);
   text-shadow: 0 1px 1px color-mix(in oklab, black 25%, transparent);
   &:hover:not(:disabled) {
-    background-color: color-mix(in oklab, var(--color-accent) 72%, transparent);
+    background-color: color-mix(in oklab, var(--color-accent) 86%, transparent);
     border-color: color-mix(in oklab, white 55%, transparent);
     box-shadow: inset 0 1px 0 color-mix(in oklab, white 65%, transparent), inset 0 -1px 0 color-mix(in oklab, var(--color-accent) 50%, transparent), 0 14px 30px -14px color-mix(in oklab, var(--color-accent) 70%, transparent);
   }
-  &:active:not(:disabled) { background-color: color-mix(in oklab, var(--color-accent) 80%, transparent); box-shadow: inset 0 2px 6px color-mix(in oklab, black 22%, transparent); }
+  &:active:not(:disabled) { background-color: color-mix(in oklab, var(--color-accent) 92%, transparent); box-shadow: inset 0 2px 6px color-mix(in oklab, black 22%, transparent); }
 }
-.dark .cta-primary { color: oklch(0.985 0.005 85); background-color: color-mix(in oklab, var(--color-accent) 42%, transparent); border-color: color-mix(in oklab, var(--color-accent) 55%, white 10%); }
+.dark .cta-primary { color: oklch(0.985 0.005 85); background-color: color-mix(in oklab, var(--color-accent) 55%, transparent); border-color: color-mix(in oklab, var(--color-accent) 55%, white 10%); }
 @utility cta-secondary {
   border-radius: 9999px;
   background-color: color-mix(in oklab, var(--color-background) 28%, transparent);
