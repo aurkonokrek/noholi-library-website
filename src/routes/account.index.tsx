@@ -6,7 +6,7 @@ import { BookCover, Cover, fmtDate, StatusBadge, taka } from "@/components/nohol
 import { audiobooks, fines, getBook, loans, readingActivity, user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 
-export const Route = createFileRoute("/account/")({ component: Dashboard });
+export const Route = createFileRoute("/account/")({ head: () => ({ meta: [{"title": "My library overview \u2014 My Noholi"}, {"name": "description", "content": "Your Noholi membership, loans, requests and contributions at a glance."}, {"property": "og:title", "content": "My library overview \u2014 My Noholi"}, {"property": "og:description", "content": "Your Noholi membership, loans, requests and contributions at a glance."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary"}] }), component: Dashboard });
 
 const daysLeft = (d: string) => Math.round((new Date(d).getTime() - new Date("2026-10-03").getTime()) / 86400000);
 

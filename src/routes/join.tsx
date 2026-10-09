@@ -17,6 +17,8 @@ export const Route = createFileRoute("/join")({
       { name: "description", content: "Join Noholi Library: borrow books, read e-books and listen to audio books." },
       { property: "og:title", content: "Become a Noholi member" },
       { property: "og:description", content: "One card for every shelf, recording and reading evening." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Join,

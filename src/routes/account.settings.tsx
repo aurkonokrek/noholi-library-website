@@ -11,7 +11,7 @@ import { user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/account/settings")({ component: Settings });
+export const Route = createFileRoute("/account/settings")({ head: () => ({ meta: [{"title": "Account settings \u2014 My Noholi"}, {"name": "description", "content": "Manage your Noholi language, appearance and account preferences."}, {"property": "og:title", "content": "Account settings \u2014 My Noholi"}, {"property": "og:description", "content": "Manage your Noholi language, appearance and account preferences."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary"}] }), component: Settings });
 
 function Row({ title, desc, children }: { title: string; desc?: string; children: ReactNode }) {
   return <div className="grid gap-4 border-b border-border py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]"><div><div className="font-medium">{title}</div>{desc && <div className="mt-1 text-sm text-muted-foreground">{desc}</div>}</div><div>{children}</div></div>;

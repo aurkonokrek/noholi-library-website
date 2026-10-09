@@ -19,7 +19,12 @@ const types = ["blog", "creative", "review"] as const;
 
 export const Route = createFileRoute("/account/contribute")({
   validateSearch: z.object({ type: z.enum(types).optional(), book: z.string().optional() }),
-  head: () => ({ meta: [{ title: "Submit writing — My Noholi" }, { name: "description", content: "Submit a blog, creative writing or book review to Noholi's editors." }] }),
+  head: () => ({ meta: [{ title: "Submit writing — My Noholi" }, { name: "description", content: "Submit a blog, creative writing or book review to Noholi's editors." },
+      { property: "og:title", content: "Submit writing — My Noholi" },
+      { property: "og:description", content: "Submit a blog, creative writing or book review to Noholi's editors." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ] }),
   component: Contribute,
 });
 

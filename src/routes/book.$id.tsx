@@ -19,6 +19,8 @@ export const Route = createFileRoute("/book/$id")({
       { name: "description", content: loaderData.book.description },
       { property: "og:title", content: `${loaderData.book.titleEn} — Noholi Library` },
       { property: "og:description", content: loaderData.book.description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ] : [],
   }),
   notFoundComponent: () => (

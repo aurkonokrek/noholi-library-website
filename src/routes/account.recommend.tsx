@@ -15,7 +15,12 @@ import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/account/recommend")({
-  head: () => ({ meta: [{ title: "Recommend a Book — My Noholi" }, { name: "description", content: "Suggest a book, e-book or audio book for Noholi Library to acquire." }] }),
+  head: () => ({ meta: [{ title: "Recommend a Book — My Noholi" }, { name: "description", content: "Suggest a book, e-book or audio book for Noholi Library to acquire." },
+      { property: "og:title", content: "Recommend a Book — My Noholi" },
+      { property: "og:description", content: "Suggest a book, e-book or audio book for Noholi Library to acquire." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ] }),
   component: Recommend,
 });
 

@@ -7,7 +7,7 @@ import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 const tabs = ["All", "Books", "E-Books", "Audio Books"] as const;
-export const Route = createFileRoute("/account/wishlist")({ validateSearch: z.object({ type: z.enum(tabs).optional() }), component: Wishlist });
+export const Route = createFileRoute("/account/wishlist")({ head: () => ({ meta: [{"title": "My wishlist \u2014 My Noholi"}, {"name": "description", "content": "Your saved books, e-books and audio books from Noholi Library."}, {"property": "og:title", "content": "My wishlist \u2014 My Noholi"}, {"property": "og:description", "content": "Your saved books, e-books and audio books from Noholi Library."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary"}] }), validateSearch: z.object({ type: z.enum(tabs).optional() }), component: Wishlist });
 
 function Wishlist() {
   const { wishlist, toggleWish, play } = useApp();

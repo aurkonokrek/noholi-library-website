@@ -9,7 +9,7 @@ import { fmtDate, Initials, Logo, MemberAvatar, StatusBadge } from "@/components
 import { user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 
-export const Route = createFileRoute("/account/profile")({ component: Profile });
+export const Route = createFileRoute("/account/profile")({ head: () => ({ meta: [{"title": "My profile \u2014 My Noholi"}, {"name": "description", "content": "Review and update your Noholi patron profile."}, {"property": "og:title", "content": "My profile \u2014 My Noholi"}, {"property": "og:description", "content": "Review and update your Noholi patron profile."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary"}] }), component: Profile });
 
 type U = typeof user;
 const fields: [keyof U, string][] = [["name", "Full name"], ["email", "Email"], ["phone", "Phone"], ["address", "Address"]];

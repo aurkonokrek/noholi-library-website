@@ -11,6 +11,8 @@ export const Route = createFileRoute("/account")({
       { name: "description", content: "Your Noholi dashboard, loans, borrow requests, wishlist and settings." },
       { property: "og:title", content: "My Noholi" },
       { property: "og:description", content: "Patron account at Noholi Library." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AccountLayout,

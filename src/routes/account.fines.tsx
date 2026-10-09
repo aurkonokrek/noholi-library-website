@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { fmtDate, StatusBadge, taka } from "@/components/noholi";
 import { fines, getBook, loans } from "@/lib/data";
 
-export const Route = createFileRoute("/account/fines")({ component: Fines });
+export const Route = createFileRoute("/account/fines")({ head: () => ({ meta: [{"title": "Overdue & Fines \u2014 My Noholi"}, {"name": "description", "content": "Review overdue loans and library fine information at Noholi."}, {"property": "og:title", "content": "Overdue & Fines \u2014 My Noholi"}, {"property": "og:description", "content": "Review overdue loans and library fine information at Noholi."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary"}] }), component: Fines });
 
 function Fines() {
   const due = fines.filter((f) => !f.paid);

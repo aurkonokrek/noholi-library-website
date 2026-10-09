@@ -18,6 +18,8 @@ export const Route = createFileRoute("/read/$id")({
       { name: "description", content: `Read ${loaderData.book.titleEn} in Noholi's online reader.` },
       { property: "og:title", content: `${loaderData.book.titleEn} — Noholi E-Reader` },
       { property: "og:description", content: "Online reading with sepia mode, bookmarks and adjustable type." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ] : [],
   }),
   component: Reader,

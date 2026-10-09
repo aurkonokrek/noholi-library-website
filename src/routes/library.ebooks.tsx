@@ -15,6 +15,8 @@ export const Route = createFileRoute("/library/ebooks")({
       { name: "description", content: "Read Bangla and English e-books in your browser with Noholi's reader." },
       { property: "og:title", content: "Noholi E-Books" },
       { property: "og:description", content: "A digital reading library with sepia mode, bookmarks and adjustable type." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Ebooks,
