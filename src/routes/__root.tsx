@@ -20,6 +20,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { AudioPlayer } from "@/components/audio-player";
 import { MemberPromptHost } from "@/components/member-gate";
 import { Toaster } from "@/components/ui/sonner";
+import { InitialLoading, InitialReady, initialLoadingCss, initialLoadingScript } from "@/components/initial-loading";
 
 function NotFoundComponent() {
   return (
@@ -47,6 +48,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
+    window.__noholiLoading?.fail();
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
@@ -112,9 +114,12 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <style dangerouslySetInnerHTML={{ __html: initialLoadingCss }} />
+        <noscript><style>{`.noholi-loading-status{display:none!important}.noholi-loading-recovery{display:block!important}`}</style></noscript>
       </head>
       <body>
-        {children}
+        <InitialLoading>{children}</InitialLoading>
+        <script dangerouslySetInnerHTML={{ __html: initialLoadingScript }} />
         <Scripts />
       </body>
     </html>
@@ -124,10 +129,12 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const pending = useRouterState({ select: (s) => s.status === "pending" });
   const bare = path.startsWith("/read/") || path === "/login" || path === "/join";
 
   return (
     <QueryClientProvider client={queryClient}>
+      <InitialReady pending={pending} />
       <AppProvider>
         <SiteSky />
         {!bare && <SiteHeader />}

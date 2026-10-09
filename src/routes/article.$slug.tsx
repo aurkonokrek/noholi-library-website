@@ -20,6 +20,7 @@ export const Route = createFileRoute("/article/$slug")({
       { property: "og:title", content: loaderData.article.title },
       { property: "og:description", content: loaderData.article.excerpt },
       { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary" },
     ] : [],
   }),
   notFoundComponent: () => <div className="container-page py-32 text-center"><h1 className="text-5xl">Article not found</h1><Button className="mt-8" asChild><Link to="/writeups">Back to Write Ups</Link></Button></div>,

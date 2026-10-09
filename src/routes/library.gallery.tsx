@@ -13,6 +13,8 @@ export const Route = createFileRoute("/library/gallery")({
       { name: "description", content: "Photographs of Noholi's reading rooms, books, readers and literary evenings." },
       { property: "og:title", content: "Noholi Gallery" },
       { property: "og:description", content: "Rooms, books, readers and evenings at Noholi." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Gallery,

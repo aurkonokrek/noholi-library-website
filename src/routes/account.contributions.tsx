@@ -11,7 +11,12 @@ type F = (typeof filters)[number];
 
 export const Route = createFileRoute("/account/contributions")({
   validateSearch: z.object({ f: z.enum(filters).optional() }),
-  head: () => ({ meta: [{ title: "My contributions — My Noholi" }, { name: "description", content: "Your blogs, creative writing and book reviews submitted to Noholi." }] }),
+  head: () => ({ meta: [{ title: "My contributions — My Noholi" }, { name: "description", content: "Your blogs, creative writing and book reviews submitted to Noholi." },
+      { property: "og:title", content: "My contributions — My Noholi" },
+      { property: "og:description", content: "Your blogs, creative writing and book reviews submitted to Noholi." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ] }),
   component: Contributions,
 });
 

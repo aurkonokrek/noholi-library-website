@@ -7,7 +7,12 @@ import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/account/requests")({
-  head: () => ({ meta: [{ title: "Borrow requests — My Noholi" }, { name: "description", content: "Track your Noholi borrow requests." }] }),
+  head: () => ({ meta: [{ title: "Borrow requests — My Noholi" }, { name: "description", content: "Track your Noholi borrow requests." },
+      { property: "og:title", content: "Borrow requests — My Noholi" },
+      { property: "og:description", content: "Track your Noholi borrow requests." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ] }),
   component: Requests,
 });
 

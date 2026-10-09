@@ -20,6 +20,8 @@ export const Route = createFileRoute("/library/books")({
       { name: "description", content: "Search and filter Noholi's printed collection of Bangla and English books." },
       { property: "og:title", content: "Browse the Noholi catalogue" },
       { property: "og:description", content: "Fiction, non-fiction and children's books in Bangla and English." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: BooksPage,

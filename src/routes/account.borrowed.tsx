@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookCover, Empty, fmtDate } from "@/components/noholi";
 import { getBook, loans } from "@/lib/data";
 
-export const Route = createFileRoute("/account/borrowed")({ component: Borrowed });
+export const Route = createFileRoute("/account/borrowed")({ head: () => ({ meta: [{"title": "Borrowed books \u2014 My Noholi"}, {"name": "description", "content": "View your current Noholi loans and return dates."}, {"property": "og:title", "content": "Borrowed books \u2014 My Noholi"}, {"property": "og:description", "content": "View your current Noholi loans and return dates."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary"}] }), component: Borrowed });
 
 type Loan = (typeof loans)[number];
 

@@ -16,6 +16,8 @@ export const Route = createFileRoute("/library/audio")({
       { name: "description", content: "Studio-recorded Bangla and English audio books, including Noholi originals read by their authors." },
       { property: "og:title", content: "Noholi Audio Books" },
       { property: "og:description", content: "Listen to classics and Noholi originals." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AudioPage,

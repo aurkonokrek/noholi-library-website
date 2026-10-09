@@ -11,6 +11,8 @@ export const Route = createFileRoute("/library/noholi")({
       { name: "description", content: "Novels, poetry, anthologies and picture books published by Noholi Prokash." },
       { property: "og:title", content: "Noholi Books" },
       { property: "og:description", content: "New Bangla and English writing from Noholi's own press." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: NoholiBooks,

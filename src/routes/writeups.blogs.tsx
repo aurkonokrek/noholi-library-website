@@ -10,6 +10,8 @@ export const Route = createFileRoute("/writeups/blogs")({
       { name: "description", content: "Library news, essays and notes on reading culture from Noholi." },
       { property: "og:title", content: "Noholi Blogs" },
       { property: "og:description", content: "Essays and library news from Noholi." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: () => {

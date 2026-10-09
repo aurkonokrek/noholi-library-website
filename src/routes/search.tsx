@@ -12,6 +12,8 @@ export const Route = createFileRoute("/search")({
       { name: "description", content: "Search Noholi's books, e-books, audio books, authors and write ups." },
       { property: "og:title", content: "Search Noholi Library" },
       { property: "og:description", content: "Find books, authors and writing across Noholi." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: SearchPage,

@@ -17,3 +17,4 @@
 - Search uses one index/ranker (`src/lib/search.ts`) and one autocomplete component (`SearchBox`), including picker mode via `onPick`. Why: the brief requires a single consistent search pattern everywhere.
 - Borrowing is a multi-step Borrow Request (`/account/borrow/$id`), never a checkout; member submissions and book recommendations always start in a review status. Why: library-first product rules — no payments, nothing auto-published.
 - Member-only actions call `requireMember` / `MemberButton`, which open the single `MemberPromptHost` dialog mounted in the root. Why: one consistent "Member Access Required" prompt instead of disabled buttons.
+- Initial loading belongs in the document shell, with inline critical styles and a bundle-independent failure watchdog; only the first mounted, idle route signals readiness. Why: prevent partial-content flashes and recover from failed downloads without replaying the screen on navigation.

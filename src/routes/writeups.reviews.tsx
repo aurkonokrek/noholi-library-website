@@ -10,6 +10,8 @@ export const Route = createFileRoute("/writeups/reviews")({
       { name: "description", content: "Honest reviews of Bangla and English books from Noholi's members." },
       { property: "og:title", content: "Noholi Book Reviews" },
       { property: "og:description", content: "Members review the books they borrowed." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Reviews,

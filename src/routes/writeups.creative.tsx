@@ -11,6 +11,8 @@ export const Route = createFileRoute("/writeups/creative")({
       { name: "description", content: "Poetry, short stories and essays by Noholi members and writers." },
       { property: "og:title", content: "Noholi Creative Writings" },
       { property: "og:description", content: "Poems, stories and lyric essays from the Noholi community." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Creative,

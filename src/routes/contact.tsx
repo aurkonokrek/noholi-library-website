@@ -14,6 +14,8 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Visit Noholi Library in Dhanmondi, Dhaka, or send us a message." },
       { property: "og:title", content: "Contact Noholi Library" },
       { property: "og:description", content: "Address, opening hours and a contact form for Noholi Library." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Contact,

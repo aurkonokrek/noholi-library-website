@@ -14,6 +14,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Borrow books, read e-books, listen to audio books and discover writing at Noholi, a library and literary home in Dhaka." },
       { property: "og:title", content: "Noholi Library — Stories live here" },
       { property: "og:description", content: "A library and literary home in Dhaka for readers, listeners and writers." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Home,
