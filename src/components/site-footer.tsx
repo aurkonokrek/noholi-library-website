@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { Logo } from "@/components/noholi";
+import { LocationMap } from "@/components/location-map";
 import { LangToggle, libraryLinks, ThemeToggle, writeLinks } from "@/components/site-header";
+import { library } from "@/lib/data";
 import { useApp } from "@/lib/store";
 
 export function SiteFooter() {
@@ -24,10 +26,16 @@ export function SiteFooter() {
         <div className="md:col-span-2">
           <div className="eyebrow mb-4">Visit</div>
           <address className="text-sm not-italic leading-relaxed text-muted-foreground">
-            42 Satmasjid Road<br />Dhanmondi, Dhaka 1209<br />Sat–Thu · 10am–8pm<br />
+            <a href={library.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+              {library.address.map((l) => <span key={l}>{l}<br /></span>)}
+            </a>
+            <span className="tabular-nums">{library.hoursShort}</span><br />
             <a href="mailto:hello@noholi.org" className="text-foreground hover:text-accent">hello@noholi.org</a>
           </address>
         </div>
+      </div>
+      <div className="container-page pb-14">
+        <LocationMap className="h-72 w-full" card="sm" />
       </div>
       <div className="container-page flex flex-col gap-4 border-t border-border py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <span>© 2026 Noholi Library. Prototype — all data is for demonstration.</span>

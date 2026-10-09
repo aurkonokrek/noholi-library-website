@@ -153,6 +153,24 @@ export const gallery = [
   { src: gShelves, cat: "Library", caption: "Reference section", h: 1280 },
 ];
 
+export const library = {
+  name: "Noholi Library",
+  nameBn: "নহলি পাঠাগার",
+  address: ["House 808, Road 11 Avenue 6", "Pallabi, Dhaka 1216", "Bangladesh"],
+  addressShort: "House 808, Road 11 Avenue 6, Pallabi, Dhaka 1216",
+  phoneDisplay: "+880 1730-591580",
+  phoneHref: "tel:+8801730591580",
+  email: "hello@noholi.org",
+  hours: [["Sunday – Friday", "10:00 – 18:00"], ["Saturday", "Closed"]] as [string, string][],
+  hoursShort: "Sun–Fri · 10:00–18:00",
+  placeId: "ChIJM8Rqm57BVTcRKEtREEFChO0",
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Noholi%20Library&query_place_id=ChIJM8Rqm57BVTcRKEtREEFChO0",
+  directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=ChIJM8Rqm57BVTcRKEtREEFChO0",
+  embedUrl:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.442266633703!2d90.36902767442658!3d23.838424085393076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c19e9b6ac433%3A0xed84424110514b28!2sNoholi%20Library!5e0!3m2!1sen!2sbd!4v1791544446148!5m2!1sen!2sbd",
+};
+
 export const user = {
   name: "Aurko Rahman", nameBn: "অর্ক রহমান", memberId: "NH-00124", email: "aurko@example.com",
   phone: "+880 1712-345678", address: "House 14, Road 7, Dhanmondi, Dhaka 1205",
