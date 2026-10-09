@@ -6,7 +6,7 @@ import { runSearch } from "@/lib/search";
 import { Button } from "@/components/ui/button";
 import { SearchBox } from "@/components/search-box";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookCard, Empty, PageIntro } from "@/components/noholi";
 import { availability, books } from "@/lib/data";
@@ -69,9 +69,14 @@ function BooksPage() {
   const count = (k: keyof F, v: string) => pool.filter((b) => matches(b, k) && (k === "availability" ? availKey(b) === v : b[k] === v)).length;
   const clear = () => setF({ genre: [], category: [], language: [], availability: [] });
 
-  const Filters = () => (
-    <div className="space-y-7">
-      <div className="flex items-baseline justify-between"><h2 className="font-display text-xl">Filters{active > 0 && <span className="ml-2 text-sm text-muted-foreground">({active})</span>}</h2>{active > 0 && <button onClick={clear} className="text-sm underline underline-offset-4 hover:text-accent">Clear All</button>}</div>
+  const [panel, setPanel] = useState(false);
+  const [sheet, setSheet] = useState(false);
+  const toggleFilters = () => { if (window.matchMedia("(min-width: 1024px)").matches) setPanel((o) => !o); else setSheet(true); };
+  useEffect(() => { if (!panel) return; const h = (e: KeyboardEvent) => { if (e.key === "Escape") setPanel(false); }; window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, [panel]);
+
+  const Filters = ({ wide }: { wide?: boolean }) => (
+    <div className={wide ? "grid grid-cols-4 gap-8" : "space-y-7"}>
+      {!wide && <div className="flex items-baseline justify-between"><h2 className="font-display text-xl">Filters{active > 0 && <span className="ml-2 text-sm text-muted-foreground">({active})</span>}</h2>{active > 0 && <button onClick={clear} className="text-sm underline underline-offset-4 hover:text-accent">Clear All</button>}</div>}
       {(Object.keys(facets) as (keyof F)[]).map((k) => (
         <fieldset key={k}>
           <legend className="eyebrow mb-2">{facetLabel[k]}</legend>
@@ -92,21 +97,31 @@ function BooksPage() {
     <>
       <PageIntro eyebrow={`${t("library")} / ${t("books")}`} title="The printed collection." compact />
       <section className="container-page">
-        <div className="z-30 -mx-4 grid gap-3 bg-background/95 px-4 py-3 backdrop-blur md:sticky md:top-[var(--hdr,109px)] md:grid-cols-[minmax(0,1fr)_200px]">
-          <SearchBox value={q} onValueChange={setQ} groups={["Books", "Authors"]} placeholder={t("search")} inputClassName="border-foreground/30 text-base" />
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
+        <div className="sticky top-[var(--hdr,109px)] z-30 -mx-4 bg-background/90 px-4 py-3 backdrop-blur">
+          <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 md:grid-cols-[auto_minmax(0,1fr)_200px] md:gap-3">
+            <Button variant={active > 0 || panel ? "accent" : "outline"} className="h-12 px-4 md:px-5" onClick={toggleFilters} aria-expanded={panel} aria-controls="book-filters">
+              <SlidersHorizontal /> <span className="hidden sm:inline">Filters</span>{active > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-background/30 px-1 text-xs tabular-nums">{active}</span>}
+            </Button>
+            <SearchBox value={q} onValueChange={setQ} groups={["Books", "Authors"]} placeholder={t("search")} inputClassName="border-foreground/30 text-base" />
             <Select value={sort} onValueChange={setSort}>
-              <SelectTrigger className="!h-12 rounded-none border-foreground/30" aria-label="Sort"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="col-span-2 !h-10 rounded-none border-foreground/30 md:col-span-1 md:!h-12" aria-label="Sort"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="relevance">Sort: Relevance</SelectItem><SelectItem value="title">Title: A–Z</SelectItem><SelectItem value="title-desc">Title: Z–A</SelectItem><SelectItem value="author">Author: A–Z</SelectItem><SelectItem value="newest">Newest</SelectItem><SelectItem value="oldest">Oldest</SelectItem></SelectContent>
             </Select>
-            <Sheet>
-              <SheetTrigger asChild><Button variant="outline" className="h-12 rounded-none lg:hidden"><SlidersHorizontal /> Filters{active > 0 && ` (${active})`}</Button></SheetTrigger>
-              <SheetContent side="left" className="overflow-y-auto bg-background p-6"><SheetTitle className="sr-only">Filters</SheetTitle><Filters /></SheetContent>
-            </Sheet>
           </div>
+          {panel && (
+            <div id="book-filters" role="region" aria-label="Book filters" className="absolute inset-x-4 top-full z-30 mt-1 hidden max-h-[calc(100vh-var(--hdr,109px)-7rem)] overflow-y-auto border border-border bg-popover p-6 text-popover-foreground shadow-lg lg:block">
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="font-display text-xl">Filters{active > 0 && <span className="ml-2 text-sm text-muted-foreground">({active})</span>}</h2>
+                <div className="flex items-center gap-4">{active > 0 && <button onClick={clear} className="text-sm underline underline-offset-4 hover:text-accent">Reset filters</button>}<Button variant="ghost" size="icon" aria-label="Close filters" onClick={() => setPanel(false)}><X /></Button></div>
+              </div>
+              <Filters wide />
+            </div>
+          )}
+          <Sheet open={sheet} onOpenChange={setSheet}>
+            <SheetContent side="bottom" className="max-h-[85vh] overflow-y-auto bg-background p-6"><SheetTitle className="sr-only">Filters</SheetTitle><Filters /><Button className="mt-6 w-full" onClick={() => setSheet(false)}>Show {results.length} books</Button></SheetContent>
+          </Sheet>
         </div>
-        <div className="mt-5 grid gap-10 lg:grid-cols-[200px_minmax(0,1fr)]">
-          <aside className="hidden lg:block"><div className="sticky top-[calc(var(--hdr,109px)+5rem)] max-h-[calc(100vh-var(--hdr,109px)-6rem)] overflow-y-auto pb-6 pr-2">  <Filters /></div></aside>
+        <div className="mt-5">
           <div>
             {active > 0 && (
               <div className="mb-4 flex flex-wrap gap-2">
