@@ -85,8 +85,8 @@ export function Timeline({ events }: { events: RecordEvent[] }) {
 export const maskNid = (last4?: string) => (last4 ? `•••• •••• •••• ${last4}` : undefined);
 
 /** Small "View details" text link used in every list. */
-export function DetailsLink({ children = "View details", ...props }: React.ComponentProps<typeof Link>) {
-  return <Link {...props} className="inline-flex items-center gap-1 whitespace-nowrap text-sm underline underline-offset-4 hover:text-accent">{children}</Link>;
+export function DetailsLink({ children = "View details", to, params }: { to: string; params?: Record<string, string>; children?: ReactNode }) {
+  return <Link to={to} params={params as never} className="inline-flex items-center gap-1 whitespace-nowrap text-sm underline underline-offset-4 hover:text-accent">{children}</Link>;
 }
 
 export function NotFoundRecord({ what, back }: { what: string; back: ReactNode }) {

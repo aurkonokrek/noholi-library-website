@@ -3,7 +3,7 @@ import { AlertCircle, BookOpen, Headphones } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { BookCover, Cover, fmtDate, StatusBadge, taka } from "@/components/noholi";
-import { audiobooks, fines, getBook, loans, readingActivity, user } from "@/lib/data";
+import { audiobooks, fineOutstanding, fines, getBook, loans, readingActivity, user } from "@/lib/data";
 import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/account/")({ head: () => ({ meta: [{"title": "My library overview \u2014 My Noholi"}, {"name": "description", "content": "Your Noholi membership, loans, requests and contributions at a glance."}, {"property": "og:title", "content": "My library overview \u2014 My Noholi"}, {"property": "og:description", "content": "Your Noholi membership, loans, requests and contributions at a glance."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary"}] }), component: Dashboard });
@@ -31,9 +31,9 @@ function Stat({ to, n, label, note }: { to: string; n: ReactNode; label: string;
 
 function Dashboard() {
   const { borrowRequests, contributions, recommendations, wishlist, play, lang } = useApp();
-  const current = loans.filter((l) => l.status !== "returned");
-  const overdue = loans.filter((l) => l.status === "overdue");
-  const owed = fines.filter((f) => !f.paid).reduce((s, f) => s + f.amount, 0);
+  const current = loans.filter((l) => (l.status === "Active" || l.status === "Overdue"));
+  const overdue = loans.filter((l) => l.status === "Overdue");
+  const owed = fines.reduce((s, f) => s + fineOutstanding(f), 0);
   const pendingReq = borrowRequests.filter((r) => ["Pending Review", "Approved", "Ready for Pickup"].includes(r.status));
   const drafts = contributions.filter((c) => c.status === "Draft").length;
   const published = contributions.filter((c) => c.status === "Published").length;
