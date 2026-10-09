@@ -43,7 +43,7 @@ function Home() {
             <div className="mt-8 max-w-lg">
               <SearchBox placeholder="Search a title, author or ISBN…" inputClassName="h-14 border-foreground/30 text-base" />
               <div className="mt-4 flex flex-wrap gap-3">
-                <Button size="lg" variant="outline" asChild><Link to="/library/books">{t("explore")} <ArrowRight /></Link></Button>
+                <Button size="lg" variant="accent" asChild><Link to="/library/books">{t("explore")} <ArrowRight /></Link></Button>
                 {loggedIn ? (
                   <Link to="/account" className="inline-flex items-center gap-2 self-center text-sm text-muted-foreground hover:text-accent">Welcome back — you're a Noholi member <ArrowRight className="h-4 w-4" /></Link>
                 ) : (

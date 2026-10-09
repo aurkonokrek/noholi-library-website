@@ -202,30 +202,46 @@
   }
 }
 @utility cta-primary {
-  background-color: var(--color-accent);
+  border-radius: 9999px;
   color: var(--color-accent-foreground);
-  border: 1px solid color-mix(in oklab, var(--color-accent) 70%, black);
-  background-image: linear-gradient(to bottom, color-mix(in oklab, white 14%, transparent), transparent 55%);
-  box-shadow: inset 0 1px 0 color-mix(in oklab, white 28%, transparent), 0 1px 2px color-mix(in oklab, black 18%, transparent), 0 4px 12px -6px color-mix(in oklab, var(--color-accent) 55%, transparent);
+  background-color: color-mix(in oklab, var(--color-accent) 78%, transparent);
+  background-image: linear-gradient(180deg, color-mix(in oklab, white 16%, transparent) 0%, color-mix(in oklab, white 4%, transparent) 48%, transparent 52%, color-mix(in oklab, white 8%, transparent) 100%);
+  border: 1px solid color-mix(in oklab, white 38%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 50%, transparent), inset 0 -1px 0 color-mix(in oklab, var(--color-accent) 50%, transparent), 0 8px 24px -12px color-mix(in oklab, var(--color-accent) 60%, transparent);
+  text-shadow: 0 1px 1px color-mix(in oklab, black 25%, transparent);
   &:hover:not(:disabled) {
-    background-color: color-mix(in oklab, var(--color-accent) 90%, black);
-    box-shadow: inset 0 1px 0 color-mix(in oklab, white 32%, transparent), 0 2px 4px color-mix(in oklab, black 18%, transparent), 0 8px 18px -8px color-mix(in oklab, var(--color-accent) 60%, transparent);
+    background-color: color-mix(in oklab, var(--color-accent) 86%, transparent);
+    border-color: color-mix(in oklab, white 55%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in oklab, white 65%, transparent), inset 0 -1px 0 color-mix(in oklab, var(--color-accent) 50%, transparent), 0 14px 30px -14px color-mix(in oklab, var(--color-accent) 70%, transparent);
   }
-  &:active:not(:disabled) { box-shadow: inset 0 1px 3px color-mix(in oklab, black 25%, transparent); }
+  &:active:not(:disabled) { background-color: color-mix(in oklab, var(--color-accent) 92%, transparent); box-shadow: inset 0 2px 6px color-mix(in oklab, black 22%, transparent); }
 }
+.dark .cta-primary { color: oklch(0.985 0.005 85); background-color: color-mix(in oklab, var(--color-accent) 55%, transparent); border-color: color-mix(in oklab, var(--color-accent) 55%, white 10%); }
 @utility cta-secondary {
-  background-color: color-mix(in oklab, var(--color-background) 62%, transparent);
-  border: 1px solid color-mix(in oklab, var(--color-foreground) 22%, transparent);
-  backdrop-filter: blur(10px) saturate(130%);
-  box-shadow: inset 0 1px 0 color-mix(in oklab, white 35%, transparent), 0 1px 2px color-mix(in oklab, black 6%, transparent);
+  border-radius: 9999px;
+  background-color: color-mix(in oklab, var(--color-background) 28%, transparent);
+  background-image: linear-gradient(180deg, color-mix(in oklab, white 45%, transparent) 0%, color-mix(in oklab, white 10%, transparent) 50%, transparent 52%);
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 16%, transparent);
+  backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 70%, transparent), 0 6px 20px -12px color-mix(in oklab, black 30%, transparent);
   &:hover:not(:disabled) {
-    background-color: color-mix(in oklab, var(--color-background) 85%, transparent);
-    border-color: color-mix(in oklab, var(--color-foreground) 45%, transparent);
-    box-shadow: inset 0 1px 0 color-mix(in oklab, white 45%, transparent), 0 6px 14px -8px color-mix(in oklab, black 25%, transparent);
+    background-color: color-mix(in oklab, var(--color-background) 45%, transparent);
+    border-color: color-mix(in oklab, var(--color-foreground) 30%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in oklab, white 85%, transparent), 0 12px 26px -14px color-mix(in oklab, black 35%, transparent);
   }
-  &:active:not(:disabled) { background-color: var(--color-muted); box-shadow: inset 0 1px 2px color-mix(in oklab, black 12%, transparent); }
+  &:active:not(:disabled) { background-color: color-mix(in oklab, var(--color-muted) 70%, transparent); box-shadow: inset 0 2px 5px color-mix(in oklab, black 14%, transparent); }
 }
-.dark .cta-secondary { box-shadow: inset 0 1px 0 color-mix(in oklab, white 8%, transparent); }
+.dark .cta-secondary { background-color: color-mix(in oklab, white 6%, transparent); background-image: linear-gradient(180deg, color-mix(in oklab, white 14%, transparent), transparent 52%); border-color: color-mix(in oklab, white 18%, transparent); box-shadow: inset 0 1px 0 color-mix(in oklab, white 18%, transparent), 0 6px 20px -12px black; }
+.dark .cta-secondary:hover:not(:disabled) { background-color: color-mix(in oklab, white 11%, transparent); }
+@utility cta-icon {
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+  &:hover:not(:disabled) { background-color: color-mix(in oklab, var(--color-background) 40%, transparent); border-color: color-mix(in oklab, var(--color-foreground) 16%, transparent); backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 color-mix(in oklab, white 60%, transparent); }
+  &:active:not(:disabled) { background-color: color-mix(in oklab, var(--color-muted) 70%, transparent); }
+  &:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+}
 @utility cta-text {
   text-decoration-line: underline;
   text-underline-offset: 5px;
