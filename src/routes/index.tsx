@@ -47,7 +47,7 @@ function Home() {
                 {loggedIn ? (
                   <Link to="/account" className="inline-flex items-center gap-2 self-center text-sm text-muted-foreground hover:text-accent">Welcome back — you're a Noholi member <ArrowRight className="h-4 w-4" /></Link>
                 ) : (
-                  <Button size="lg" variant="outline" asChild><Link to="/join">{t("become")}</Link></Button>
+                  <Button size="lg" variant="accent" asChild><Link to="/join">{t("become")}</Link></Button>
                 )}
               </div>
             </div>
