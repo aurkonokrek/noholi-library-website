@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { BookOpen, Check, Headphones, Library } from "lucide-react";
 import { toast } from "sonner";
@@ -52,7 +52,7 @@ function Recommend() {
   const e = tried ? errs : ({} as Partial<typeof errs>);
   const next = () => { setTried(true); if (hasErr) return; setTried(false); setStep(step + 1); };
   const submit = () => {
-    const id = addRecommendation({ format: format!, title: d.title, author: d.author, language: d.language === "English" ? "English" : "Bangla", reason: d.reason, ...(d.publisher ? { publisher: d.publisher } : {}), ...(d.isbn ? { isbn: d.isbn } : {}) });
+    const id = addRecommendation({ format: format!, title: d.title, author: d.author, language: d.language === "English" ? "English" : "Bangla", reason: d.reason, ...(d.publisher ? { publisher: d.publisher } : {}), ...(d.isbn ? { isbn: d.isbn } : {}), ...(d.year ? { year: d.year } : {}), ...(d.edition ? { edition: d.edition } : {}), ...(d.genre ? { genre: d.genre } : {}), ...(d.category ? { category: d.category } : {}), ...(d.narrator ? { narrator: d.narrator } : {}), ...(d.source ? { source: d.source } : {}) });
     setSent(id); setD(empty); setCover(null); setFormat(null); setStep(0); window.scrollTo(0, 0);
   };
   const kind = format === "E-Book" ? "e-book" : format === "Audio Book" ? "audio book" : "book";
@@ -157,7 +157,7 @@ function Recommend() {
             {recommendations.map((r) => (
               <li key={r.id} className="py-4">
                 <div className="flex items-start justify-between gap-3"><div className="min-w-0"><div className="eyebrow">{r.format ?? "Physical Book"}</div><div className="mt-1 font-display text-lg leading-tight">{r.title}</div><div className="text-sm text-muted-foreground">{r.author} · {r.language}</div></div><StatusBadge status={r.status} /></div>
-                <div className="mt-1 font-mono text-xs text-muted-foreground">{r.id} · {fmtDate(r.date)}</div>
+                <div className="mt-1 flex items-center justify-between gap-3 text-xs text-muted-foreground"><span className="font-mono">{r.id} · {fmtDate(r.date)}</span><Link to="/account/recommendations/$id" params={{ id: r.id }} className="underline underline-offset-4 hover:text-accent">View details</Link></div>
               </li>
             ))}
           </ul>

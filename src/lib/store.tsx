@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { audiobooks, initialBorrowRequests, initialContributions, initialRecommendations, type Audio, type BorrowRequest, type Contribution, type Recommendation } from "./data";
+import { audiobooks, user, initialBorrowRequests, initialContributions, initialRecommendations, type Audio, type BorrowRequest, type Contribution, type Recommendation } from "./data";
 import { dict, type Lang } from "./i18n";
 import memberPhoto from "@/assets/member-aurko.jpg";
 
@@ -15,9 +15,10 @@ type Ctx = {
   requireMember: (reason: string, fn: () => void) => void;
   removeContribution: (id: string) => void;
   wishlist: string[]; toggleWish: (id: string) => void; inWish: (id: string) => boolean;
-  borrowRequests: BorrowRequest[]; addBorrowRequest: (r: Omit<BorrowRequest, "id" | "submitted" | "status">) => string;
-  contributions: Contribution[]; addContribution: (c: Omit<Contribution, "id" | "updated">) => string;
-  recommendations: Recommendation[]; addRecommendation: (r: Omit<Recommendation, "id" | "date" | "status">) => string;
+  borrowRequests: BorrowRequest[]; addBorrowRequest: (r: Omit<BorrowRequest, "id" | "submitted" | "updated" | "status" | "member" | "timeline" | "guarantor"> & { guarantor: { name: string; relation: string; phone: string } }) => string;
+  cancelBorrowRequest: (id: string) => void;
+  contributions: Contribution[]; addContribution: (c: Omit<Contribution, "id" | "updated" | "submitted" | "timeline">) => string;
+  recommendations: Recommendation[]; addRecommendation: (r: Omit<Recommendation, "id" | "date" | "status" | "updated" | "timeline">) => string;
   player: { track: Audio | null; playing: boolean; pos: number; speed: number; volume: number; expanded: boolean };
   play: (id: string) => void; togglePlay: () => void; seek: (s: number) => void; skip: (d: number) => void;
   setSpeed: (n: number) => void; setVolume: (n: number) => void; setExpanded: (b: boolean) => void;
@@ -94,11 +95,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
       });
     },
     borrowRequests,
-    addBorrowRequest: (r) => { const id = `BR-26-0${420 + borrowRequests.length}`; setBorrowRequests((x) => [{ ...r, id, submitted: today(), status: "Pending Review" }, ...x]); return id; },
+    addBorrowRequest: (r) => {
+      const id = `BR-26-0${420 + borrowRequests.length}`, d = today();
+      // Snapshot member + guarantor onto the record so later profile edits never rewrite history.
+      setBorrowRequests((x) => [{ ...r, id, submitted: d, updated: d, status: "Pending Review",
+        member: { name: user.name, memberId: user.memberId, phone: user.phone, email: user.email, address: user.address, verification: "NID verified" },
+        guarantor: { ...r.guarantor, status: "Submitted — awaiting librarian check" },
+        timeline: [{ date: d, label: "Request submitted" }] }, ...x]);
+      return id;
+    },
+    cancelBorrowRequest: (id) => {
+      const d = today();
+      setBorrowRequests((x) => x.map((r) => r.id === id && r.status === "Pending Review" ? { ...r, status: "Cancelled", updated: d, timeline: [...r.timeline, { date: d, label: "Cancelled by member" }] } : r));
+      toast("Borrow request cancelled", { description: id });
+    },
     contributions,
-    addContribution: (c) => { const id = `C-${1183 + contributions.length}`; setContributions((x) => [{ ...c, id, updated: today() }, ...x]); return id; },
+    addContribution: (c) => { const id = `C-${1183 + contributions.length}`; const d = today(); setContributions((x) => [{ ...c, id, updated: d, ...(c.status === "Draft" ? {} : { submitted: d }), timeline: [{ date: d, label: c.status === "Draft" ? "Draft saved" : "Submitted for review" }] }, ...x]); return id; },
     recommendations,
-    addRecommendation: (r) => { const id = `RQ-00${94 + recommendations.length}`; setRecommendations((x) => [{ ...r, id, date: today(), status: "Submitted" }, ...x]); return id; },
+    addRecommendation: (r) => { const id = `RQ-00${94 + recommendations.length}`; const d = today(); setRecommendations((x) => [{ ...r, id, date: d, updated: d, status: "Submitted", timeline: [{ date: d, label: "Submitted" }] }, ...x]); return id; },
     player,
     play: (id) => {
       const tr = audiobooks.find((a) => a.id === id) ?? null;
