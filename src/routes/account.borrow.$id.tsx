@@ -19,7 +19,7 @@ export const Route = createFileRoute("/account/borrow/$id")({
       { title: loaderData ? `Borrow request: ${loaderData.book.titleEn} — Noholi Library` : "Borrow request — Noholi Library" },
       { name: "robots", content: "noindex" },
       { name: "description", content: "Review your borrowing request for a book from Noholi Library." },
-      { property: "og:title", content: loaderData ? `Borrow request: ${loaderData.book.titleEn },
+      { property: "og:title", content: loaderData ? `Borrow request: ${loaderData.book.titleEn} — Noholi Library` : "Borrow request — Noholi Library" },
       { property: "og:description", content: "Review your borrowing request for a book from Noholi Library." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
