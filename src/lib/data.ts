@@ -177,49 +177,129 @@ export const user = {
   since: "2023-02-11", expires: "2027-02-10", plan: "Free membership", nid: "1990 2614 8873 4401",
 };
 
-export const loans = [
-  { bookId: "aranyak", issued: "2026-09-14", due: "2026-10-05", status: "current" as const },
-  { bookId: "god-small-things", issued: "2026-09-20", due: "2026-10-11", status: "current" as const },
-  { bookId: "padma-nadir-majhi", issued: "2026-09-01", due: "2026-09-29", status: "overdue" as const },
-  { bookId: "nondito-noroke", issued: "2026-07-02", due: "2026-07-23", returned: "2026-07-21", status: "returned" as const },
-  { bookId: "solitude", issued: "2026-05-10", due: "2026-05-31", returned: "2026-06-02", status: "returned" as const },
-  { bookId: "thakurmar-jhuli", issued: "2026-04-01", due: "2026-04-22", returned: "2026-04-20", status: "returned" as const },
-];
+/* ---------- Member records (prototype sample data, not a library database) ---------- */
 
-export type BorrowStatus = "Pending Review" | "Approved" | "Ready for Pickup" | "Active" | "Returned" | "Overdue" | "Cancelled" | "Lost";
+/** One recorded event on a request, loan, recommendation or submission. Only events that happened. */
+export type RecordEvent = { date: string; label: string; note?: string };
+
+/** Member details as they were when a record was created — kept with the record, never refreshed from the profile. */
+export type MemberSnapshot = { name: string; memberId: string; phone: string; email: string; address: string; verification: string };
+export type Guarantor = { name: string; relation: string; phone: string; email?: string; address?: string; nidLast4?: string; status: string };
+
+const memberNow: MemberSnapshot = { name: user.name, memberId: user.memberId, phone: user.phone, email: user.email, address: user.address, verification: "NID verified" };
+const memberEarly2026: MemberSnapshot = { ...memberNow, address: "Flat 6A, Road 3, Lalmatia, Dhaka 1207" };
+const shirin: Guarantor = { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934", email: "shirin.rahman@example.com", address: "House 14, Road 7, Dhanmondi, Dhaka 1205", nidLast4: "7712", status: "Verified by librarian" };
+const shirinEarly: Guarantor = { ...shirin, phone: "+880 1552-610447", address: "Flat 6A, Road 3, Lalmatia, Dhaka 1207" };
+const tanvir: Guarantor = { name: "Tanvir Hasan", relation: "Friend", phone: "+880 1819-552013", email: "tanvir.h@example.com", address: "Flat 3B, 22 Mirpur Road, Dhaka 1207", nidLast4: "3058", status: "Verified by librarian" };
+
+/** Request statuses describe the request. Once a book is handed over the request is "Issued" and the loan carries its own status. */
+export type BorrowStatus = "Pending Review" | "Approved" | "Ready for Pickup" | "Issued" | "Rejected" | "Cancelled";
 export type BorrowRequest = {
-  id: string; bookId: string; copy: string; submitted: string; due: string; status: BorrowStatus; notes?: string;
-  guarantor: { name: string; relation: string; phone: string };
+  id: string; bookId: string; copy: string; submitted: string; updated: string; due: string; status: BorrowStatus; notes?: string;
+  loanId?: string; member: MemberSnapshot; guarantor: Guarantor; timeline: RecordEvent[];
 };
 export const initialBorrowRequests: BorrowRequest[] = [
-  { id: "BR-26-0418", bookId: "khoabnama", copy: "Copy 2 of 3", submitted: "2026-09-30", due: "2026-10-21", status: "Ready for Pickup", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
-  { id: "BR-26-0402", bookId: "chilekothar-sepai", copy: "Copy 1 of 2", submitted: "2026-09-25", due: "2026-10-16", status: "Pending Review", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
-  { id: "BR-26-0377", bookId: "aranyak", copy: "Copy 1 of 3", submitted: "2026-09-12", due: "2026-10-05", status: "Active", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
-  { id: "BR-26-0311", bookId: "padma-nadir-majhi", copy: "Copy 3 of 4", submitted: "2026-08-30", due: "2026-09-29", status: "Overdue", guarantor: { name: "Tanvir Hasan", relation: "Friend", phone: "+880 1819-552013" } },
-  { id: "BR-26-0204", bookId: "nondito-noroke", copy: "Copy 1 of 2", submitted: "2026-06-30", due: "2026-07-23", status: "Returned", guarantor: { name: "Shirin Rahman", relation: "Mother", phone: "+880 1711-220934" } },
+  { id: "BR-26-0418", bookId: "khoabnama", copy: "Copy 2 of 3", submitted: "2026-09-30", updated: "2026-10-02", due: "2026-10-21", status: "Ready for Pickup", member: memberNow, guarantor: shirin,
+    timeline: [{ date: "2026-09-30", label: "Request submitted" }, { date: "2026-10-01", label: "Request reviewed", note: "Guarantor details checked." }, { date: "2026-10-02", label: "Approved — ready for pickup", note: "Copy 2 set aside at the front desk." }] },
+  { id: "BR-26-0402", bookId: "chilekothar-sepai", copy: "Copy 1 of 2", submitted: "2026-09-25", updated: "2026-09-25", due: "2026-10-16", status: "Pending Review", member: memberNow, guarantor: shirin,
+    timeline: [{ date: "2026-09-25", label: "Request submitted" }] },
+  { id: "BR-26-0389", bookId: "sapiens", copy: "Copy 1 of 1", submitted: "2026-09-19", updated: "2026-09-21", due: "2026-10-10", status: "Rejected", member: memberNow, guarantor: tanvir,
+    timeline: [{ date: "2026-09-19", label: "Request submitted" }, { date: "2026-09-21", label: "Request reviewed" }, { date: "2026-09-21", label: "Rejected", note: "The only copy is reserved for the reading circle this month. You're welcome to request it again later." }] },
+  { id: "BR-26-0377", bookId: "aranyak", copy: "Copy 1 of 3", submitted: "2026-09-12", updated: "2026-09-14", due: "2026-10-05", status: "Issued", loanId: "LN-26-0377", member: memberNow, guarantor: shirin,
+    timeline: [{ date: "2026-09-12", label: "Request submitted" }, { date: "2026-09-13", label: "Approved" }, { date: "2026-09-14", label: "Book issued", note: "Due back 5 Oct 2026." }] },
+  { id: "BR-26-0352", bookId: "god-small-things", copy: "Copy 2 of 2", submitted: "2026-09-17", updated: "2026-09-20", due: "2026-10-11", status: "Issued", loanId: "LN-26-0352", member: memberNow, guarantor: tanvir,
+    timeline: [{ date: "2026-09-17", label: "Request submitted" }, { date: "2026-09-18", label: "Approved" }, { date: "2026-09-20", label: "Book issued", note: "Due back 11 Oct 2026." }] },
+  { id: "BR-26-0311", bookId: "padma-nadir-majhi", copy: "Copy 3 of 4", submitted: "2026-08-30", updated: "2026-09-30", due: "2026-09-29", status: "Issued", loanId: "LN-26-0311", member: memberNow, guarantor: tanvir,
+    timeline: [{ date: "2026-08-30", label: "Request submitted" }, { date: "2026-08-31", label: "Approved" }, { date: "2026-09-01", label: "Book issued", note: "Due back 29 Sep 2026." }, { date: "2026-09-30", label: "Marked overdue" }] },
+  { id: "BR-26-0204", bookId: "nondito-noroke", copy: "Copy 1 of 2", submitted: "2026-06-30", updated: "2026-07-21", due: "2026-07-23", status: "Issued", loanId: "LN-26-0204", member: memberNow, guarantor: shirin,
+    timeline: [{ date: "2026-06-30", label: "Request submitted" }, { date: "2026-07-01", label: "Approved" }, { date: "2026-07-02", label: "Book issued" }, { date: "2026-07-21", label: "Book returned" }] },
+  { id: "BR-26-0140", bookId: "solitude", copy: "Copy 1 of 1", submitted: "2026-05-07", updated: "2026-06-02", due: "2026-05-31", status: "Issued", loanId: "LN-26-0140", member: memberNow, guarantor: tanvir,
+    timeline: [{ date: "2026-05-07", label: "Request submitted" }, { date: "2026-05-08", label: "Approved" }, { date: "2026-05-10", label: "Book issued" }, { date: "2026-06-02", label: "Book returned", note: "Returned 2 days late — fine F-2104 recorded." }] },
+  { id: "BR-26-0098", bookId: "thakurmar-jhuli", copy: "Copy 2 of 3", submitted: "2026-03-29", updated: "2026-04-20", due: "2026-04-22", status: "Issued", loanId: "LN-26-0098", member: memberEarly2026, guarantor: shirinEarly,
+    timeline: [{ date: "2026-03-29", label: "Request submitted" }, { date: "2026-03-31", label: "Approved" }, { date: "2026-04-01", label: "Book issued" }, { date: "2026-04-20", label: "Book returned" }] },
+  { id: "BR-26-0051", bookId: "pather-panchali", copy: "Copy 4 of 5", submitted: "2026-02-08", updated: "2026-03-12", due: "2026-03-10", status: "Issued", loanId: "LN-26-0051", member: memberEarly2026, guarantor: shirinEarly,
+    timeline: [{ date: "2026-02-08", label: "Request submitted" }, { date: "2026-02-09", label: "Approved" }, { date: "2026-02-10", label: "Book issued", note: "Due back 3 Mar 2026." }, { date: "2026-03-02", label: "Due date changed", note: "Renewed at the desk — new due date 10 Mar 2026." }, { date: "2026-03-12", label: "Book returned", note: "Minor page damage noted — fine F-1987 recorded." }] },
 ];
 
-export type ContributionStatus = "Draft" | "Pending Review" | "Approved" | "Published" | "Rejected";
-export type Contribution = { id: string; kind: "blog" | "creative" | "review"; title: string; updated: string; status: ContributionStatus; note?: string; slug?: string; bookId?: string; bookTitle?: string; rating?: number };
+export type LoanStatus = "Active" | "Overdue" | "Returned" | "Lost";
+export type Loan = { id: string; requestId: string; bookId: string; copy: string; issued: string; due: string; returned?: string; status: LoanStatus };
+export const loans: Loan[] = [
+  { id: "LN-26-0377", requestId: "BR-26-0377", bookId: "aranyak", copy: "Copy 1 of 3", issued: "2026-09-14", due: "2026-10-05", status: "Active" },
+  { id: "LN-26-0352", requestId: "BR-26-0352", bookId: "god-small-things", copy: "Copy 2 of 2", issued: "2026-09-20", due: "2026-10-11", status: "Active" },
+  { id: "LN-26-0311", requestId: "BR-26-0311", bookId: "padma-nadir-majhi", copy: "Copy 3 of 4", issued: "2026-09-01", due: "2026-09-29", status: "Overdue" },
+  { id: "LN-26-0204", requestId: "BR-26-0204", bookId: "nondito-noroke", copy: "Copy 1 of 2", issued: "2026-07-02", due: "2026-07-23", returned: "2026-07-21", status: "Returned" },
+  { id: "LN-26-0140", requestId: "BR-26-0140", bookId: "solitude", copy: "Copy 1 of 1", issued: "2026-05-10", due: "2026-05-31", returned: "2026-06-02", status: "Returned" },
+  { id: "LN-26-0098", requestId: "BR-26-0098", bookId: "thakurmar-jhuli", copy: "Copy 2 of 3", issued: "2026-04-01", due: "2026-04-22", returned: "2026-04-20", status: "Returned" },
+  { id: "LN-26-0051", requestId: "BR-26-0051", bookId: "pather-panchali", copy: "Copy 4 of 5", issued: "2026-02-10", due: "2026-03-10", returned: "2026-03-12", status: "Returned" },
+];
+export const getLoan = (id?: string) => loans.find((l) => l.id === id);
+
+export type ContributionStatus = "Draft" | "Pending Review" | "Approved" | "Published" | "Needs Revision" | "Rejected";
+export type Contribution = {
+  id: string; kind: "blog" | "creative" | "review"; title: string; updated: string; status: ContributionStatus;
+  /** Member-visible editor feedback. */ note?: string;
+  slug?: string; bookId?: string; bookTitle?: string; bookSource?: string; rating?: number;
+  submitted?: string; language?: string; category?: string; excerpt?: string; tags?: string[]; content?: string;
+  file?: { name: string; type: "DOC" | "DOCX" | "PDF"; size: string };
+  timeline?: RecordEvent[];
+};
 export const initialContributions: Contribution[] = [
-  { id: "C-1182", kind: "review", title: "Aranyak and the forest that keeps calling", updated: "2026-10-02", status: "Pending Review", bookId: "aranyak" },
-  { id: "C-1150", kind: "creative", title: "ধানমন্ডি লেকের ভোর", updated: "2026-09-21", status: "Draft" },
-  { id: "C-1094", kind: "blog", title: "What I learned volunteering at the children's corner", updated: "2026-08-18", status: "Published", slug: "children-corner-opens" },
-  { id: "C-1031", kind: "creative", title: "Letters to a closed bookshop", updated: "2026-07-04", status: "Rejected", note: "Thank you — this piece is close. The editors suggest tightening the second half and resubmitting." },
+  { id: "C-1182", kind: "review", title: "Aranyak and the forest that keeps calling", submitted: "2026-10-02", updated: "2026-10-02", status: "Pending Review", bookId: "aranyak", bookTitle: "Aranyak", bookSource: "Noholi catalogue · Books", rating: 5, language: "English",
+    content: "I came to Aranyak expecting a nature book and found a book about guilt. Satyacharan clears the forest he loves, and Bibhutibhushan never lets him — or us — look away from that. Read it slowly, one chapter an evening.",
+    timeline: [{ date: "2026-10-02", label: "Submitted for review" }] },
+  { id: "C-1166", kind: "review", title: "Lalsalu, re-read at thirty", updated: "2026-09-26", status: "Draft", bookId: "lalsalu", bookTitle: "Lalsalu", bookSource: "Noholi catalogue · Books", rating: 4, language: "English",
+    content: "Notes so far: Majid's fear is the real engine of the novel…", timeline: [{ date: "2026-09-26", label: "Draft saved" }] },
+  { id: "C-1150", kind: "creative", title: "ধানমন্ডি লেকের ভোর", updated: "2026-09-21", status: "Draft", category: "Poetry", language: "Bangla", timeline: [{ date: "2026-09-21", label: "Draft saved" }] },
+  { id: "C-1128", kind: "review", title: "Gitanjali in the audio edition", submitted: "2026-09-04", updated: "2026-09-12", status: "Needs Revision", bookId: "a-gitanjali", bookTitle: "Gitanjali (Audio Book)", bookSource: "Noholi catalogue · Audio Books", rating: 4, language: "English",
+    file: { name: "gitanjali-audio-review.docx", type: "DOCX", size: "48 KB" },
+    note: "A lovely review. Please add a sentence about the narration itself, and remove the quoted full poem (copyright), then resubmit.",
+    timeline: [{ date: "2026-09-04", label: "Submitted for review" }, { date: "2026-09-12", label: "Returned for revision", note: "Editor feedback shared below." }] },
+  { id: "C-1120", kind: "review", title: "Why Pather Panchali still breaks my heart", submitted: "2026-08-20", updated: "2026-08-27", status: "Published", bookId: "pather-panchali", bookTitle: "Pather Panchali", bookSource: "Noholi catalogue · Books", rating: 5, language: "English",
+    content: "Durga running through the kash flowers is the scene everyone remembers. What stays with me is the quiet after — the house, the rain, the waiting.",
+    timeline: [{ date: "2026-08-20", label: "Submitted for review" }, { date: "2026-08-25", label: "Approved" }, { date: "2026-08-27", label: "Published" }] },
+  { id: "C-1094", kind: "blog", title: "What I learned volunteering at the children's corner", submitted: "2026-08-10", updated: "2026-08-18", status: "Published", slug: "children-corner-opens", category: "Library life", language: "English",
+    excerpt: "Saturday mornings, thirty children, one shelf of picture books — and what they taught me about reading aloud.", tags: ["Volunteering", "Children", "Reading aloud"],
+    timeline: [{ date: "2026-08-10", label: "Submitted for review" }, { date: "2026-08-15", label: "Approved" }, { date: "2026-08-18", label: "Published" }] },
+  { id: "C-1062", kind: "review", title: "Sapiens — big ideas, thin evidence", submitted: "2026-07-20", updated: "2026-07-28", status: "Rejected", bookId: "sapiens", bookTitle: "Sapiens", bookSource: "Noholi catalogue · Books", rating: 2, language: "English",
+    note: "This reads as a reply to another reader's review rather than a review of the book. We can't publish it in this form.",
+    timeline: [{ date: "2026-07-20", label: "Submitted for review" }, { date: "2026-07-28", label: "Rejected", note: "Explanation shared below." }] },
+  { id: "C-1031", kind: "creative", title: "Letters to a closed bookshop", submitted: "2026-06-22", updated: "2026-07-04", status: "Needs Revision", category: "Short story", language: "English",
+    file: { name: "letters-to-a-closed-bookshop.pdf", type: "PDF", size: "212 KB" }, tags: ["Bookshops", "Dhaka"],
+    excerpt: "Dear Mr. Karim, the shutter has been down for eleven days now…",
+    note: "Thank you — this piece is close. The editors suggest tightening the second half and resubmitting.",
+    timeline: [{ date: "2026-06-22", label: "Submitted for review" }, { date: "2026-07-04", label: "Returned for revision", note: "Editor feedback shared below." }] },
 ];
 
 export type RecStatus = "Submitted" | "Under Review" | "Considering" | "Acquired" | "Not Planned";
-export type Recommendation = { id: string; format?: "Physical Book" | "E-Book" | "Audio Book"; title: string; author: string; publisher?: string; isbn?: string; language: "Bangla" | "English"; reason: string; date: string; status: RecStatus };
+export type Recommendation = {
+  id: string; format?: "Physical Book" | "E-Book" | "Audio Book"; title: string; author: string; language: "Bangla" | "English"; reason: string; date: string; status: RecStatus;
+  updated?: string; publisher?: string; isbn?: string; year?: string; edition?: string; genre?: string; category?: string; narrator?: string; source?: string; notes?: string;
+  /** Public-facing explanation from the acquisitions team, when given. */ explanation?: string;
+  /** Catalogue record id, only once an acquired title is actually catalogued. */ catalogId?: string;
+  timeline?: RecordEvent[];
+};
 export const initialRecommendations: Recommendation[] = [
-  { id: "RQ-0093", format: "Physical Book", title: "Shesher Kobita", author: "Rabindranath Tagore", publisher: "Visva-Bharati", language: "Bangla", reason: "Our only copy is falling apart and the reading circle wants to study it next term.", date: "2026-09-18", status: "Considering" },
-  { id: "RQ-0071", format: "Physical Book", title: "The Hungry Tide", author: "Amitav Ghosh", publisher: "HarperCollins", language: "English", reason: "A Sundarbans novel — it would sit well beside Padma Nadir Majhi.", date: "2026-07-02", status: "Acquired" },
+  { id: "RQ-0102", format: "Audio Book", title: "Lalsalu (audio edition)", author: "Syed Waliullah", narrator: "Any Bangla narrator", source: "Library-recorded or licensed", language: "Bangla", reason: "Older members in the reading circle have asked for Bangla classics they can listen to.", date: "2026-09-28", updated: "2026-10-01", status: "Under Review",
+    timeline: [{ date: "2026-09-28", label: "Submitted" }, { date: "2026-10-01", label: "Under review" }] },
+  { id: "RQ-0093", format: "Physical Book", title: "Shesher Kobita", author: "Rabindranath Tagore", publisher: "Visva-Bharati", genre: "Fiction", category: "Adults", language: "Bangla", reason: "Our only copy is falling apart and the reading circle wants to study it next term.", notes: "A hardback would survive the circle better.", date: "2026-09-18", updated: "2026-09-29", status: "Considering",
+    explanation: "Being compared against our budget for next month's purchases.",
+    timeline: [{ date: "2026-09-18", label: "Submitted" }, { date: "2026-09-22", label: "Under review" }, { date: "2026-09-29", label: "Considering" }] },
+  { id: "RQ-0071", format: "Physical Book", title: "The Hungry Tide", author: "Amitav Ghosh", publisher: "HarperCollins", isbn: "978-0-00-714178-4", year: "2004", genre: "Fiction", language: "English", reason: "A Sundarbans novel — it would sit well beside Padma Nadir Majhi.", date: "2026-07-02", updated: "2026-09-05", status: "Acquired",
+    explanation: "Purchased. It is being catalogued and will appear on the shelves soon.",
+    timeline: [{ date: "2026-07-02", label: "Submitted" }, { date: "2026-07-10", label: "Under review" }, { date: "2026-08-01", label: "Considering" }, { date: "2026-09-05", label: "Acquired" }] },
+  { id: "RQ-0058", format: "E-Book", title: "Atomic Habits", author: "James Clear", publisher: "Avery", year: "2018", source: "Publisher e-book licence", language: "English", reason: "Lots of students ask for it.", date: "2026-05-14", updated: "2026-06-02", status: "Not Planned",
+    explanation: "We couldn't secure a library e-book licence for this title.",
+    timeline: [{ date: "2026-05-14", label: "Submitted" }, { date: "2026-05-20", label: "Under review" }, { date: "2026-06-02", label: "Not planned" }] },
 ];
 
-export const fines = [
-  { id: "F-2291", bookId: "padma-nadir-majhi", reason: "Overdue · 4 days", amount: 40, date: "2026-10-03", paid: false },
-  { id: "F-2104", bookId: "solitude", reason: "Overdue · 2 days", amount: 20, date: "2026-06-02", paid: true },
-  { id: "F-1987", bookId: "pather-panchali", reason: "Minor page damage", amount: 150, date: "2026-03-12", paid: true },
+export type FinePayment = { date: string; amount: number; method: string; receipt: string };
+export type Fine = { id: string; bookId: string; loanId: string; reason: string; overdueDays?: number; amount: number; date: string; payments: FinePayment[] };
+export const fines: Fine[] = [
+  { id: "F-2291", bookId: "padma-nadir-majhi", loanId: "LN-26-0311", reason: "Late return", overdueDays: 4, amount: 40, date: "2026-10-03", payments: [] },
+  { id: "F-2104", bookId: "solitude", loanId: "LN-26-0140", reason: "Late return", overdueDays: 2, amount: 20, date: "2026-06-02", payments: [{ date: "2026-06-02", amount: 20, method: "Cash at front desk", receipt: "RC-0611" }] },
+  { id: "F-1987", bookId: "pather-panchali", loanId: "LN-26-0051", reason: "Minor page damage", amount: 150, date: "2026-03-12", payments: [{ date: "2026-03-12", amount: 100, method: "Cash at front desk", receipt: "RC-0402" }, { date: "2026-03-19", amount: 50, method: "Cash at front desk", receipt: "RC-0417" }] },
 ];
+export const fineOutstanding = (f: Fine) => f.amount - f.payments.reduce((s, p) => s + p.amount, 0);
 
 export const readingActivity = [
   { kind: "ebook" as const, id: "pather-panchali", progress: 0.42, when: "Yesterday" },
