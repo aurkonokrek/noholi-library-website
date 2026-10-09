@@ -1,10 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Headphones, Library, Play, Tablet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookCard, BookCover, Cover, fmtDate, SectionHead } from "@/components/noholi";
 import { articles, audiobooks, books, fmtDuration, images } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { SearchBox } from "@/components/search-box";
+import { reasons } from "@/components/member-gate";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -94,6 +95,24 @@ function Home() {
         </div>
       </section>
 
+      {/* How Noholi works */}
+      <section className="container-page mt-24">
+        <SectionHead eyebrow="Getting started" title="How Noholi Works" link={<Link to="/library/books" className="inline-flex items-center gap-2 text-sm hover:text-accent">Explore the Library <ArrowRight className="h-4 w-4" /></Link>} />
+        <ol className="grid border-t border-foreground md:grid-cols-3">
+          {[
+            ["01", "Become a Member", "Join Noholi for free and become part of a community of readers."],
+            ["02", "Find Your Next Read", "Explore the collection and discover books that speak to you."],
+            ["03", "Read, Return, Repeat", "Request a book, enjoy your reading, and return it according to library rules."],
+          ].map(([n, h, b]) => (
+            <li key={n} className="border-b border-border py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0">
+              <span className="font-display text-4xl text-accent">{n}</span>
+              <h3 className="mt-4 text-2xl">{h}</h3>
+              <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">{b}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* Noholi books */}
       <section className="container-page mt-28">
         <SectionHead eyebrow="Noholi Prokash" title="Published by Noholi" link={<Link to="/library/noholi" className="inline-flex items-center gap-2 text-sm hover:text-accent">{t("viewAll")} <ArrowRight className="h-4 w-4" /></Link>} />
@@ -178,6 +197,9 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* Help shape the collection */}
+      <ShapeCollection />
 
       {/* About */}
       <section className="container-page mt-28 grid gap-12 lg:grid-cols-12 lg:items-center">
