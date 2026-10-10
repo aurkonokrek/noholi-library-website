@@ -27,7 +27,7 @@ function Reviews() {
         <Button size="sm" variant="outline" asChild><Link to="/account/contribute" search={{ type: "review" }}>Write a Book Review</Link></Button>
       </div>
       <div className="mt-10 border-b border-border pb-5">
-        <FilterPills label="Status" active={s} href={(k) => ({ to: "/account/reviews", search: k === "All" ? {} : { s: k } })}
+        <FilterPills label="Status" active={s} href={(k) => ({ to: "/account/reviews", search: (k === "All" ? {} : { s: k }) as Record<string, string> })}
           items={statusFilters.map((x) => ({ key: x, text: x === "All" ? "All Reviews" : x === "Draft" ? "Drafts" : x, count: reviews.filter((c) => matchStatus(x, c)).length }))} />
       </div>
       <ContributionRows list={reviews.filter((c) => matchStatus(s, c))} showKind={false} emptyBody="No reviews with this status." />
