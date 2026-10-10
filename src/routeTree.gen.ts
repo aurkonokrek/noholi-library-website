@@ -25,6 +25,7 @@ import { Route as AccountProfileRouteImport } from './routes/account.profile'
 import { Route as AccountRecommendRouteImport } from './routes/account.recommend'
 import { Route as AccountRecommendationsRouteImport } from './routes/account.recommendations'
 import { Route as AccountRequestsRouteImport } from './routes/account.requests'
+import { Route as AccountReviewsRouteImport } from './routes/account.reviews'
 import { Route as AccountSettingsRouteImport } from './routes/account.settings'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -42,6 +43,7 @@ import { Route as WriteupsBlogsRouteImport } from './routes/writeups.blogs'
 import { Route as WriteupsCreativeRouteImport } from './routes/writeups.creative'
 import { Route as WriteupsReviewsRouteImport } from './routes/writeups.reviews'
 import { Route as AccountBorrowIdRouteImport } from './routes/account.borrow.$id'
+import { Route as AccountContributionsIdRouteImport } from './routes/account.contributions_.$id'
 import { Route as AccountFinesIdRouteImport } from './routes/account.fines_.$id'
 import { Route as AccountRecommendationsIdRouteImport } from './routes/account.recommendations_.$id'
 import { Route as AccountRequestsIdRouteImport } from './routes/account.requests_.$id'
@@ -124,6 +126,11 @@ const AccountRecommendationsRoute = AccountRecommendationsRouteImport.update({
 const AccountRequestsRoute = AccountRequestsRouteImport.update({
   id: '/requests',
   path: '/requests',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountReviewsRoute = AccountReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
   getParentRoute: () => AccountRoute,
 } as any)
 const AccountSettingsRoute = AccountSettingsRouteImport.update({
@@ -211,6 +218,11 @@ const AccountBorrowIdRoute = AccountBorrowIdRouteImport.update({
   path: '/borrow/$id',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountContributionsIdRoute = AccountContributionsIdRouteImport.update({
+  id: '/contributions_/$id',
+  path: '/contributions/$id',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountFinesIdRoute = AccountFinesIdRouteImport.update({
   id: '/fines_/$id',
   path: '/fines/$id',
@@ -244,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/account/recommend': typeof AccountRecommendRoute
   '/account/recommendations': typeof AccountRecommendationsRoute
   '/account/requests': typeof AccountRequestsRoute
+  '/account/reviews': typeof AccountReviewsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -262,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
   '/account/borrow/$id': typeof AccountBorrowIdRoute
+  '/account/contributions/$id': typeof AccountContributionsIdRoute
   '/account/fines/$id': typeof AccountFinesIdRoute
   '/account/recommendations/$id': typeof AccountRecommendationsIdRoute
   '/account/requests/$id': typeof AccountRequestsIdRoute
@@ -281,6 +295,7 @@ export interface FileRoutesByTo {
   '/account/recommend': typeof AccountRecommendRoute
   '/account/recommendations': typeof AccountRecommendationsRoute
   '/account/requests': typeof AccountRequestsRoute
+  '/account/reviews': typeof AccountReviewsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -299,6 +314,7 @@ export interface FileRoutesByTo {
   '/account': typeof AccountIndexRoute
   '/writeups': typeof WriteupsIndexRoute
   '/account/borrow/$id': typeof AccountBorrowIdRoute
+  '/account/contributions/$id': typeof AccountContributionsIdRoute
   '/account/fines/$id': typeof AccountFinesIdRoute
   '/account/recommendations/$id': typeof AccountRecommendationsIdRoute
   '/account/requests/$id': typeof AccountRequestsIdRoute
@@ -320,6 +336,7 @@ export interface FileRoutesById {
   '/account/recommend': typeof AccountRecommendRoute
   '/account/recommendations': typeof AccountRecommendationsRoute
   '/account/requests': typeof AccountRequestsRoute
+  '/account/reviews': typeof AccountReviewsRoute
   '/account/settings': typeof AccountSettingsRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -338,6 +355,7 @@ export interface FileRoutesById {
   '/account/': typeof AccountIndexRoute
   '/writeups/': typeof WriteupsIndexRoute
   '/account/borrow/$id': typeof AccountBorrowIdRoute
+  '/account/contributions_/$id': typeof AccountContributionsIdRoute
   '/account/fines_/$id': typeof AccountFinesIdRoute
   '/account/recommendations_/$id': typeof AccountRecommendationsIdRoute
   '/account/requests_/$id': typeof AccountRequestsIdRoute
@@ -360,6 +378,7 @@ export interface FileRouteTypes {
     | '/account/recommend'
     | '/account/recommendations'
     | '/account/requests'
+    | '/account/reviews'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -378,6 +397,7 @@ export interface FileRouteTypes {
     | '/account/'
     | '/writeups/'
     | '/account/borrow/$id'
+    | '/account/contributions/$id'
     | '/account/fines/$id'
     | '/account/recommendations/$id'
     | '/account/requests/$id'
@@ -397,6 +417,7 @@ export interface FileRouteTypes {
     | '/account/recommend'
     | '/account/recommendations'
     | '/account/requests'
+    | '/account/reviews'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -415,6 +436,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/writeups'
     | '/account/borrow/$id'
+    | '/account/contributions/$id'
     | '/account/fines/$id'
     | '/account/recommendations/$id'
     | '/account/requests/$id'
@@ -435,6 +457,7 @@ export interface FileRouteTypes {
     | '/account/recommend'
     | '/account/recommendations'
     | '/account/requests'
+    | '/account/reviews'
     | '/account/settings'
     | '/account/wishlist'
     | '/article/$slug'
@@ -453,6 +476,7 @@ export interface FileRouteTypes {
     | '/account/'
     | '/writeups/'
     | '/account/borrow/$id'
+    | '/account/contributions_/$id'
     | '/account/fines_/$id'
     | '/account/recommendations_/$id'
     | '/account/requests_/$id'
@@ -596,6 +620,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountRequestsRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/reviews': {
+      id: '/account/reviews'
+      path: '/reviews'
+      fullPath: '/account/reviews'
+      preLoaderRoute: typeof AccountReviewsRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/settings': {
       id: '/account/settings'
       path: '/settings'
@@ -715,6 +746,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountBorrowIdRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/contributions_/$id': {
+      id: '/account/contributions_/$id'
+      path: '/contributions/$id'
+      fullPath: '/account/contributions/$id'
+      preLoaderRoute: typeof AccountContributionsIdRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/fines_/$id': {
       id: '/account/fines_/$id'
       path: '/fines/$id'
@@ -748,10 +786,12 @@ interface AccountRouteChildren {
   AccountRecommendRoute: typeof AccountRecommendRoute
   AccountRecommendationsRoute: typeof AccountRecommendationsRoute
   AccountRequestsRoute: typeof AccountRequestsRoute
+  AccountReviewsRoute: typeof AccountReviewsRoute
   AccountSettingsRoute: typeof AccountSettingsRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
   AccountIndexRoute: typeof AccountIndexRoute
   AccountBorrowIdRoute: typeof AccountBorrowIdRoute
+  AccountContributionsIdRoute: typeof AccountContributionsIdRoute
   AccountFinesIdRoute: typeof AccountFinesIdRoute
   AccountRecommendationsIdRoute: typeof AccountRecommendationsIdRoute
   AccountRequestsIdRoute: typeof AccountRequestsIdRoute
@@ -766,10 +806,12 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountRecommendRoute: AccountRecommendRoute,
   AccountRecommendationsRoute: AccountRecommendationsRoute,
   AccountRequestsRoute: AccountRequestsRoute,
+  AccountReviewsRoute: AccountReviewsRoute,
   AccountSettingsRoute: AccountSettingsRoute,
   AccountWishlistRoute: AccountWishlistRoute,
   AccountIndexRoute: AccountIndexRoute,
   AccountBorrowIdRoute: AccountBorrowIdRoute,
+  AccountContributionsIdRoute: AccountContributionsIdRoute,
   AccountFinesIdRoute: AccountFinesIdRoute,
   AccountRecommendationsIdRoute: AccountRecommendationsIdRoute,
   AccountRequestsIdRoute: AccountRequestsIdRoute,

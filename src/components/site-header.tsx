@@ -128,15 +128,23 @@ function AccountMenu() {
           <DropdownMenuItem asChild className={subCls}><Link to="/account/borrowed">Borrowed Books</Link></DropdownMenuItem>
           <DropdownMenuItem asChild className={subCls}><Link to="/account/requests">Borrow Requests</Link></DropdownMenuItem>
           <DropdownMenuItem asChild className={subCls}><Link to="/account/fines">Overdue &amp; Fines</Link></DropdownMenuItem>
+          <div className={cn(groupCls, "mt-1")}>My Collection</div>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/wishlist">Wishlist</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/recommendations">My Recommendations</Link></DropdownMenuItem>
           <div className={cn(groupCls, "mt-1")}><Link to="/account/contributions" className="hover:text-foreground">My Contributions</Link></div>
           <DropdownMenuItem asChild className={subCls}><Link to="/account/contributions" search={{ f: "Blogs" }}>Blogs</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild className={subCls}><Link to="/account/contributions" search={{ f: "Creative Writings" }}>Creative Writings</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild className={subCls}><Link to="/account/contributions" search={{ f: "Book Reviews" }}>Book Reviews</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/contributions" search={{ f: "Creative Writings" }}>Creative Writing</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/reviews">Book Reviews</Link></DropdownMenuItem>
         </div>
         <DropdownMenuSeparator className="my-0" />
         <div className="p-1.5">
           <DropdownMenuItem asChild className={cn(itemCls, "font-semibold text-accent focus:text-accent")}><Link to="/account/recommend">Recommend a Book</Link></DropdownMenuItem>
-          <DropdownMenuItem asChild className={itemCls}><Link to="/account/settings">{t("settings")}</Link></DropdownMenuItem>
+        </div>
+        <DropdownMenuSeparator className="my-0" />
+        <div className="p-1.5">
+          <div className={groupCls}>My Account</div>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/profile">My Profile</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild className={subCls}><Link to="/account/settings">Account Settings</Link></DropdownMenuItem>
         </div>
         <DropdownMenuSeparator className="my-0" />
         <div className="p-1.5">
@@ -177,7 +185,11 @@ function MobileNav() {
               <Link to="/account/profile" onClick={close} className="underline underline-offset-4">{t("profile")}</Link>
               <Link to="/account/settings" onClick={close} className="underline underline-offset-4">{t("settings")}</Link>
               <Link to="/account/requests" onClick={close} className="underline underline-offset-4">Borrow requests</Link>
+              <Link to="/account/borrowed" onClick={close} className="underline underline-offset-4">Borrowed books</Link>
+              <Link to="/account/fines" onClick={close} className="underline underline-offset-4">Overdue &amp; fines</Link>
+              <Link to="/account/recommendations" onClick={close} className="underline underline-offset-4">My recommendations</Link>
               <Link to="/account/contributions" onClick={close} className="underline underline-offset-4">My contributions</Link>
+              <Link to="/account/reviews" onClick={close} className="underline underline-offset-4">My book reviews</Link>
               <Link to="/account/recommend" onClick={close} className="underline underline-offset-4">Recommend a Book</Link>
             </div>
           </div>
