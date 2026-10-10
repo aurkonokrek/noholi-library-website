@@ -178,7 +178,7 @@ export const taka = (n: number) => `৳${n.toLocaleString("en-IN")}`;
 const statusTone: Record<string, string> = {
   "Pending Review": "pending", Submitted: "pending", "Under Review": "pending", Considering: "pending", Draft: "muted",
   Approved: "ok", "Ready for Pickup": "ok", Active: "ok", Published: "ok", Acquired: "ok", Returned: "muted",
-  Overdue: "bad", Rejected: "bad", Lost: "bad", Cancelled: "muted", "Not Planned": "muted", Due: "bad", Cleared: "muted",
+  Overdue: "bad", Rejected: "bad", "Needs Revision": "pending", Issued: "ok", Lost: "bad", Cancelled: "muted", "Not Planned": "muted", Due: "bad", Cleared: "muted",
 };
 
 /** Subtle status label: text + shape, never colour alone. */
