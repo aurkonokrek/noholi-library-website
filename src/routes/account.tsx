@@ -19,8 +19,8 @@ export const Route = createFileRoute("/account")({
 });
 
 const tabs = [
-  ["/account", "Dashboard"], ["/account/borrowed", "Borrowed"], ["/account/requests", "Borrow requests"], ["/account/fines", "Fines"],
-  ["/account/wishlist", "Wishlist"], ["/account/contributions", "Contributions"], ["/account/recommend", "Recommend a Book"], ["/account/profile", "Profile"], ["/account/settings", "Settings"],
+  ["/account", "Dashboard"], ["/account/borrowed", "Borrowed"], ["/account/requests", "Borrow requests"], ["/account/fines", "Overdue & Fines"],
+  ["/account/wishlist", "Wishlist"], ["/account/recommendations", "Recommendations"], ["/account/contributions", "Contributions"], ["/account/reviews", "Book Reviews"], ["/account/profile", "Profile"], ["/account/settings", "Settings"],
 ] as const;
 
 function AccountLayout() {
