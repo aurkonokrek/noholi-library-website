@@ -55,7 +55,7 @@ function ContributionDetail() {
       <Section n="A" title="Details">
         <Fields rows={[
           ["Type", kindLabel[c.kind]],
-          ["Book", c.bookTitle && (c.bookId ? <Link to="/book/$id" params={{ id: c.bookId }} className="underline underline-offset-4 hover:text-accent">{c.bookTitle}</Link> : c.bookTitle)],
+          ["Book", c.bookTitle && (c.bookId ? <Link to={c.bookId.startsWith("a-") ? "/audio/$id" : "/book/$id"} params={{ id: c.bookId }} className="underline underline-offset-4 hover:text-accent">{c.bookTitle}</Link> : c.bookTitle)],
           ["Book source", c.bookSource],
           ["Rating", c.rating ? <Stars n={c.rating} /> : undefined],
           ["Category", c.category],
